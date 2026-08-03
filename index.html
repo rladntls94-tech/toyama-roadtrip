@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>간사이 ↔ 북알프스 자동차 루트 · 2026.8.7–8.11</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root{
+    --bg:#faf8f5; --card:#ffffff; --ink:#1f2328; --muted:#6b7280;
+    --line:#e6e1da; --accent:#1d6f5c; --accent-soft:#e7f2ee;
+    --warn:#8a5a00; --warn-soft:#fdf3e0; --blue:#2b5f9e; --blue-soft:#e9f0fa;
+    --udon:#a8502a; --udon-soft:#fbeee6;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#15171a; --card:#1e2126; --ink:#e8e6e3; --muted:#9aa1ab;
+      --line:#2e333a; --accent:#5fc0a4; --accent-soft:#16302a;
+      --warn:#e0b062; --warn-soft:#2e2617; --blue:#7fb0e8; --blue-soft:#172231;
+      --udon:#e09a72; --udon-soft:#2d1f18; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:36px 20px 80px}
+  header{margin-bottom:24px}
+  h1{font-size:28px;line-height:1.3;margin:0 0 8px;letter-spacing:-0.02em}
+  .sub{color:var(--muted);font-size:15px;margin:0}
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .pill{font-size:13px;padding:5px 11px;border-radius:99px;background:var(--accent-soft);
+    color:var(--accent);font-weight:600}
+  .hint{font-size:13px;color:var(--muted);margin-top:14px;padding:10px 14px;
+    background:var(--card);border:1px dashed var(--line);border-radius:10px}
+
+  .tabs{display:flex;gap:6px;position:sticky;top:0;z-index:20;padding:10px 0 12px;
+    background:linear-gradient(var(--bg) 72%,transparent);margin-bottom:6px;
+    overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tab-btn{flex:0 0 auto;font:inherit;font-size:14px;font-weight:700;cursor:pointer;
+    padding:9px 16px;border-radius:99px;border:1px solid var(--line);
+    background:var(--card);color:var(--muted);white-space:nowrap;
+    transition:background .15s,color .15s,border-color .15s}
+  .tab-btn:hover{color:var(--ink);border-color:var(--muted)}
+  .tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  @media (prefers-color-scheme: dark){ .tab-btn.active{color:#12211d} }
+  .panel{display:none;animation:fade .18s ease}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .panel > h2:first-child{margin-top:14px}
+
+  #livemap{height:560px;border-radius:12px;overflow:hidden;border:1px solid var(--line);
+    background:var(--bg)}
+  .leaflet-container{font-family:inherit;background:#eef2f5}
+  @media (prefers-color-scheme: dark){ .leaflet-container{background:#1a1d21} }
+  .leaflet-popup-content{margin:11px 13px;font-size:13px;line-height:1.5}
+  .leaflet-popup-content b{font-size:14px}
+  .leaflet-popup-content .pw{font-size:11.5px;font-weight:700;color:#fff;
+    padding:2px 7px;border-radius:99px;display:inline-block;margin-bottom:5px}
+  .leaflet-popup-content .pn{color:#666;display:block;margin-top:4px}
+  .mapswitch{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+  .ms{font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;padding:6px 12px;
+    border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--muted)}
+  .ms.on{color:#fff}
+  .mapbox{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:18px;margin-bottom:16px}
+  .legend{display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:center;
+    margin-top:14px;font-size:13px}
+  .lg{display:flex;align-items:center;gap:6px}
+  .lg i{width:22px;height:4px;border-radius:99px;display:inline-block}
+  .gmaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;
+    margin-top:16px}
+  .gm{display:block;text-decoration:none;background:var(--blue-soft);color:var(--blue);
+    border-radius:10px;padding:11px 14px;font-size:13.5px;font-weight:700;
+    border:1px solid transparent;transition:border-color .15s}
+  .gm:hover{border-color:var(--blue)}
+  .gm span{display:block;font-weight:400;font-size:12px;color:var(--muted);margin-top:2px}
+  .gm.all{background:var(--accent-soft);color:var(--accent)}
+
+  .day{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:22px 24px;margin-bottom:18px}
+  .dayhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:16px}
+  .dnum{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--accent);
+    background:var(--accent-soft);padding:4px 9px;border-radius:6px}
+  .ddate{font-size:19px;font-weight:700;letter-spacing:-0.01em}
+  .dtag{font-size:13px;color:var(--muted);margin-left:auto}
+  ul.tl{list-style:none;margin:0;padding:0}
+  ul.tl li{position:relative;padding:0 0 16px 20px;border-left:2px solid var(--line);margin-left:6px}
+  ul.tl li:last-child{border-left-color:transparent;padding-bottom:0}
+  ul.tl li::before{content:"";position:absolute;left:-6px;top:9px;width:9px;height:9px;
+    border-radius:50%;background:var(--accent)}
+  .t{font-variant-numeric:tabular-nums;font-weight:700;font-size:14px;color:var(--accent);margin-right:8px}
+  .ttl{font-weight:600}
+  a.ph{color:inherit;text-decoration:none;border-bottom:1.5px dotted var(--blue)}
+  a.ph:hover{color:var(--blue);border-bottom-style:solid}
+  a.ph::after{content:"  ⌖";font-size:11px;color:var(--blue);vertical-align:2px}
+  .desc{font-size:14px;color:var(--muted);margin-top:3px}
+  .drive{display:inline-block;font-size:12.5px;color:var(--blue);background:var(--blue-soft);
+    padding:2px 8px;border-radius:5px;font-weight:600;margin-top:5px}
+  .drive.bus{background:var(--warn-soft);color:var(--warn)}
+  .note{background:var(--warn-soft);border-left:3px solid var(--warn);color:var(--ink);
+    padding:11px 14px;border-radius:0 8px 8px 0;font-size:13.5px;margin-top:14px}
+  .note b{color:var(--warn)}
+  .stay{margin-top:14px;font-size:13.5px;padding:10px 14px;background:var(--accent-soft);border-radius:8px}
+  .stay b{color:var(--accent)}
+  h2{font-size:20px;margin:42px 0 14px;letter-spacing:-0.01em}
+  h2 .k{font-size:14px;color:var(--muted);font-weight:400;margin-left:8px}
+  h3{font-size:16px;margin:26px 0 10px}
+  table{width:100%;border-collapse:collapse;font-size:14px;background:var(--card);
+    border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+  th{background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:700}
+  tr:last-child td{border-bottom:none}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .box h3{margin:0 0 8px;font-size:15px}
+  .box ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--muted)}
+  .box li{margin-bottom:5px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--udon);
+    border-radius:0 12px 12px 0;padding:18px 20px;margin-bottom:14px}
+  .card.h{border-left-color:var(--accent)}
+  .uhead{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+  .uname{font-size:17px;font-weight:700}
+  .uname a{color:inherit;text-decoration:none;border-bottom:1.5px dotted var(--udon)}
+  .uname a:hover{color:var(--udon)}
+  .ubadge{font-size:11.5px;font-weight:700;color:var(--udon);background:var(--udon-soft);
+    padding:3px 9px;border-radius:99px}
+  .ubadge.chk{color:var(--warn);background:var(--warn-soft)}
+  .uwhen{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--accent);
+    background:var(--accent-soft);padding:3px 10px;border-radius:99px}
+  .uwhen.no{color:#c0392b;background:#fdeceb}
+  @media (prefers-color-scheme: dark){ .uwhen.no{color:#f08a7a;background:#3a201c} }
+  .gr{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;
+    padding:3px 9px;border-radius:99px;background:var(--bg);border:1px solid var(--line);white-space:nowrap}
+  .gr .st{color:#e8a33d}
+  .gr .cnt{font-weight:400;color:var(--muted);font-size:11.5px}
+  .gr.hi{border-color:#e8a33d}
+  .ukoshi{margin:10px 0 8px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+  .bar{display:inline-block;width:104px;height:7px;border-radius:99px;background:var(--line);
+    position:relative;overflow:hidden}
+  .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--udon);border-radius:99px}
+  .udesc{font-size:14px;margin:8px 0 10px}
+  .umeta{font-size:12.5px;color:var(--muted);display:grid;grid-template-columns:64px 1fr;gap:3px 10px}
+  .umeta b{color:var(--ink);font-weight:600}
+  .rank{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px;
+    background:var(--accent-soft);color:var(--accent)}
+  .rank.b{background:var(--blue-soft);color:var(--blue)}
+  .rank.c{background:var(--warn-soft);color:var(--warn)}
+  .hprice{margin-left:auto;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+  .htags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+  .tg{font-size:11.5px;padding:3px 8px;border-radius:6px;background:var(--bg);
+    border:1px solid var(--line);color:var(--muted)}
+  .tg.ok{color:var(--accent);border-color:var(--accent)}
+  .tg.chk{color:var(--warn);border-color:var(--warn)}
+  .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+  .gc{display:block;text-decoration:none;color:inherit;background:var(--card);
+    border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:transform .15s ease}
+  .gc:hover{transform:translateY(-3px)}
+  .gc .th{height:82px;display:flex;align-items:center;justify-content:center;font-size:30px;
+    background:linear-gradient(135deg,var(--accent-soft),var(--blue-soft))}
+  .gc .cap{padding:9px 11px}
+  .gc .cn{font-size:13.5px;font-weight:700;line-height:1.35}
+  .gc .cd{font-size:11.5px;color:var(--muted);margin-top:2px}
+  #hovercard{position:fixed;z-index:999;pointer-events:none;opacity:0;
+    transform:translateY(6px);transition:opacity .16s ease,transform .16s ease;
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    box-shadow:0 10px 32px rgba(0,0,0,.18);overflow:hidden;width:280px}
+  #hovercard.on{opacity:1;transform:none}
+  #hovercard img{display:block;width:100%;height:170px;object-fit:cover;background:var(--accent-soft)}
+  #hovercard .hc-t{font-size:13.5px;font-weight:700;padding:9px 12px 3px}
+  #hovercard .hc-d{font-size:11.5px;color:var(--muted);padding:0 12px 10px;line-height:1.45;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  #hovercard .hc-s{font-size:10.5px;color:var(--muted);padding:0 12px 9px;opacity:.7}
+  footer{margin-top:44px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+  a{color:var(--blue)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>간사이공항 ↔ 북알프스 4박 5일 자동차 여행</h1>
+  <p class="sub">2026년 8월 7일(금) 19:00 렌트카 출발 · 8월 11일(화) 18:55 KIX 출발편</p>
+  <div class="pills">
+    <span class="pill">무로도 2,450m</span>
+    <span class="pill">가미코치</span>
+    <span class="pill">게로온천</span>
+    <span class="pill">시라카와고 · 고카야마</span>
+    <span class="pill">숙소 3곳</span>
+    <span class="pill">총 주행 약 1,270km</span>
+  </div>
+  <div class="hint">💡 <b>무로도와 가미코치는 자가용 진입 금지</b>입니다. 차를 세우고 케이블카·버스로 갈아탑니다. 밑줄 친 장소를 누르면 사진이, 구글맵 버튼을 누르면 실제 내비 경로가 열립니다.</div>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button class="tab-btn active" data-tab="itin" role="tab">🗺 루트 &amp; 일정</button>
+  <button class="tab-btn" data-tab="food" role="tab">🍽 맛집</button>
+  <button class="tab-btn" data-tab="udon" role="tab">🍜 우동</button>
+  <button class="tab-btn" data-tab="hotel" role="tab">🏨 호텔</button>
+  <button class="tab-btn" data-tab="prep" role="tab">✅ 준비</button>
+</nav>
+
+<section class="panel active" id="p-itin">
+
+<h2>🗺 루트 지도 <span class="k">날짜별 색 구분 · 마커를 누르면 상세</span></h2>
+<div class="mapbox">
+  <div class="mapswitch">
+    <button class="ms on" data-day="1" style="background:#7c5cff;border-color:#7c5cff">8/7 야간 종주</button>
+    <button class="ms on" data-day="2" style="background:#12876c;border-color:#12876c">8/8 합장촌</button>
+    <button class="ms on" data-day="3" style="background:#2f7fd4;border-color:#2f7fd4">8/9 무로도</button>
+    <button class="ms on" data-day="4" style="background:#cc6b3a;border-color:#cc6b3a">8/10 가미코치</button>
+    <button class="ms on" data-day="5" style="background:#c9962a;border-color:#c9962a">8/11 복귀</button>
+  </div>
+  <div id="livemap"></div>
+  <div class="legend">
+    <span class="lg"><i style="background:#7c5cff"></i>8/7 KIX→도야마 460km</span>
+    <span class="lg"><i style="background:#12876c"></i>8/8 합장촌 왕복 190km</span>
+    <span class="lg"><i style="background:#2f7fd4"></i>8/9 무로도→히라유 240km</span>
+    <span class="lg"><i style="background:#cc6b3a"></i>8/10 가미코치→게로 130km</span>
+    <span class="lg"><i style="background:#c9962a"></i>8/11 게로→KIX 250km</span>
+    <span class="lg"><i style="background:repeating-linear-gradient(90deg,#888 0 5px,transparent 5px 10px)"></i>케이블카·버스(자가용 불가)</span>
+  </div>
+  <div class="gmaps">
+    <a class="gm all" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=関西国際空港&destination=関西国際空港&waypoints=富山駅|白川郷|立山駅|平湯温泉|下呂温泉&travelmode=driving">🗺 전체 루트 구글맵에서 열기<span>경유지 포함</span></a>
+    <a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=関西国際空港&destination=富山駅&travelmode=driving">8/7 KIX → 도야마<span>460km · 4:30</span></a>
+    <a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=富山駅&destination=岩瀬浜駅&waypoints=好日庵|相倉合掌造り集落|菅沼合掌造り集落|白川郷&travelmode=driving">8/8 합장촌 왕복<span>190km · 3:30</span></a>
+    <a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=富山駅&destination=平湯温泉&waypoints=立山駅|高山陣屋&travelmode=driving">8/9 무로도 → 히라유<span>240km · 4:30</span></a>
+    <a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=平湯温泉&destination=下呂温泉&waypoints=高山陣屋&travelmode=driving">8/10 히라유 → 게로온천<span>130km · 2:30</span></a>
+    <a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=下呂温泉&destination=関西国際空港&travelmode=driving">8/11 게로 → KIX<span>250km · 3:20</span></a>
+  </div>
+  <div class="note" style="margin-top:14px"><b>점선 구간이 핵심입니다.</b> 무로도와 가미코치 모두 <b>자가용이 못 들어갑니다.</b> 지정 주차장에 차를 세우고 케이블카·버스로 갈아타야 하며, 그 환승 시간이 일정의 골격을 결정합니다.</div>
+</div>
+
+<div class="day">
+  <div class="dayhead"><span class="dnum">DAY 1</span><span class="ddate">8/7 (금) · 야간 종주</span><span class="dtag">운전 약 4시간 30분</span></div>
+  <ul class="tl">
+    <li><span class="t">19:00</span><span class="ttl">간사이공항 렌트카 수령</span>
+      <div class="desc">수속·차량 점검 30분. ETC 카드 옵션 필수 — 이번 여행은 통행료만 약 ¥28,000입니다.</div></li>
+    <li><span class="t">19:30</span><span class="ttl">KIX → 도야마 직행</span>
+      <div class="desc">한신고속 → 메이신 → 호쿠리쿠도 → 도야마IC. 심야라 정체는 없지만 휴게소 2회 정박 권장.</div>
+      <div class="drive">🚗 460km · 4시간 30분 · 통행료 약 ¥10,000</div></li>
+    <li><span class="t">21:00</span><span class="ttl">1차 휴게 · 다가 SA</span><div class="desc">24시간 푸드코트. 여기서 저녁을 제대로 먹어두세요.</div></li>
+    <li><span class="t">22:40</span><span class="ttl">2차 휴게 · 오노가와 PA</span></li>
+    <li><span class="t">00:30</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=富山駅+夜景">도야마 도착 · 체크인</a></span>
+      <div class="desc">예약 시 <b>“24시 이후 도착”을 반드시 통보</b>하세요. 무인 전환되는 호텔이 있습니다.</div></li>
+  </ul>
+  <div class="note"><b>ETC 심야할인</b> — 0~4시 사이 고속도로 위에 있으면 30% 할인. 도야마IC를 0시 이후 나가면 ¥10,000 → 약 ¥7,000.</div>
+  <div class="stay"><b>숙소 A</b> · 도야마 — <b>8/7 · 8/8 2박 연박</b></div>
+</div>
+
+<div class="day">
+  <div class="dayhead"><span class="dnum">DAY 2</span><span class="ddate">8/8 (토) · 세계유산 합장촌</span><span class="dtag">운전 약 3시간 30분</span></div>
+  <ul class="tl">
+    <li><span class="t">09:30</span><span class="ttl">늦은 아침 · 야간운전 회복</span>
+      <div class="desc">고산 3연타가 8/9부터 시작됩니다. 오늘은 왕복 코스라 시간이 유연하니 무리하지 마세요.</div></li>
+    <li><span class="t">10:45</span><span class="ttl">🍜 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=好日庵+富山+うどん">好日庵 · 사누키 우동</a></span>
+      <div class="desc">11시 오픈 직전 도착. 도야마IC에서 10분, 고카야마 가는 길목에 정확히 걸립니다.</div>
+      <div class="drive">🚗 15km · 25분</div></li>
+    <li><span class="t">12:20</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=相倉合掌造り集落">고카야마 아이노쿠라(相倉) 합장촌</a></span>
+      <div class="desc">시라카와고와 같은 세계유산인데 관광객은 1/10. 논 한가운데 20여 채가 남아 있고 전망대까지 도보 10분.</div>
+      <div class="drive">🚗 50km · 50분</div></li>
+    <li><span class="t">14:00</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=菅沼合掌造り集落">스가누마(菅沼) 집락</a></span>
+      <div class="desc">9채짜리 마을. 더 작고 더 조용합니다.</div>
+      <div class="drive">🚗 10km · 15분</div></li>
+    <li><span class="t">15:00</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=白川郷+荻町+展望台">시라카와고 · 오기마치</a></span>
+      <div class="desc">세라토야마 전망대 → 마을 산책 → 와다케 가옥. <b>오후 3시 이후엔 단체버스가 빠져</b> 훨씬 한산합니다.</div>
+      <div class="drive">🚗 25km · 30분</div></li>
+    <li><span class="t">17:30</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=岩瀬+富山+町並み">도야마 복귀 → 이와세 옛 거리</a></span>
+      <div class="desc">에도시대 해운 상가 거리. 도야마 만 석양. 관광객 거의 없음.</div>
+      <div class="drive">🚗 85km · 1시간 20분</div></li>
+    <li><span class="t">19:30</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=富山湾寿司+白えび">저녁 · 도야마 스시</a></span>
+      <div class="desc">흰새우·방어·반딧불오징어. 토요일이라 예약 권장.</div></li>
+  </ul>
+  <div class="note"><b>구로베 협곡 트롯코는 뺐습니다.</b> 2024년 노토반도 지진으로 히가시가네쓰리산 사면에서 낙석이 발생해 <b>가네쓰리교가 손상</b>됐고, 그 위쪽 네코마타~게야키평 구간이 끊겼습니다. 복구 중 추가 낙석 방지 공사가 필요하다는 게 드러나 재개가 계속 밀렸고, <b>전 구간 재개는 2026년 10월 1일</b>입니다. 8월엔 우나즈키~네코마타 왕복(2시간)만 가능해요.</div>
+  <div class="stay"><b>숙소 A</b> · 도야마 (연박)</div>
+</div>
+
+<div class="day">
+  <div class="dayhead"><span class="dnum">DAY 3</span><span class="ddate">8/9 (일) · 무로도 2,450m → 히라유온천</span><span class="dtag">운전 약 4시간 30분</span></div>
+  <ul class="tl">
+    <li><span class="t">06:30</span><span class="ttl">체크아웃 → <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=立山駅+ケーブルカー">다테야마역</a></span>
+      <div class="desc"><b>짐을 다 싣고 나갑니다.</b> 오늘 밤은 히라유에서 자니까요. 무료 주차 900대 + 임시 600대.</div>
+      <div class="drive">🚗 35km · 50분</div></li>
+    <li><span class="t">08:00</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=美女平+高原バス+立山">케이블카 7분 → 비조다이라 → 고원버스 50분 → 무로도</a></span>
+      <div class="desc">왕복 성인 약 <b>¥8,180</b>. 버스가 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=称名滝">쇼묘폭포</a> 뷰포인트에서 서행합니다.</div>
+      <div class="drive bus">🚡 자가용 불가 · 편도 60분</div></li>
+    <li><span class="t">09:30</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=みくりが池+室堂">미쿠리가이케 순환 산책로</a></span>
+      <div class="desc">약 1시간, 거의 평지. 화산 호수에 다테야마 삼산이 비칩니다. 8월엔 고산식물 절정 + 잔설.</div></li>
+    <li><span class="t">11:00</span><span class="ttl">선택 · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=立山+雄山+山頂">다테야마 오야마(3,003m) 왕복</a></span>
+      <div class="desc">왕복 3~4시간. <b>오늘은 히라유까지 2시간 45분을 더 가야 하니</b> 정상까지 가면 13:30 하산을 못 지킵니다. 체력과 시간을 저울질하세요.</div></li>
+    <li><span class="t">13:30</span><span class="ttl">하산 → 다테야마역</span>
+      <div class="desc">여유롭게 가려면 이 시각이 마지노선입니다.</div></li>
+    <li><span class="t">15:00</span><span class="ttl">국도 41호 → <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=高山+三町+古い町並み">다카야마</a> → <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=平湯温泉+奥飛騨">히라유온천</a></span>
+      <div class="desc">진즈강 협곡을 따라 남하합니다. <b>다카야마를 지나가니 저녁은 여기서</b> — 히다규 호바미소(京や) 또는 우동(いろはにほへと). 맛집 탭 참고.</div>
+      <div class="drive">🚗 170km · 2시간 45분</div></li>
+    <li><span class="t">18:30</span><span class="ttl">히라유온천 도착 · 온천</span>
+      <div class="desc">고산에서 하루 걸은 몸을 노천탕에 담그세요. 내일 가미코치도 아침 승부입니다.</div></li>
+  </ul>
+  <div class="note"><b>왜 히라유에서 자나</b> — 가미코치 셔틀버스는 히라유(아칸다나 주차장)에서 <b>30분</b>이면 닿습니다. 도야마에서 출발하면 여기까지만 2시간 45분이라 가미코치 아침을 통째로 날립니다. 오늘 밤 히라유까지 가둬두는 게 이 일정의 핵심 수(手)입니다.</div>
+  <div class="stay"><b>숙소 B</b> · 오쿠히다 히라유온천 <b>1박</b></div>
+</div>
+
+<div class="day">
+  <div class="dayhead"><span class="dnum">DAY 4</span><span class="ddate">8/10 (월) · 가미코치 → 다카야마 → 게로온천</span><span class="dtag">운전 약 2시간 30분</span></div>
+  <ul class="tl">
+    <li><span class="t">06:30</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=あかんだな駐車場+平湯">아칸다나 주차장</a> → 셔틀버스</span>
+      <div class="desc">주차 <b>¥600/일</b>. 버스 편도 ¥1,180, <b>왕복권 ¥2,090</b>. 8/8~23은 30분 간격 임시 다이어라 대기가 짧습니다. 첫차는 4:50.</div>
+      <div class="drive bus">🚌 자가용 불가 · 30분</div></li>
+    <li><span class="t">07:10</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=大正池+上高地">다이쇼이케(大正池)</a> 하차</span>
+      <div class="desc"><b>버스를 종점 전에 내리는 게 정석입니다.</b> 물에 잠긴 고사목과 야케다케를 보고 강을 따라 걸어 내려가세요.</div></li>
+    <li><span class="t">08:00</span><span class="ttl">다이쇼이케 → 다시로습원 → <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=河童橋+上高地+穂高">갓파바시(河童橋)</a></span>
+      <div class="desc">약 1시간, 평지 산책로. 갓파바시에서 호타카 연봉이 정면으로 섭니다. 가미코치의 그 사진이 여기예요.</div></li>
+    <li><span class="t">09:30</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=明神池+上高地">묘진이케(明神池)</a> 왕복</span>
+      <div class="desc">갓파바시에서 편도 1시간. 아즈사강 우안 산길로 가서 좌안으로 돌아오면 지루하지 않습니다.</div></li>
+    <li><span class="t">13:00</span><span class="ttl">버스로 아칸다나 복귀 → 출발</span>
+      <div class="desc">센조지키를 뺀 덕에 <b>오후가 통째로 비었습니다.</b> 서두를 필요 없어요.</div></li>
+    <li><span class="t">14:30</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=高山+三町+古い町並み">히다 다카야마 · 산마치 옛 거리</a></span>
+      <div class="desc">8/9엔 저녁만 먹고 지나쳤던 곳을 오늘 제대로 걷습니다. 인파를 피하려면 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=高山+東山遊歩道">히가시야마 산책로</a>(사찰 12곳을 잇는 조용한 언덕길)로 빠지세요.</div>
+      <div class="drive">🚗 55km · 1시간</div></li>
+    <li><span class="t">16:30</span><span class="ttl">다카야마 → <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=下呂温泉+温泉街">게로온천(下呂温泉)</a></span>
+      <div class="desc"><b>구사쓰·아리마와 함께 일본 3대 온천</b>으로 꼽히는 곳. 히다강을 낀 온천 마을이고 무료 족욕탕이 곳곳에 있습니다. 국도 41호를 따라 계속 남하하는 길이라 다음 날 KIX 방향으로도 유리합니다.</div>
+      <div class="drive">🚗 55km · 1시간</div></li>
+    <li><span class="t">17:30</span><span class="ttl">게로 도착 · 온천 · 저녁</span>
+      <div class="desc">고산 이틀을 마무리하는 밤. 1박 2식으로 잡아 히다규를 먹는 걸 권합니다.</div></li>
+  </ul>
+  <div class="note"><b>가미코치는 마을이 아니라 자연보호구역입니다.</b> 편의점이 없고 쓰레기통도 없어 <b>쓰레기는 전부 되가져와야</b> 합니다. 곰 출몰 지역이라 안내판을 따르세요. 코스는 전부 평지 산책로라 운동화면 충분합니다.</div>
+  <div class="stay"><b>숙소 C</b> · 게로온천 <b>1박</b></div>
+</div>
+
+<div class="day">
+  <div class="dayhead"><span class="dnum">DAY 5</span><span class="ddate">8/11 (화) · 복귀</span><span class="dtag">운전 약 3시간 20분</span></div>
+  <ul class="tl">
+    <li><span class="t">09:00</span><span class="ttl">게로온천 아침 산책 · 아침탕</span>
+      <div class="desc">체크아웃 전에 온천 한 번 더. 온천 거리와 무료 족욕탕을 둘러볼 여유가 있습니다.</div></li>
+    <li><span class="t">10:00</span><span class="ttl">출발 → 간사이공항</span>
+      <div class="desc">국도 41호 → 도카이칸조도 → 메이신 → 한신고속. 나고야권 정체가 유일한 변수입니다.</div>
+      <div class="drive">🚗 250km · 3시간 20분 · 통행료 약 ¥6,500</div></li>
+    <li><span class="t">13:20</span><span class="ttl">KIX 도착 · 주유 · 반납</span>
+      <div class="desc">반납 30분 전 공항 근처 주유소에서 만땅. 셔틀 10분.</div></li>
+    <li><span class="t">14:30</span><span class="ttl">여유 · 공항에서 점심</span>
+      <div class="desc"><b>3시간 이상 버퍼가 생깁니다.</b> 아침에 서두르지 않아도 되고, 중간에 어디든 들를 수 있어요.</div></li>
+    <li><span class="t">18:55</span><span class="ttl">이륙</span></li>
+  </ul>
+  <div class="note"><b>센조지키 카르를 뺀 이유</b> — 무로도와 겹칩니다. 성인은 다르지만(무로도는 화산, 센조지키는 빙하 권곡) <b>8월엔 눈이 거의 없어 "고산 초원 + 바위산" 인상이 상당히 비슷</b>하고, 규모는 무로도가 압도적입니다(하루 종일 vs 40~50분). 게다가 <b>센조지키 로프웨이는 예약제가 없어</b> 귀국일 아침에 1시간 넘는 대기를 감수해야 했습니다. 그 도박을 빼면서 <b>마지막 날 운전이 4시간 20분 → 3시간 20분</b>으로 줄고 여유가 3시간 생겼습니다.<br><br>
+  <b>그래도 가고 싶다면</b> — 8/10에 가미코치를 오전만 보고 고마가네로 이동, 8/11 첫차(6시대)로 올라갔다 10:30 전에 출발하는 방식뿐입니다. 다카야마와 게로온천은 포기해야 합니다.</div>
+</div>
+
+<h2>구간 요약</h2>
+<table>
+  <thead><tr><th>구간</th><th class="num">거리</th><th class="num">운전</th><th class="num">통행료</th></tr></thead>
+  <tbody>
+    <tr><td>8/7 KIX → 도야마</td><td class="num">460km</td><td class="num">4:30</td><td class="num">¥10,000</td></tr>
+    <tr><td>8/8 도야마 ↔ 고카야마·시라카와고</td><td class="num">190km</td><td class="num">3:30</td><td class="num">¥4,000</td></tr>
+    <tr><td>8/9 도야마 → 다테야마역 → 히라유</td><td class="num">240km</td><td class="num">4:30</td><td class="num">¥1,500</td></tr>
+    <tr><td>8/10 히라유 → 다카야마 → 게로온천</td><td class="num">110km</td><td class="num">2:00</td><td class="num">—</td></tr>
+    <tr><td>8/11 게로온천 → KIX</td><td class="num">250km</td><td class="num">3:20</td><td class="num">¥6,500</td></tr>
+    <tr><td><b>합계</b></td><td class="num"><b>약 1,250km</b></td><td class="num"><b>약 17시간 50분</b></td><td class="num"><b>약 ¥22,000</b></td></tr>
+  </tbody>
+</table>
+
+<h2>고산 2곳 환승 정보 <span class="k">둘 다 자가용 진입 금지</span></h2>
+<table>
+  <thead><tr><th>목적지</th><th>주차</th><th>환승</th><th class="num">왕복 요금</th></tr></thead>
+  <tbody>
+    <tr><td><b>무로도</b> 2,450m<br><span style="color:var(--muted);font-size:12.5px">8/9</span></td><td>다테야마역<br><b>무료</b> 900대</td><td>케이블카 7분<br>+ 고원버스 50분</td><td class="num">약 ¥8,180</td></tr>
+    <tr><td><b>가미코치</b> 1,500m<br><span style="color:var(--muted);font-size:12.5px">8/10</span></td><td>아칸다나<br><b>¥600</b>/일</td><td>셔틀버스 30분<br>8/8~23 30분 간격</td><td class="num">¥2,090</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>무로도는 공식 WEB티켓으로 시간 지정 예매가 되니 꼭 하세요.</b> 가미코치 셔틀버스는 예약 없이 타되 8/8~23은 30분 간격으로 증편되어 대기가 짧습니다. 둘 다 <b>오전에 올라가는 게 정석</b>입니다 — 오후엔 구름이 끼고 소나기가 잦습니다.</div>
+
+<h2>📷 사진으로 미리보기</h2>
+<div class="gal">
+  <a class="gc" target="_blank" rel="noopener" data-wiki="下呂温泉" href="https://www.google.com/search?tbm=isch&q=下呂温泉+温泉街"><div class="th">♨️</div><div class="cap"><div class="cn">게로온천</div><div class="cd">일본 3대 온천 · 8/10</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=河童橋+上高地+穂高"><div class="th">🌲</div><div class="cap"><div class="cn">가미코치 갓파바시</div><div class="cd">호타카 연봉 · 8/10</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=みくりが池+室堂"><div class="th">🗻</div><div class="cap"><div class="cn">무로도 미쿠리가이케</div><div class="cd">2,450m · 8/9</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=大正池+上高地"><div class="th">💧</div><div class="cap"><div class="cn">다이쇼이케</div><div class="cd">잠긴 고사목 · 8/10</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=明神池+上高地"><div class="th">⛩</div><div class="cap"><div class="cn">묘진이케</div><div class="cd">8/10</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=白川郷+荻町+展望台"><div class="th">🏘</div><div class="cap"><div class="cn">시라카와고</div><div class="cd">8/8</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=相倉合掌造り集落"><div class="th">🌾</div><div class="cap"><div class="cn">아이노쿠라 합장촌</div><div class="cd">한적함 · 8/8</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=菅沼合掌造り集落"><div class="th">🏡</div><div class="cap"><div class="cn">스가누마 집락</div><div class="cd">9채 마을 · 8/8</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=称名滝"><div class="th">🌊</div><div class="cap"><div class="cn">쇼묘폭포</div><div class="cd">낙차 350m · 8/9</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=平湯温泉+露天風呂"><div class="th">♨️</div><div class="cap"><div class="cn">히라유온천</div><div class="cd">8/9 숙박</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=高山+三町+古い町並み"><div class="th">🏯</div><div class="cap"><div class="cn">다카야마 산마치</div><div class="cd">8/10 오후</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=岩瀬+富山+町並み"><div class="th">🏮</div><div class="cap"><div class="cn">이와세 옛 거리</div><div class="cd">8/8</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" data-wiki="高山市" href="https://www.google.com/search?tbm=isch&q=高山+東山遊歩道"><div class="th">⛩</div><div class="cap"><div class="cn">히가시야마 산책로</div><div class="cd">다카야마 · 8/10</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=富山湾寿司+白えび"><div class="th">🍣</div><div class="cap"><div class="cn">도야마 만 스시</div><div class="cd">8/8</div></div></a>
+</div>
+</section>
+
+<section class="panel" id="p-food">
+<h2>🍽 코스 위의 맛집 <span class="k">구글 평점 포함 · 날짜순</span></h2>
+<div class="note" style="margin-bottom:16px">이번 루트는 <b>고산에 있는 시간이 길어</b> 제대로 된 식사를 할 수 있는 타이밍이 8/8 도야마와 8/9 다카야마 두 번뿐입니다. 나머지는 도시락과 숙소 식사로 채우는 게 현실적이에요.</div>
+
+<h3>8/7 (금) 심야</h3>
+<div class="card">
+  <div class="uhead"><span class="uname">고속도로 SA · PA</span><span class="ubadge">현실적 선택</span><span class="uwhen">8/7 21:00</span></div>
+  <div class="udesc">19:30 출발이라 일반 식당은 이미 닫습니다. <b>다가 SA(메이신)</b>의 24시간 푸드코트가 무난합니다. 도야마 도착이 00:30이니 여기서 제대로 먹어두세요.</div>
+</div>
+
+<h3>8/8 (토) 도야마 — 이번 여행 최고의 식사 날</h3>
+<div class="card">
+  <div class="uhead">
+    <span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=廻る富山湾+すし玉+富山駅店">廻る富山湾 すし玉 (도야마역점)</a></span>
+    <span class="gr"><span class="st">★</span>3.9<span class="cnt">(1,510)</span></span>
+    <span class="uwhen">8/8 토 저녁 ✓</span>
+  </div>
+  <div class="udesc">가나자와 명문 「타마즈시」의 세컨드 브랜드. 회전초밥인데 수준이 다릅니다. 고시히카리 + 노토 소금 + 가가 간장 샤리에, 도야마·이시카와 근해 생선만 씁니다. 흰새우 가라아게, 반딧불오징어 덴푸라 같은 안주도 있어요.</div>
+  <div class="umeta">
+    <b>위치</b><span>도야마역 「토야마르셰」 안 — 숙소에서 도보</span>
+    <b>영업</b><span>11:00–21:00 · 연중무휴</span>
+    <b>가격</b><span>가가야키 7관 ¥1,650 · 1인 ¥2,000~ · 한국어 메뉴 있음</span>
+    <b>주의</b><span><b>예약을 안 받습니다.</b> 토요일 저녁은 18시 전에 가세요.</span>
+  </div>
+</div>
+<div class="card">
+  <div class="uhead">
+    <span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=白えび亭+富山駅+白えび天丼">白えび亭 · 흰새우 튀김덮밥</a></span>
+    <span class="gr"><span class="st">★</span>4.2<span class="cnt">(2,066)</span></span>
+    <span class="uwhen">8/8 점심 대안</span>
+  </div>
+  <div class="udesc">흰새우는 <b>도야마 만에서만 상업적으로 잡힙니다.</b> 껍질을 일일이 벗겨 튀긴 덴동은 다른 데선 못 먹어요. 도야마역 구내, 스시타마와 같은 건물. 재료 소진 시 조기 마감.</div>
+</div>
+<div class="card">
+  <div class="uhead">
+    <span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=西町大喜+富山ブラックラーメン">大喜 西町본점 · 도야마 블랙 라멘</a></span>
+    <span class="gr"><span class="st">★</span>3.3<span class="cnt">(1,276)</span></span>
+    <span class="uwhen">8/8 ✓</span>
+  </div>
+  <div class="udesc"><b>도야마 블랙을 만들어낸 원조.</b> 전후 육체노동자들이 밥반찬으로 먹던 게 기원이라 진짜로 짭니다 — 반드시 <b>공깃밥을 같이</b> 시켜 면·멘마·밥을 섞어 먹어야 의도한 맛이 납니다. 국물을 다 마시는 음식이 아니에요.</div>
+  <div class="umeta">
+    <b>위치</b><span>도야마시 오타구치도리 1-1-7 — <b>주차장 없음</b>, 차는 숙소에 두고 트램</span>
+    <b>영업</b><span>11:00–20:00 · 수요일 휴무 → 8/8 영업</span>
+    <b>가격</b><span>주카소바(보통) ¥950 · 076-423-3001</span>
+  </div>
+  <div class="note" style="margin-top:12px"><b>평점 3.3의 진실</b> — 리뷰 대부분이 "너무 짜다"인데, 먹는 법을 모르고 간 사람들입니다. 맛의 문제가 아니라 <b>주문의 문제</b>예요. 원조를 경험하는 데 가치를 둔다면 가고, 실패 없는 한 끼를 원하면 스시 쪽이 낫습니다.</div>
+</div>
+<div class="card">
+  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=五箇山豆腐+堅豆腐">고카야마 두부</a></span><span class="ubadge">향토</span><span class="uwhen">8/8 낮</span></div>
+  <div class="udesc">새끼줄로 묶어 들어도 안 부서질 만큼 단단합니다. 눈 깊은 산간에서 보존성을 높이려 물을 극도로 뺀 결과라 두부보다 치즈에 가까워요. 스가누마·아이노쿠라 마을 식당에서 정식으로 냅니다.</div>
+</div>
+
+<h3>8/9 (일) 무로도 · 다카야마</h3>
+<div class="card">
+  <div class="uhead"><span class="uname">무로도 — 도시락을 챙기세요</span><span class="ubadge chk">선택지 없음</span><span class="uwhen">8/9 점심</span></div>
+  <div class="udesc">해발 2,450m라 식당은 터미널과 호텔 다테야마뿐이고 산상 가격입니다. <b>전날 도야마역에서 마스노스시(송어 초밥)를 사서 올라가세요.</b> 대나무 잎에 싸 상온 보관이라 차에 둬도 되고, 미쿠리가이케 근처에서 먹으면 훨씬 기억에 남습니다. <b>쓰레기는 전부 되가져와야</b> 합니다.</div>
+</div>
+<div class="card">
+  <div class="uhead">
+    <span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=飛騨高山+京や+朴葉味噌">飛騨高山 京や (교야)</a></span>
+    <span class="gr hi"><span class="st">★</span>4.5<span class="cnt">(1,292)</span></span>
+    <span class="uwhen">8/9 일 저녁 ✓</span>
+  </div>
+  <div class="udesc"><b>이번 코스 최고 평점.</b> 도야마 → 히라유 이동 중 다카야마를 지나가니 저녁으로 딱 맞습니다. 옛 농가를 옮겨 지은 건물의 <b>이로리(화로)에서 직접 구워</b> 먹어요. 히다 향토요리인 <b>호바미소</b>(호오나무 잎에 된장과 고기를 올려 굽는 것)와 <b>쓰케모노 스테이크</b>를 제대로 하는 몇 안 되는 집.</div>
+  <div class="umeta">
+    <b>위치</b><span>다카야마시 오신마치 1-77 · <b>주차 12대</b></span>
+    <b>영업</b><span>11:00–22:00 (L.O. 21:00)</span>
+    <b>휴무</b><span>화요일 → <b>8/9 일요일 영업</b></span>
+    <b>가격</b><span>히다규 호바미소 정식 ¥1,800 · 스테이크동 ¥2,000 · 교야고젠 ¥3,500</span>
+  </div>
+  <div class="note" style="margin-top:12px"><b>타이밍</b> — 무로도에서 13:30 하산하면 다카야마 도착이 17:30쯤입니다. 저녁을 먹고 히라유까지는 1시간 더 가면 되니 여유롭습니다.</div>
+</div>
+<div class="card">
+  <div class="uhead">
+    <span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=丸明+飛騨高山店+飛騨牛">丸明 히다타카야마점</a></span>
+    <span class="gr"><span class="st">★</span>4.1<span class="cnt">(4,222)</span></span>
+    <span class="uwhen">8/9 대안</span>
+  </div>
+  <div class="udesc">히다규 <b>정육점 직영</b> 야키니쿠라 같은 등급을 시내 절반 가격대에 먹습니다. 분위기는 소박하지만 고기를 양껏 먹고 싶다면 여기. 리뷰 4,222개로 표본이 압도적입니다.</div>
+</div>
+
+<h3>8/10 (월) 가미코치 · 게로온천</h3>
+<div class="card">
+  <div class="uhead"><span class="uname">가미코치 — 여기도 도시락</span><span class="ubadge chk">편의점 없음</span><span class="uwhen">8/10 점심</span></div>
+  <div class="udesc">자연보호구역이라 <b>편의점도 쓰레기통도 없습니다.</b> 갓파바시 주변에 식당이 몇 곳 있지만 비싸고 붐빕니다. <b>히라유 숙소에 도시락을 부탁</b>하거나 전날 사두세요. 쓰레기는 전부 되가져와야 합니다.</div>
+</div>
+<div class="card">
+  <div class="uhead"><span class="uname">히라유온천 · 게로온천 저녁</span><span class="ubadge">1박 2식 권장</span><span class="uwhen">8/9 · 8/10</span></div>
+  <div class="udesc">두 곳 다 온천 마을이라 <b>바깥 식당이 일찍 닫고 선택지가 적습니다.</b> 예약할 때 <b>석식 포함(1박 2식)</b>으로 잡는 게 여러모로 낫습니다 — 둘 다 <b>히다규</b>가 메인이고, 게로는 「게로규」로도 불리는 지역 브랜드 소를 씁니다. 게로 온천 거리엔 저녁에 무료 족욕탕이 열려 있어 식후 산책이 좋습니다.</div>
+</div>
+
+<h3>8/11 (화) 복귀</h3>
+<div class="card">
+  <div class="uhead"><span class="uname">여유롭게 · 도카이칸조도 SA</span><span class="ubadge">버퍼 3시간</span><span class="uwhen">8/11 점심</span></div>
+  <div class="udesc">센조지키를 뺀 덕에 마지막 날이 <b>3시간 20분 운전</b>으로 줄었습니다. 10:00에 나서면 13:20 도착이라 여유가 큽니다. 중간에 SA에서 느긋하게 먹거나, <b>게로에서 아침을 든든히 먹고 직행</b>해도 됩니다.</div>
+</div>
+
+<h2>구글 평점 한눈에</h2>
+<table>
+  <thead><tr><th>가게</th><th>언제</th><th class="num">평점</th><th class="num">리뷰</th></tr></thead>
+  <tbody>
+    <tr><td><b>飛騨高山 京や</b></td><td>8/9 저녁</td><td class="num">4.5</td><td class="num">1,292</td></tr>
+    <tr><td><b>白えび亭</b></td><td>8/8</td><td class="num">4.2</td><td class="num">2,066</td></tr>
+    <tr><td><b>好日庵</b> (우동)</td><td>8/8 점심</td><td class="num">4.1</td><td class="num">119</td></tr>
+    <tr><td><b>丸明 히다타카야마점</b></td><td>8/9 · 8/10</td><td class="num">4.1</td><td class="num">4,222</td></tr>
+    <tr><td><b>廻る富山湾 すし玉</b></td><td>8/8 저녁</td><td class="num">3.9</td><td class="num">1,510</td></tr>
+    <tr><td><b>いろはにほへと</b> (우동)</td><td>8/9 경유</td><td class="num">3.8</td><td class="num">111</td></tr>
+    <tr><td><b>大喜 西町본점</b></td><td>8/8</td><td class="num">3.3</td><td class="num">1,276</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>평점 읽는 법</b> — 일본 식당은 구글 평점이 전반적으로 짜게 나옵니다. <b>4.0 이상이면 좋은 집, 4.3 이상이면 확실한 집</b>으로 보세요. 리뷰가 100개 안팎인 곳은 표본이 적어 흔들릴 수 있습니다.</div>
+</section>
+
+<section class="panel" id="p-udon">
+<h2>🍜 코시가 강한 우동집 <span class="k">면발 탄력 기준</span></h2>
+<div class="note" style="margin-bottom:16px">루트가 북알프스 종단으로 바뀌면서 <b>구조하치만의 翔太のうどん(4.5)은 코스에서 완전히 벗어났습니다.</b> 아래 두 곳이 동선에 남습니다.</div>
+
+<div class="card">
+  <div class="uhead">
+    <span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=好日庵+富山+うどん">好日庵 (코지쓰안)</a></span>
+    <span class="gr"><span class="st">★</span>4.1<span class="cnt">(119)</span></span>
+    <span class="uwhen">8/8 토 점심 ✓</span>
+  </div>
+  <div class="ukoshi">코시 <span class="bar"><i style="width:88%"></i></span> 강함 · 두툼하고 쫄깃</div>
+  <div class="udesc">도야마 후추초의 민가풍 우동집. <b>홋카이도산 + 국산 밀 블렌드</b>를 <b>도쿠시마 소금으로 만든 인공 해수</b>로 반죽해 사누키 정통 방식 그대로 뽑습니다. 면 자체를 맛보려면 <b>가마타마 우동(¥800)</b>. 전용 주차 13대 무료라 렌트카에 최적이고, <b>고카야마 가는 길목에 정확히 걸립니다.</b></div>
+  <div class="umeta">
+    <b>위치</b><span>도야마시 후추초 쓰카하라 113 · 도야마IC 10분</span>
+    <b>영업</b><span>11:00–15:00 (L.O. 14:30) / 금·토는 18:00–21:00 추가</span>
+    <b>휴무</b><span>화·수요일 → <b>8/8 토요일 영업</b></span>
+    <b>전화</b><span>076-466-2800</span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="uhead">
+    <span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=いろはにほへと+高山+うどん">めん処 いろはにほへと</a></span>
+    <span class="gr"><span class="st">★</span>3.8<span class="cnt">(111)</span></span>
+    <span class="uwhen">8/9 일 경유 ✓</span>
+  </div>
+  <div class="ukoshi">코시 <span class="bar"><i style="width:100%"></i></span> 매우 강함 · 각이 살아있는 식감</div>
+  <div class="udesc">주인이 <b>가가와현 「곤피라우동」에서 수련</b>한 29년 된 집. 면을 가늘게 자르는 데 그치지 않고 <b>가늘게 치면서 얇게 늘리는</b> 고난도 방식이라, 가늘면서도 코시가 강하고 모서리가 또렷합니다. 히다규 니쿠우동이 간판. <b>국도 41호 도야마→다카야마 길목</b>이라 8/9 저녁에 그냥 지나갑니다.</div>
+  <div class="umeta">
+    <b>위치</b><span>다카야마시 고쿠후초 가미히로세 28</span>
+    <b>영업</b><span>10:00–19:30 (19:10 이후 도착 시 전화 권장)</span>
+    <b>휴무</b><span>화요일 → <b>8/9 일요일 영업</b></span>
+    <b>전화</b><span>0577-72-2332</span>
+  </div>
+  <div class="note" style="margin-top:12px"><b>솔직한 단서</b> — "코시 최강"은 <b>가게가 밝힌 곤피라우동 수련 이력</b>에 근거한 평가이고, 실제 구글 평점은 <b>3.8(리뷰 111개)</b>로 평범합니다. 면발 자체를 보러 가는 거면 좋지만, 확실한 한 끼를 원하면 조금 더 남쪽의 <b>京や(4.5, 1,292)</b>가 안전합니다. <b>무로도 하산이 늦어지면 19:30 마감에 걸리니</b> 그때도 京や(22:00까지)로 가세요.</div>
+</div>
+
+<div class="card">
+  <div class="uhead">
+    <span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=氷見うどん+海津屋">うどん茶屋 海津屋 (氷見うどん)</a></span>
+    <span class="gr"><span class="st">★</span>4.2<span class="cnt">(867)</span></span>
+    <span class="uwhen no">코스에서 40분 이탈</span>
+  </div>
+  <div class="ukoshi">코시 <span class="bar"><i style="width:75%"></i></span> 쫀득한 계열 · 목넘김이 압권</div>
+  <div class="udesc">도야마 향토 우동인 <b>히미우동</b>의 대표 제면소 직영점. 사누키처럼 <i>치는</i> 게 아니라 <b>손으로 늘리는(手延べ)</b> 방식이라 코시의 성격이 다릅니다 — 뚝 끊기는 탄력이 아니라 <b>쫀득하게 늘어나며 버티는 탄력</b>에 매끄러운 목넘김. 도야마 시내에서 북서쪽으로 40분이라 이번 일정엔 넣기 어렵습니다.</div>
+  <div class="umeta">
+    <b>위치</b><span>도야마현 히미시 가미이즈미 20</span>
+    <b>영업</b><span>11:00–15:00 · 목요일 휴무(공휴일이면 영업)</span>
+    <b>메뉴</b><span>새우튀김 자루우동 ¥1,630 · 나베야키우동 ¥1,100</span>
+  </div>
+</div>
+</section>
+
+<section class="panel" id="p-hotel">
+<h2>🏨 호텔 후보 <span class="k">도야마 2박 + 히라유 1박 + 게로 1박</span></h2>
+<div class="note" style="margin-bottom:16px">이번 루트는 숙소마다 <b>역할이 다릅니다.</b> 도야마는 심야 체크인, 히라유는 가미코치 첫차 접근성, 게로는 마지막 밤의 휴식 — 이 셋이 각 숙소의 선정 기준입니다.</div>
+
+<h3>도야마 · 8/7–8/8 (2박) <span style="font-weight:400;color:var(--muted);font-size:13px">기준: 자정 이후 체크인</span></h3>
+<div class="note" style="margin-bottom:14px">8/7 도착이 <b>00:30</b>입니다. 일본 비즈니스호텔은 최종 체크인이 24:00인 곳이 흔하니 <b>예약 전 반드시 확인</b>하세요.</div>
+
+<div class="card h">
+  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" data-wiki="富山市" href="https://www.google.com/search?q=天然温泉+剱の湯+ドーミーイン富山">도미인 도야마</a></span><span class="rank">종합 1순위</span><span class="hprice">¥11,000~</span></div>
+  <div class="udesc">지하 1,200m 천연온천 대욕장. 야식 소바 무료, 조식에 반딧불오징어. 주차 있음(유료). 도야마역 도보 15분 / 트램 1분.</div>
+  <div class="htags"><span class="tg ok">천연온천</span><span class="tg ok">주차 가능</span><span class="tg chk">심야 체크인 확인</span></div>
+</div>
+<div class="card h">
+  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?q=ANAクラウンプラザホテル富山">ANA 크라운플라자 도야마</a></span><span class="rank b">심야 도착 최안전</span><span class="hprice">¥16,000~</span></div>
+  <div class="udesc">도야마역 도보 5분 대형 호텔. <b>프런트 24시간 유인</b>이라 00:30 도착 리스크가 가장 낮습니다. 자체 주차장이 넓어요.</div>
+  <div class="htags"><span class="tg ok">프런트 24시간</span><span class="tg ok">자체 주차장</span><span class="tg">도야마성 뷰</span></div>
+</div>
+<div class="card h">
+  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?q=御宿+野乃富山">온야도 노노 도야마</a></span><span class="rank b">온천 업그레이드</span><span class="hprice">¥15,000~</span></div>
+  <div class="udesc">도미인 상위 브랜드. 전관 다다미에 온천 품질이 한 단계 위. 도야마역 도보 8분.</div>
+  <div class="htags"><span class="tg ok">천연온천</span><span class="tg">전관 다다미</span><span class="tg chk">주차 제휴 확인</span></div>
+</div>
+<div class="card h">
+  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?q=コンフォートホテル富山駅前+東横イン富山駅前">컴포트 / 도요코인 도야마역앞</a></span><span class="rank c">예산 절약</span><span class="hprice">¥8,000~</span></div>
+  <div class="udesc">2박이면 6~7만 원 아낍니다. 조식 무료. 온천은 없고 주차 대수가 적으니 예약 시 주차 확보를 명시하세요.</div>
+  <div class="htags"><span class="tg ok">저렴</span><span class="tg chk">주차 대수 적음</span></div>
+</div>
+
+<h3>오쿠히다 히라유온천 · 8/9 (1박) <span style="font-weight:400;color:var(--muted);font-size:13px">기준: 아칸다나 주차장까지 거리</span></h3>
+<div class="card h">
+  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?q=ひらゆの森+平湯温泉">히라유노모리 (ひらゆの森)</a></span><span class="rank">1순위</span><span class="hprice">¥10,000~</span></div>
+  <div class="udesc"><b>남녀 합쳐 노천탕 16개.</b> 무로도에서 하루 종일 걷고 내려온 밤에 이만한 게 없습니다. 통나무집 분위기에 주차 넉넉하고, <b>아칸다나 주차장과 히라유 버스터미널이 코앞</b>이라 다음 날 가미코치 첫차 접근이 가장 좋습니다.</div>
+  <div class="umeta"><b>위치</b><span>다카야마시 오쿠히다온센고 히라유 763-1</span></div>
+  <div class="htags"><span class="tg ok">노천탕 16개</span><span class="tg ok">아칸다나 인접</span><span class="tg ok">주차 넉넉</span><span class="tg chk">석식 포함 여부 확인</span></div>
+</div>
+<div class="card h">
+  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?q=平湯温泉+岡田旅館+和楽亭">오카다 료칸 · 와라쿠테이</a></span><span class="rank b">전통 료칸</span><span class="hprice">¥20,000~</span></div>
+  <div class="udesc">히라유의 대표 료칸. 1박 2식으로 히다규와 산채 요리가 나옵니다. 온천 마을에서 제대로 대접받고 싶다면 이쪽.</div>
+  <div class="htags"><span class="tg ok">1박 2식</span><span class="tg ok">히다규</span><span class="tg chk">가격대 높음</span></div>
+</div>
+<div class="card h">
+  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?q=奥飛騨温泉郷+新平湯+福地温泉+宿">플랜 B · 오쿠히다온천향 전체</a></span><span class="rank c">만실일 때</span><span class="hprice">—</span></div>
+  <div class="udesc">히라유는 마을이 작아 <b>객실이 금방 찹니다.</b> 못 잡으면 신히라유·후쿠지·신호타카로 넓히세요. 아칸다나까지 10~20분이면 갑니다.</div>
+  <div class="htags"><span class="tg ok">선택지 넓힘</span><span class="tg chk">아침 이동 10~20분 추가</span></div>
+</div>
+
+<h3>게로온천 · 8/10 (1박) <span style="font-weight:400;color:var(--muted);font-size:13px">기준: 1박 2식 + 온천</span></h3>
+<div class="note" style="margin-bottom:14px">게로는 <b>구사쓰·아리마와 함께 일본 3대 온천</b>으로 꼽힙니다. 마지막 밤이고 다음 날 운전이 3시간 20분뿐이라 <b>여기서 제대로 쉬는 게 이번 일정의 보상</b>입니다. 1박 2식으로 잡으세요.</div>
+
+<div class="card h">
+  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" data-wiki="下呂温泉" href="https://www.google.com/search?q=下呂温泉+湯之島館">유노시마칸 (湯之島館)</a></span><span class="rank">전통 · 등록유형문화재</span><span class="hprice">¥25,000~</span></div>
+  <div class="udesc">1931년 개업, 산 중턱의 목조 본관이 <b>국가 등록유형문화재</b>입니다. 온천 마을을 내려다보는 전망과 쇼와 초기 건축이 그대로 남아 있어, 숙소 자체가 관광지인 곳. 예산이 허락하면 여기가 마지막 밤에 가장 어울립니다.</div>
+  <div class="htags"><span class="tg ok">등록유형문화재</span><span class="tg ok">전망</span><span class="tg ok">1박 2식</span><span class="tg chk">가격대 높음</span></div>
+</div>
+<div class="card h">
+  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" data-wiki="下呂温泉" href="https://www.google.com/search?q=下呂温泉+水明館">스이메이칸 (水明館)</a></span><span class="rank b">대표 대형 료칸</span><span class="hprice">¥20,000~</span></div>
+  <div class="udesc">게로를 대표하는 대형 료칸. 히다강 바로 앞이고 <b>대욕장이 여러 개</b>라 온천만으로도 시간을 보낼 수 있습니다. 주차 넉넉하고 시설이 안정적이라 실패 확률이 낮습니다.</div>
+  <div class="htags"><span class="tg ok">대욕장 다수</span><span class="tg ok">강변</span><span class="tg ok">주차 넉넉</span></div>
+</div>
+<div class="card h">
+  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" data-wiki="下呂温泉" href="https://www.google.com/search?q=下呂温泉+旅館+ホテル+一覧">게로온천 여관 전체 · 중저가</a></span><span class="rank c">예산형</span><span class="hprice">¥10,000~</span></div>
+  <div class="udesc">게로는 온천지 규모가 커서 <b>객실 총량이 넉넉합니다.</b> 히라유·고마가네와 달리 만실 걱정이 적고, 1만 엔대 료칸도 1박 2식으로 잡을 수 있습니다. 온천 거리 안쪽이면 저녁에 <b>무료 족욕탕</b>을 돌아보기 좋습니다.</div>
+  <div class="htags"><span class="tg ok">객실 많음</span><span class="tg ok">1만엔대 가능</span><span class="tg">족욕탕 도보권</span></div>
+</div>
+
+<h2>추천 조합</h2>
+<table>
+  <thead><tr><th>조합</th><th>도야마 2박</th><th>히라유</th><th>게로온천</th><th class="num">4박 합계</th></tr></thead>
+  <tbody>
+    <tr><td><b>밸런스형</b> (권장)</td><td>도미인</td><td>히라유노모리</td><td>게로 중저가 료칸</td><td class="num">약 ¥42,000</td></tr>
+    <tr><td><b>안전 우선형</b></td><td>ANA 크라운플라자</td><td>히라유노모리</td><td>스이메이칸</td><td class="num">약 ¥62,000</td></tr>
+    <tr><td><b>온천 만끽형</b></td><td>노노 도야마</td><td>오카다 료칸</td><td>유노시마칸</td><td class="num">약 ¥75,000</td></tr>
+    <tr><td><b>절약형</b></td><td>컴포트 / 도요코인</td><td>히라유노모리</td><td>게로 중저가 료칸</td><td class="num">약 ¥38,000</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>8월 성수기 2인 1실 대략치</b>입니다. 오봉(8/13~) 직전이라 8/10(월)은 비교적 저렴하고 8/8(토)이 가장 비쌉니다. 히라유·게로는 온천지라 <b>1박 2식으로 잡으면 저녁 걱정이 사라집니다.</b></div>
+</section>
+
+<section class="panel" id="p-prep">
+<h2>✅ 예약 · 준비 체크리스트</h2>
+<div class="grid">
+  <div class="box">
+    <h3>지금 바로 예약</h3>
+    <ul>
+      <li>도야마 2박 — <b>자정 이후 체크인 가능 여부 확인</b></li>
+      <li>히라유온천 1박 — 마을이 작아 금방 참</li>
+      <li>게로온천 1박 — <b>1박 2식</b>으로</li>
+      <li><b>알펜루트 WEB티켓</b> (다테야마역↔무로도 시간 지정)</li>
+      <li>렌트카 <b>ETC 카드</b> 옵션</li>
+      <li>도야마 스시집 토요일 저녁</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>현장에서 타는 것</h3>
+    <ul>
+      <li>가미코치 셔틀버스 — 예약 없음, 8월은 30분 간격 증편</li>
+      <li>아칸다나 주차장은 선착순이지만 여유 있음</li>
+      <li>→ 그래도 <b>아침 일찍이 정석</b> (오후 소나기)</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>야간 운전 대비 (8/7)</h3>
+    <ul>
+      <li>비행 직후 4시간 반 — 가능하면 운전 교대</li>
+      <li>휴게소 2회 이상, 졸리면 PA에서 20분 수면</li>
+      <li>호쿠리쿠도 후쿠이~도야마는 터널이 많고 어둡습니다</li>
+      <li>0~4시 통과 시 ETC 심야할인 30%</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>운전 일반</h3>
+    <ul>
+      <li>국제운전면허증(제네바) + 한국 면허증 + 여권</li>
+      <li>좌측통행 · 우회전 시 대향차 우선</li>
+      <li>국도 41호·158호(아보터널)는 산길, 야간 조명 없음</li>
+      <li>주유는 도야마·다카야마·마쓰모토 시내에서 미리</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>고산 복장</h3>
+    <ul>
+      <li>무로도 2,450m — 8월에도 <b>10~18℃</b></li>
+      <li>가미코치 1,500m — 아침엔 15℃ 안팎</li>
+      <li>얇은 경량 패딩 + 바람막이 + 긴바지 필수</li>
+      <li>트레킹화 (가미코치는 운동화도 가능)</li>
+      <li>선크림·선글라스·모자 — 고산 자외선 매우 강함</li>
+      <li>평지용 여름옷 별도 (도야마·다카야마 30℃ 넘음)</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>날씨 · 리스크</h3>
+    <ul>
+      <li>고산은 <b>오후 소나기·뇌우가 잦음</b> → 셋 다 오전 승부</li>
+      <li>태풍 시즌 초입 — 출발 3일 전 예보 확인</li>
+      <li>구름이 끼면 무로도는 아무것도 안 보입니다</li>
+      <li>가미코치는 흐려도 볼 만해 <b>날씨 나쁜 날의 보험</b>입니다</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>가미코치 규칙</h3>
+    <ul>
+      <li>편의점·쓰레기통 없음 → 전부 되가져오기</li>
+      <li>곰 출몰 지역, 안내판 준수</li>
+      <li>다이쇼이케에서 내려 걸어 내려오는 게 정석</li>
+      <li>도시락은 히라유 숙소에 부탁하거나 미리 구입</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>8/11 마지막 날</h3>
+    <ul>
+      <li>게로 10:00 출발 → KIX 13:20 도착</li>
+      <li><b>버퍼 3시간</b> — 이번 일정에서 가장 편한 날</li>
+      <li>반납 30분 전 공항 근처에서 만땅 주유</li>
+      <li>나고야권 정체가 유일한 변수</li>
+    </ul>
+  </div>
+</div>
+
+<h2>이번 루트에서 뺀 것</h2>
+<table>
+  <thead><tr><th>항목</th><th>이유</th></tr></thead>
+  <tbody>
+    <tr><td><b>구로베 협곡 트롯코</b></td><td>2024년 노토반도 지진 → 히가시가네쓰리산 낙석 → 가네쓰리교 손상. 2026년 8월엔 <b>우나즈키~네코마타 왕복만</b> 운행하고, 게야키평까지 전 구간 재개는 <b>2026년 10월 1일</b></td></tr>
+    <tr><td><b>센조지키 카르</b></td><td>무로도와 인상이 겹치고(화산 vs 빙하 권곡이지만 8월엔 둘 다 고산 초원+바위산), 규모는 무로도가 압도적. 로프웨이가 <b>예약제가 없어</b> 귀국일 아침에 1시간+ 대기를 감수해야 했습니다</td></tr>
+    <tr><td><b>마쓰모토성</b></td><td>센조지키를 빼면서 나가노 방향으로 갈 이유가 사라짐</td></tr>
+    <tr><td><b>구조하치만</b></td><td>루트가 북알프스 종단으로 바뀌며 완전히 벗어남</td></tr>
+    <tr><td><b>가나자와</b></td><td>8/7 야간 통과 구간. 들르려면 하루가 더 필요합니다</td></tr>
+  </tbody>
+</table>
+</section>
+
+<footer>
+  요금·운행·영업 정보는 2026년 8월 기준 공식 자료를 참고했습니다. 출발 전
+  <a href="https://www.alpen-route.com/">알펜루트</a>,
+  <a href="https://www.kamikochi.or.jp/">가미코치</a>,
+  <a href="https://www.chuo-alps.com/">주오알프스 고마가타케 로프웨이</a>,
+  <a href="https://www.nouhibus.co.jp/">노히버스</a> 공식 사이트에서 운행 시각을 재확인하세요.
+</footer>
+
+</div>
+<div id="hovercard"></div>
+
+<script>
+(function(){
+  var COLORS={1:'#7c5cff',2:'#12876c',3:'#2f7fd4',4:'#cc6b3a',5:'#c9962a'};
+  var ROUTES={
+    1:[[34.4342,135.2440],[34.5100,135.3900],[34.5900,135.4300],[34.7000,135.4900],[34.7800,135.5200],[34.8500,135.6200],[34.9000,135.6900],[35.0100,135.8700],[35.0200,135.9600],[35.2700,136.2500],[35.3200,136.2900],[35.3800,136.2700],[35.5000,136.2200],[35.6450,136.0660],[35.8000,136.2000],[35.9500,136.1900],[36.0640,136.2190],[36.1500,136.2700],[36.3000,136.3200],[36.4100,136.4500],[36.5780,136.6480],[36.6700,136.7300],[36.6800,136.8700],[36.7500,137.0300],[36.7010,137.2137]],
+    2:[[36.7010,137.2137],[36.6620,137.1843],[36.6300,136.9700],[36.5500,136.8900],[36.4272,136.9350],[36.4189,136.9250],[36.2585,136.9060],[36.4189,136.9250],[36.6300,136.9700],[36.7010,137.2137],[36.7597,137.2135]],
+    3:[[36.7010,137.2137],[36.6900,137.3200],[36.6300,137.3300],[36.5793,137.3113],[36.7010,137.2137],[36.6100,137.2200],[36.4500,137.2200],[36.3400,137.3000],[36.2373,137.1866],[36.1955,137.2606],[36.1424,137.2580],[36.1600,137.3500],[36.1831,137.5559]],
+    4:[[36.1831,137.5559],[36.1600,137.3500],[36.1424,137.2580],[36.0500,137.2400],[35.9000,137.2500],[35.7965,137.2440]],
+    5:[[35.7965,137.2440],[35.6000,137.1600],[35.4400,137.0200],[35.2900,136.9100],[35.2000,136.7200],[35.1500,136.5000],[35.1200,136.2500],[34.9800,135.7600],[34.8500,135.6200],[34.6800,135.4900],[34.5900,135.4300],[34.4342,135.2440]]
+  };
+  var LIFTS=[
+    {d:3,pts:[[36.5793,137.3113],[36.5820,137.3480],[36.5650,137.4700],[36.5773,137.5947]]},
+    {d:4,pts:[[36.1876,137.5622],[36.2100,137.6000],[36.2317,137.6208],[36.2503,137.6350],[36.2560,137.6640]]}
+  ];
+  var STOPS=[
+    {d:1,ll:[34.4342,135.2440],n:'간사이 국제공항',t:'8/7 19:00 · 8/11 15:30',x:'렌트카 수령/반납. ETC 카드 필수.'},
+    {d:1,ll:[36.7010,137.2137],n:'도야마역 · 숙소 A',t:'8/7 00:30 도착',x:'2박 연박. 자정 이후 체크인 가능 여부 반드시 확인.'},
+    {d:2,ll:[36.6620,137.1843],n:'🍜 好日庵',t:'8/8 10:45',x:'사누키 정통. 가마타마 ¥800. 주차 13대 무료. 화·수 휴무.'},
+    {d:2,ll:[36.4272,136.9350],n:'고카야마 아이노쿠라 합장촌',t:'8/8 12:20',x:'세계유산인데 관광객은 시라카와고의 1/10.'},
+    {d:2,ll:[36.4189,136.9250],n:'스가누마 집락',t:'8/8 14:00',x:'9채짜리 마을. 고카야마 두부.',s:1},
+    {d:2,ll:[36.2585,136.9060],n:'시라카와고 오기마치',t:'8/8 15:00',x:'오후 3시 이후 단체버스가 빠져 한산해집니다.'},
+    {d:2,ll:[36.7597,137.2135],n:'이와세 옛 거리',t:'8/8 17:30',x:'도야마 만 석양. 관광객 거의 없음.',s:1},
+    {d:3,ll:[36.5793,137.3113],n:'다테야마역',t:'8/9 07:20',x:'무료주차 900대. 여기서부터 자가용 불가.'},
+    {d:3,ll:[36.5773,137.5947],n:'무로도 · 미쿠리가이케 (2,450m)',t:'8/9 09:30',x:'왕복 약 ¥8,180. 8월에도 10~18℃. 경량 패딩 필수.'},
+    {d:3,ll:[36.1424,137.2580],n:'다카야마 · 저녁 (京や)',t:'8/9 17:30',x:'히다규 호바미소 정식 ¥1,800. ★4.5. 화요일 휴무.'},
+    {d:3,ll:[36.1831,137.5559],n:'히라유온천 · 숙소 B',t:'8/9 18:30',x:'아칸다나 주차장 인접. 내일 가미코치 첫차 접근 최적.'},
+    {d:4,ll:[36.1876,137.5622],n:'아칸다나 주차장',t:'8/10 06:30',x:'주차 ¥600/일. 셔틀버스 왕복 ¥2,090, 30분.'},
+    {d:4,ll:[36.2317,137.6208],n:'다이쇼이케',t:'8/10 07:10',x:'종점 전에 내리는 게 정석. 물에 잠긴 고사목과 야케다케.'},
+    {d:4,ll:[36.2503,137.6350],n:'갓파바시',t:'8/10 08:00',x:'호타카 연봉이 정면. 가미코치의 그 사진이 여기.'},
+    {d:4,ll:[36.2560,137.6640],n:'묘진이케',t:'8/10 09:30',x:'갓파바시에서 편도 1시간. 우안으로 가서 좌안으로 복귀.',s:1},
+    {d:4,ll:[36.1424,137.2580],n:'다카야마 산마치 · 히가시야마',t:'8/10 14:30',x:'오후가 통째로 비어 제대로 걷습니다. 히가시야마 산책로로 인파 회피.'},
+    {d:4,ll:[35.7965,137.2440],n:'게로온천 · 숙소 C',t:'8/10 17:30',x:'일본 3대 온천. 1박 2식 권장. 무료 족욕탕 다수.'},
+    {d:5,ll:[34.4342,135.2440],n:'KIX 반납',t:'8/11 13:20',x:'게로 10:00 출발 → 3시간 20분. 버퍼 3시간.',s:1}
+  ];
+
+  function init(){
+    var el=document.getElementById('livemap');
+    if(!el || typeof L==='undefined') return;
+    var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var map=L.map(el,{scrollWheelZoom:false});
+    var base=L.tileLayer('https://{s}.basemaps.cartocdn.com/'+(dark?'dark_all':'rastertiles/voyager')+'/{z}/{x}/{y}{r}.png',{
+      maxZoom:18, subdomains:'abcd', attribution:'&copy; OpenStreetMap &copy; CARTO'
+    }).addTo(map);
+    var swapped=false;
+    base.on('tileerror', function(){
+      if(swapped) return; swapped=true; map.removeLayer(base);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,
+        attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+    });
+
+    var groups={}, all=[];
+    Object.keys(ROUTES).forEach(function(d){
+      var g=L.layerGroup().addTo(map);
+      L.polyline(ROUTES[d],{color:COLORS[d],weight:5,opacity:.85}).addTo(g);
+      groups[d]=g; all=all.concat(ROUTES[d]);
+    });
+    LIFTS.forEach(function(f){
+      L.polyline(f.pts,{color:COLORS[f.d],weight:4,opacity:.95,dashArray:'7 8'}).addTo(groups[f.d]);
+      all=all.concat(f.pts);
+    });
+    STOPS.forEach(function(p){
+      var m=L.circleMarker(p.ll,{radius:p.s?5:8,color:'#fff',weight:2,
+        fillColor:COLORS[p.d],fillOpacity:1});
+      m.bindPopup('<span class="pw" style="background:'+COLORS[p.d]+'">'+p.t+'</span><br><b>'+p.n+'</b><span class="pn">'+p.x+'</span>');
+      m.addTo(groups[p.d]);
+    });
+    map.fitBounds(L.latLngBounds(all).pad(0.06));
+    setTimeout(function(){ map.invalidateSize(); },200);
+
+    document.querySelectorAll('.ms').forEach(function(b){
+      b.addEventListener('click',function(){
+        var d=b.dataset.day, on=b.classList.toggle('on');
+        b.style.background = on ? COLORS[d] : '';
+        b.style.color = on ? '#fff' : '';
+        if(on) map.addLayer(groups[d]); else map.removeLayer(groups[d]);
+      });
+    });
+    document.querySelectorAll('.tab-btn').forEach(function(b){
+      b.addEventListener('click',function(){ setTimeout(function(){ map.invalidateSize(); },220); });
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+
+(function(){
+  var btns=document.querySelectorAll('.tab-btn'), panels=document.querySelectorAll('.panel');
+  function go(name){
+    btns.forEach(function(b){ b.classList.toggle('active', b.dataset.tab===name); });
+    panels.forEach(function(p){ p.classList.toggle('active', p.id==='p-'+name); });
+    if(location.hash.slice(1)!==name) history.replaceState(null,'','#'+name);
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  btns.forEach(function(b){ b.addEventListener('click',function(){ go(b.dataset.tab); }); });
+  var valid=['itin','food','udon','hotel','prep'], h=location.hash.slice(1);
+  if(valid.indexOf(h)!==-1) go(h);
+})();
+</script>
+
+<script>
+/* 마우스오버 이미지 미리보기 — 위키백과 썸네일을 그때그때 가져옵니다 */
+(function(){
+  var card=document.getElementById('hovercard');
+  if(!card) return;
+  var cache={}, timer=null, current=null;
+
+  function candidates(el){
+    var out=[];
+    var w=el.getAttribute('data-wiki');
+    if(w) out.push(w);
+    var href=el.getAttribute('href')||'';
+    var m=href.match(/[?&]q=([^&]+)/);
+    if(m){
+      var q=decodeURIComponent(m[1].replace(/\+/g,' ')).trim();
+      var toks=q.split(/\s+/);
+      out.push(toks[0]);
+      if(toks[1]) out.push(toks[1]);
+      if(toks.length>1) out.push(toks.join(''));
+    }
+    return out.filter(function(v,i,a){ return v && a.indexOf(v)===i; }).slice(0,3);
+  }
+
+  function fetchOne(title){
+    return fetch('https://ja.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(title))
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){
+        if(!j) return null;
+        var img=(j.thumbnail&&j.thumbnail.source)||(j.originalimage&&j.originalimage.source);
+        if(!img) return null;
+        return {img:img.replace(/\/\d+px-/,'/560px-'), title:j.title, extract:j.extract||''};
+      })
+      .catch(function(){ return null; });
+  }
+
+  function resolve(el){
+    var list=candidates(el), key=list.join('|');
+    if(cache[key]!==undefined) return Promise.resolve(cache[key]);
+    var chain=Promise.resolve(null);
+    list.forEach(function(t){
+      chain=chain.then(function(prev){ return prev || fetchOne(t); });
+    });
+    return chain.then(function(res){ cache[key]=res; return res; });
+  }
+
+  function place(e){
+    var w=280, hgt=card.offsetHeight||250;
+    var x=e.clientX+18, y=e.clientY+18;
+    if(x+w>window.innerWidth-12) x=e.clientX-w-18;
+    if(y+hgt>window.innerHeight-12) y=Math.max(12, e.clientY-hgt-18);
+    card.style.left=x+'px'; card.style.top=y+'px';
+  }
+
+  function show(el,e){
+    current=el;
+    resolve(el).then(function(d){
+      if(current!==el || !d) return;
+      card.innerHTML='<img src="'+d.img+'" alt="">'+
+        '<div class="hc-t">'+d.title+'</div>'+
+        (d.extract?'<div class="hc-d">'+d.extract+'</div>':'')+
+        '<div class="hc-s">위키백과</div>';
+      place(e); card.classList.add('on');
+    });
+  }
+  function hide(){ current=null; card.classList.remove('on'); }
+
+  document.addEventListener('mouseover',function(e){
+    var el=e.target.closest('a.ph, a.gc, .uname a');
+    if(!el){ return; }
+    clearTimeout(timer);
+    timer=setTimeout(function(){ show(el,e); },180);
+  });
+  document.addEventListener('mouseout',function(e){
+    var el=e.target.closest('a.ph, a.gc, .uname a');
+    if(el){ clearTimeout(timer); hide(); }
+  });
+  document.addEventListener('mousemove',function(e){
+    if(card.classList.contains('on')) place(e);
+  });
+  window.addEventListener('scroll',hide,{passive:true});
+})();
+</script>
+</body>
+</html>
