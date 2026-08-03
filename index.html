@@ -865,7 +865,7 @@
         if(!j) return null;
         var img=(j.thumbnail&&j.thumbnail.source)||(j.originalimage&&j.originalimage.source);
         if(!img) return null;
-        return {img:img.replace(/\/\d+px-/,'/560px-'), title:j.title, extract:j.extract||''};
+        return {img:img, title:j.title, extract:j.extract||''};
       })
       .catch(function(){ return null; });
   }
@@ -892,11 +892,20 @@
     current=el;
     resolve(el).then(function(d){
       if(current!==el || !d) return;
-      card.innerHTML='<img src="'+d.img+'" alt="">'+
-        '<div class="hc-t">'+d.title+'</div>'+
-        (d.extract?'<div class="hc-d">'+d.extract+'</div>':'')+
-        '<div class="hc-s">위키백과</div>';
-      place(e); card.classList.add('on');
+      var im=new Image();
+      im.onload=function(){
+        if(current!==el) return;
+        card.innerHTML='';
+        card.appendChild(im);
+        var t=document.createElement('div'); t.className='hc-t'; t.textContent=d.title;
+        card.appendChild(t);
+        if(d.extract){ var x=document.createElement('div'); x.className='hc-d'; x.textContent=d.extract; card.appendChild(x); }
+        var s=document.createElement('div'); s.className='hc-s'; s.textContent='위키백과';
+        card.appendChild(s);
+        place(e); card.classList.add('on');
+      };
+      im.onerror=function(){ cache[candidates(el).join('|')]=null; };
+      im.alt=''; im.src=d.img;
     });
   }
   function hide(){ current=null; card.classList.remove('on'); }
