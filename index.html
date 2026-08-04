@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>간사이 ↔ 북알프스 자동차 루트 · 2026.8.7–8.11</title>
+<title>간사이 · 나라와 기이반도 자동차 루트 · 2026.8.7–8.11</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
@@ -181,25 +181,26 @@
 <div class="wrap">
 
 <header>
-  <h1>간사이공항 ↔ 북알프스 4박 5일 자동차 여행</h1>
-  <p class="sub">2026년 8월 7일(금) 19:00 렌트카 출발 · 8월 11일(화) 18:55 KIX 출발편</p>
+  <h1>간사이 4박 5일 · 나라와 기이반도 자동차 여행</h1>
+  <p class="sub">2026년 8월 7일(금) 19:00 KIX 렌트카 출발 · 8월 11일(화) 18:55 KIX 출발편</p>
   <div class="pills">
-    <span class="pill">무로도 2,450m</span>
-    <span class="pill">가미코치</span>
-    <span class="pill">게로온천</span>
-    <span class="pill">시라카와고 · 고카야마</span>
-    <span class="pill">숙소 3곳</span>
-    <span class="pill">총 주행 약 1,270km</span>
+    <span class="pill">나라 사슴</span>
+    <span class="pill">이코마산조 야간</span>
+    <span class="pill">미타라이 계곡</span>
+    <span class="pill">나치폭포</span>
+    <span class="pill">유노미네 온천</span>
+    <span class="pill">호텔 2박 + 에어비앤비 2박</span>
+    <span class="pill">총 주행 약 610km</span>
   </div>
-  <div class="hint">💡 <b>무로도와 가미코치는 자가용 진입 금지</b>입니다. 차를 세우고 케이블카·버스로 갈아탑니다. 밑줄 친 장소를 누르면 사진이, 구글맵 버튼을 누르면 실제 내비 경로가 열립니다.</div>
+  <div class="hint">💡 <b>오사카 시내는 넣지 않았습니다.</b> 사람 적고 풍경 위주로, 나라에서 <b>기이반도 남쪽</b>으로 내려갔다가 해안을 따라 공항으로 돌아오는 시계 반대 방향 루트입니다. 밑줄 친 장소를 누르면 사진이, 구글맵 버튼을 누르면 실제 내비 경로가 열립니다.</div>
 </header>
 
 <nav class="tabs" role="tablist">
   <button class="tab-btn active" data-tab="itin" role="tab">🗺 루트 &amp; 일정</button>
-  <button class="tab-btn" data-tab="food" role="tab">🍽 맛집</button>
-  <button class="tab-btn" data-tab="udon" role="tab">🍜 우동</button>
-  <button class="tab-btn" data-tab="hotel" role="tab">🏨 호텔</button>
-  <button class="tab-btn" data-tab="play" role="tab">🎮 쇼핑 &amp; 게임센터</button>
+  <button class="tab-btn" data-tab="food" role="tab">🍽 당고 &amp; 오코노미야끼</button>
+  <button class="tab-btn" data-tab="view" role="tab">🏞 풍경 스팟</button>
+  <button class="tab-btn" data-tab="hotel" role="tab">🏨 숙소</button>
+  <button class="tab-btn" data-tab="play" role="tab">🎢 이코마 &amp; 놀거리</button>
   <button class="tab-btn" data-tab="prep" role="tab">✅ 준비</button>
 </nav>
 
@@ -208,749 +209,446 @@
 <h2>🗺 루트 지도 <span class="k">날짜별 색 구분 · 마커를 누르면 상세</span></h2>
 <div class="mapbox">
   <div class="mapswitch">
-    <button class="ms on" data-day="1" style="background:#7c5cff;border-color:#7c5cff">8/7 야간 종주</button>
-    <button class="ms on" data-day="2" style="background:#12876c;border-color:#12876c">8/8 시라카와고</button>
-    <button class="ms on" data-day="3" style="background:#2f7fd4;border-color:#2f7fd4">8/9 무로도</button>
-    <button class="ms on" data-day="4" style="background:#cc6b3a;border-color:#cc6b3a">8/10 가미코치</button>
+    <button class="ms on" data-day="1" style="background:#7c5cff;border-color:#7c5cff">8/7 도착</button>
+    <button class="ms on" data-day="2" style="background:#12876c;border-color:#12876c">8/8 나라·이코마</button>
+    <button class="ms on" data-day="3" style="background:#2f7fd4;border-color:#2f7fd4">8/9 계곡</button>
+    <button class="ms on" data-day="4" style="background:#cc6b3a;border-color:#cc6b3a">8/10 폭포·바다</button>
     <button class="ms on" data-day="5" style="background:#c9962a;border-color:#c9962a">8/11 복귀</button>
   </div>
   <div id="livemap"></div>
   <div class="legend">
-    <span class="lg"><i style="background:#7c5cff"></i>8/7 KIX→도야마 460km</span>
-    <span class="lg"><i style="background:#12876c"></i>8/8 시라카와고 왕복 178km</span>
-    <span class="lg"><i style="background:#2f7fd4"></i>8/9 무로도→히라유 240km</span>
-    <span class="lg"><i style="background:#cc6b3a"></i>8/10 가미코치→게로 130km</span>
-    <span class="lg"><i style="background:#c9962a"></i>8/11 게로→KIX 250km</span>
-    <span class="lg"><i style="background:repeating-linear-gradient(90deg,#888 0 5px,transparent 5px 10px)"></i>케이블카·버스(자가용 불가)</span>
+    <span class="lg"><i style="background:#7c5cff"></i>8/7 KIX→나라 65km</span>
+    <span class="lg"><i style="background:#12876c"></i>8/8 나라↔아스카↔이코마 120km</span>
+    <span class="lg"><i style="background:#2f7fd4"></i>8/9 나라→도츠카와 125km</span>
+    <span class="lg"><i style="background:#cc6b3a"></i>8/10 도츠카와→시라하마 170km</span>
+    <span class="lg"><i style="background:#c9962a"></i>8/11 시라하마→KIX 130km</span>
   </div>
-  <div class="gmaps">
-    <a class="gm all" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=関西国際空港&destination=関西国際空港&waypoints=富山駅|白川郷|立山駅|平湯温泉|下呂温泉&travelmode=driving">🗺 전체 루트 구글맵에서 열기<span>경유지 포함</span></a>
-    <a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=関西国際空港&destination=富山駅&travelmode=driving">8/7 KIX → 도야마<span>460km · 4:30</span></a>
-    <a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=富山駅&destination=岩瀬浜駅&waypoints=糸庄本店|白川郷&travelmode=driving">8/8 시라카와고 왕복<span>178km · 2:45</span></a>
-    <a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=富山駅&destination=平湯温泉&waypoints=立山駅|高山陣屋&travelmode=driving">8/9 무로도 → 히라유<span>240km · 4:30</span></a>
-    <a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=平湯温泉&destination=下呂温泉&waypoints=高山陣屋&travelmode=driving">8/10 히라유 → 게로온천<span>130km · 2:30</span></a>
-    <a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=下呂温泉&destination=関西国際空港&travelmode=driving">8/11 게로 → KIX<span>250km · 3:20</span></a>
-  </div>
-  <div class="note" style="margin-top:14px"><b>점선 구간이 핵심입니다.</b> 무로도와 가미코치 모두 <b>자가용이 못 들어갑니다.</b> 지정 주차장에 차를 세우고 케이블카·버스로 갈아타야 하며, 그 환승 시간이 일정의 골격을 결정합니다.</div>
 </div>
 
 <div class="day">
-  <div class="dayhead"><span class="dnum">DAY 1</span><span class="ddate">8/7 (금) · 야간 종주</span><span class="dtag">운전 약 4시간 30분</span></div>
+  <div class="dayhead"><span class="dnum">DAY 1</span><span class="ddate">8/7 (금) · 도착</span><span class="dtag">운전 약 1시간</span></div>
   <ul class="tl">
-    <li><span class="t">19:00</span><span class="ttl">간사이공항 렌트카 수령</span>
-      <div class="desc">수속·차량 점검 30분. ETC 카드 옵션 필수 — 이번 여행은 통행료만 약 ¥28,000입니다.</div></li>
-    <li><span class="t">19:30</span><span class="ttl">KIX → 도야마 직행</span>
-      <div class="desc">한신고속 → 메이신 → 호쿠리쿠도 → 도야마IC. 심야라 정체는 없지만 휴게소 2회 정박 권장.</div>
-      <div class="drive">🚗 460km · 4시간 30분 · 통행료 약 ¥10,000</div></li>
-    <li><span class="t">21:00</span><span class="ttl">1차 휴게 · 다가 SA</span><div class="desc">24시간 푸드코트. 여기서 저녁을 제대로 먹어두세요.</div></li>
-    <li><span class="t">22:40</span><span class="ttl">2차 휴게 · 오노가와 PA</span></li>
-    <li><span class="t">00:30</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=富山駅+夜景">도야마 도착 · 체크인</a></span>
-      <div class="desc">예약 시 <b>“24시 이후 도착”을 반드시 통보</b>하세요. 무인 전환되는 호텔이 있습니다.</div></li>
+    <li><span class="t">19:00</span><span class="ttl">KIX 도착 · 렌트카 수령</span>
+      <div class="desc">수령에 30~40분. <b>ETC 카드 옵션</b>을 꼭 넣으세요. 한신고속·게이나와도를 쓰는데 요금소 현금 처리가 번거롭습니다.</div></li>
+    <li><span class="t">20:00</span><span class="ttl">→ 나라 시내</span>
+      <div class="desc">한신고속 → 니시메이한 → 게이나와도. 야간이라 정체 없습니다.</div>
+      <div class="drive">🚗 65km · 1시간 5분</div></li>
+    <li><span class="t">21:15</span><span class="ttl">🥞 저녁 · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/広島お好み焼き+鉄板酒場+やきとら+奈良">やきとら (히로시마풍 오코노미야끼)</a> <span class="k">★4.6 (54)</span></span>
+      <div class="desc"><b>오코노미야끼 ✓</b> — 나라 시내 오코노미야끼 중 <b>23:00까지 여는 거의 유일한 집</b>입니다. 도착이 늦으니 첫날은 여기가 정답. 히로시마풍(면 들어간 겹겹이)이라 오사카풍과는 다른 계열이에요. 쓰노후리초, 긴테쓰나라역 도보권.</div>
+      <div class="desc" style="margin-top:6px">더 높은 평점의 낮 영업 집들은 <b>「당고 &amp; 오코노미야끼」 탭</b>에 정리해뒀습니다.</div></li>
+    <li><span class="t">22:30</span><span class="ttl">숙소 체크인</span>
+      <div class="desc">편의점에서 <b>내일 아침용 물·간식</b>만 사두세요. 내일은 6시 반에 나갑니다.</div></li>
   </ul>
-  <div class="note"><b>ETC 심야할인</b> — 0~4시 사이 고속도로 위에 있으면 30% 할인. 도야마IC를 0시 이후 나가면 ¥10,000 → 약 ¥7,000.</div>
-  <div class="stay"><b>숙소 A</b> · 도야마 — <b>8/7 · 8/8 2박 연박</b> · 00:30 체크인 가능한 곳으로</div>
+  <div class="note"><b>왜 첫날 밤에 나라까지 가는가</b> — 공항 근처에 자면 다음 날 아침 사슴 시간을 놓칩니다. <b>나라공원의 승부처는 아침 7시</b>예요. 1시간 운전해서 나라에 자는 게 이득입니다.</div>
+  <div class="stay"><b>숙소 A</b> · 나라 <b>호텔</b> — <b>8/7 · 8/8 2박 연박</b></div>
 </div>
 
 <div class="day">
-  <div class="dayhead"><span class="dnum">DAY 2</span><span class="ddate">8/8 (토) · 시라카와고 + 이와세</span><span class="dtag">운전 약 2시간 30분</span></div>
+  <div class="dayhead"><span class="dnum">DAY 2</span><span class="ddate">8/8 (토) · 사슴 · 당고 · 이코마 야경</span><span class="dtag">운전 약 3시간</span></div>
   <ul class="tl">
-    <li><span class="t">09:30</span><span class="ttl">늦은 아침 · 야간운전 회복</span>
-      <div class="desc">고산 3연타가 8/9부터 시작됩니다. 합장촌을 시라카와고 한 곳으로 줄여 오늘은 여유가 많습니다.</div></li>
-    <li><span class="t">11:00</span><span class="ttl">🍜 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=鶴喜+富山+手打ちうどん+ざる">鶴喜 · 자루우동 (냉)</a></span>
-      <div class="desc"><b>★4.3 (251)</b> — 리뷰 태그가 <b>덴푸라·자루우동·식감·코시</b> 순서로 뜨는, <b>냉우동으로 먹는 집</b>입니다. 간판은 <b>덴자루우동 ¥1,200</b>. 숙소에서 5분(도야마성터 옆). <b>7~8월엔 11시 오픈</b>이라 오픈 시각에 맞춰 갑니다.</div>
-      <div class="drive">🚗 2km · 5분</div></li>
-    <li><span class="t">13:20</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=白川郷+荻町+展望台">시라카와고 · 오기마치</a></span>
-      <div class="desc">12:15 출발, 호쿠리쿠도 → 도카이호쿠리쿠도 고속 직행. <b>2시간 10분 코스</b>: 셔틀로 시로야마 전망대(15분) → 걸어 내려오며 마을 → 와다케 가옥(¥400) → 데아이바시 → 끝. 무리하게 늘리지 말고 이와세에 시간을 남기세요.</div>
-      <div class="drive">🚗 85km · 1시간 5분</div></li>
-    <li><span class="t">16:50</span><span class="ttl">🛒 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/アルビス+エスタ店+富山">알비스 에스타점</a> · 저녁 장보기 <span class="k">주방 있는 숙소일 때만</span></span>
-      <div class="desc">15:30 시라카와고 출발 → 도야마역 옆 덴테쓰역빌딩 <b>B1</b>. 이와세 가는 길목에 정확히 걸립니다. <b>회는 저녁 늦으면 다 빠지니 이 시각이 마지노선</b>이에요. 사시미 팩 사면 <b>얼음을 무료로 주니 꼭 챙기고</b>, 이와세 도는 1시간 반 동안 차 안에서 보냉백에 두면 됩니다.</div>
-      <div class="drive">🚗 85km · 1시간 20분</div></li>
-    <li><span class="t">17:30</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=岩瀬+富山+町並み">이와세 옛 거리</a></span>
-      <div class="desc"><b>일몰 약 18:50</b>까지 1시간 반. 오마치 거리 산책 → 사세키에서 만수천 시음(운전자 제외) → 도야마항 전망대에서 석양. 아래 <b>「이와세 — 미슐랭 6곳의 항구 마을」</b> 섹션에 가게별로 정리해뒀습니다.</div>
+    <li><span class="t">06:30</span><span class="ttl">🦌 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=奈良公園+鹿+朝靄">나라공원 · 사슴</a> <span class="k">하루 중 유일하게 한적한 시간</span></span>
+      <div class="desc"><b>이 시각이 전부입니다.</b> 9시가 넘으면 나라공원은 관광객으로 덮이는데, <b>이른 아침엔 사람이 거의 없고 사슴은 가장 활발</b>합니다. 여름 아침엔 <b>안개가 깔려</b> 사진도 이때가 제일 좋아요. 사슴센베는 나중에 — 아침엔 그냥 걷기만 해도 사슴이 다가옵니다.</div>
+      <div class="desc" style="margin-top:6px"><b>추천 동선</b> — 우키미도(연못 위 정자) → 도부쿠사 잔디밭 → 가스가타이샤 참배길 삼나무 숲. 관광객은 도다이지 쪽에 몰리니 <b>반대로 도세요.</b></div></li>
+    <li><span class="t">08:30</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=春日大社+万灯籠+回廊">가스가타이샤</a> · 개문 직후</span>
+      <div class="desc">주홍색 회랑에 <b>3,000개의 등롱</b>이 매달린 곳. 개문 직후엔 회랑에 사람이 없습니다. 이어서 <b>가스가야마 원시림</b> 산책로로 빠지면 관광객이 완전히 사라져요.</div></li>
+    <li><span class="t">10:30</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=奈良町+格子の家">나라마치 (奈良町)</a></span>
+      <div class="desc">에도 상가 골목. <b>미가에리 원숭이(붉은 인형)</b>가 처마마다 매달려 있습니다. 좁은 골목이라 관광버스가 못 들어와요.</div>
+      <div class="drive">🚗 25km · 40분</div></li>
+    <li><span class="t">12:30</span><span class="ttl">🍡 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/だんご庄+坊城本店">だんご庄 坊城본점 (당고쇼)</a> <span class="k">당고 ✓</span></span>
+      <div class="desc"><b>1878년(메이지 11년) 창업</b>, 야마토 명물 <b>기나코 당고</b> 한 가지만 150년째. 갓 볶은 콩가루에 초대가 만든 특제 꿀을 입힌 대나무 꼬치 당고입니다. <b>매진되면 그날 끝</b>이고 17시 전에 닫으니 점심때가 안전해요. 가시하라시 히가시보조초 860.</div>
       <div class="drive">🚗 12km · 20분</div></li>
-    <li><span class="t">19:20</span><span class="ttl">🍳 숙소 복귀 · <b>직접 요리</b> <span class="k">플랜 A · 주방 있는 숙소일 때만</span></span>
-      <div class="desc">이와세에서 20분. 사온 회를 접시에 옮기고 밥·국·구이만 직접. <b>「도야마만 장보기 + 요리」 카드</b>에 8월 제철 목록과 손질 난이도를 정리해뒀습니다. 술은 사세키에서 산 만수천으로.</div></li>
-    <li><span class="t">19:00</span><span class="ttl">🍽 <b>플랜 B</b> · 이와세에서 사 먹기</span>
-      <div class="desc">요리가 귀찮아지는 날을 대비한 대안입니다. <b>토요일이라 예약 없이는 사실상 Ikkaku뿐이에요.</b> 전부 이와세 오마치 거리 반경 300m 안이라, 못 잡으면 걸어서 옆집으로 옮기면 됩니다.</div>
-      <table style="margin:10px 0 0">
-        <thead><tr><th>가게</th><th>장르</th><th class="num">평점</th><th class="num">예산</th><th>예약</th></tr></thead>
-        <tbody>
-          <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/御料理ふじ居+岩瀬">御料理 ふじ居</a></b> ⭐⭐</td><td>가이세키</td><td class="num">4.6</td><td class="num">¥10,000+</td><td>필수 · 가장 먼저</td></tr>
-          <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/磯料理松月+岩瀬">磯料理 松月</a></b></td><td>해산물 정찬</td><td class="num">4.4</td><td class="num">¥10,000+</td><td>필수</td></tr>
-          <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/Piatto+Suzuki+Cinque+岩瀬">Piatto Suzuki Cinque</a></b></td><td>이탈리안</td><td class="num">4.3</td><td class="num">¥3,000~9,000</td><td>권장 · <b>1순위 추천</b></td></tr>
-          <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/酒蕎楽くちいわ+岩瀬">酒蕎楽 くちいわ</a></b></td><td>소바+사케</td><td class="num">4.3</td><td class="num">¥10,000+</td><td>필수 · 18:00~</td></tr>
-          <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/鮨GEJO+岩瀬">鮨 GEJO</a></b></td><td>스시 오마카세</td><td class="num">4.2</td><td class="num">¥10,000+</td><td>필수</td></tr>
-          <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/Cave+Yunoki+岩瀬">Cave Yunoki</a></b></td><td>프렌치</td><td class="num">—</td><td class="num">—</td><td>하루 1팀 · 한참 전에</td></tr>
-          <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/Ikkaku+岩瀬+居酒屋">Ikkaku</a></b></td><td>해산물 이자카야</td><td class="num">4.2</td><td class="num">¥2,000~3,000</td><td><b>예약 없이 가능</b> · 백업</td></tr>
-          <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/KOBO+Brew+Pub+岩瀬">KOBO Brew Pub</a></b></td><td>크래프트비어+소시지</td><td class="num">4.5</td><td class="num">—</td><td><b>예약 없이 가능</b> · 11:00~</td></tr>
-        </tbody>
-      </table>
-      <div class="drive">🍶 산책 코스: 오마치 거리 → <b>사세키</b>에서 만수천 시음(운전자 제외) → 도야마항 전망대 석양 → 저녁</div>
-      <div class="desc" style="margin-top:8px">이와세를 접고 <b>도야마 시내로 돌아가면</b> 차로 20분, <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/廻る富山湾+すし玉+富山">廻る富山湾 すし玉(★3.9)</a>나 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/白えび亭+富山駅">白えび亭(★4.2)</a>에서 흰새우·방어를 먹는 쪽이 편합니다.</div></li>
+    <li><span class="t">14:00</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=明日香村+石舞台古墳+田園">아스카무라 (明日香村)</a> <span class="k">사람 없는 논밭 풍경</span></span>
+      <div class="desc"><b>이번 일정에서 가장 한적한 낮 시간입니다.</b> 일본 최초의 도읍터인데 지금은 논밭과 고분만 남아 있어요. <b>이시부타이 고분</b>(77톤 거석 무덤)과 <b>다카마쓰즈카 고분</b>, 그리고 사방이 트인 논 풍경. 관광지라기보다 시골 드라이브에 가깝습니다.</div>
+      <div class="drive">🚗 35km · 55분</div></li>
+    <li><span class="t">17:00</span><span class="ttl">🎡 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=生駒山上遊園地+夜景">이코마산조 유원지 · 야간</a> <span class="k">야경 ✓</span></span>
+      <div class="desc">해발 642m 이코마산 정상. <b>입원료 무료</b>이고 오사카 평야가 통째로 발밑에 깔립니다. 해가 지면서 야경으로 바뀌는 시간대가 본편이에요. <b>시기이코마 스카이라인(유료도로)</b>으로 올라갑니다.</div>
+      <div class="desc" style="margin-top:6px">⚠️ <b>8월 「평일」은 12:00~21:00 서머타임 영업</b>이 공식 확인됐습니다. <b>8/8은 토요일이라 주말 시간표를 반드시 확인</b>하세요 — 자세한 건 「이코마 &amp; 놀거리」 탭에 정리해뒀습니다.</div>
+      <div class="drive">🚗 40km · 1시간</div></li>
+    <li><span class="t">21:30</span><span class="ttl">→ 나라 숙소 복귀</span>
+      <div class="drive">🚗 20km · 35분</div></li>
   </ul>
-  <div class="note"><b>구로베 협곡 트롯코는 뺐습니다.</b> 2024년 노토반도 지진으로 히가시가네쓰리산 사면에서 낙석이 발생해 <b>가네쓰리교가 손상</b>됐고, 그 위쪽 네코마타~게야키평 구간이 끊겼습니다. 복구 중 추가 낙석 방지 공사가 필요하다는 게 드러나 재개가 계속 밀렸고, <b>전 구간 재개는 2026년 10월 1일</b>입니다. 8월엔 우나즈키~네코마타 왕복(2시간)만 가능해요.</div>
-  <div class="stay"><b>숙소 A</b> · 도야마 (연박)</div>
+  <div class="stay"><b>숙소 A</b> · 나라 (연박)</div>
 </div>
 
 <div class="day">
-  <div class="dayhead"><span class="dnum">DAY 3</span><span class="ddate">8/9 (일) · 무로도 2,450m → 히라유온천</span><span class="dtag">운전 약 4시간 30분</span></div>
+  <div class="dayhead"><span class="dnum">DAY 3</span><span class="ddate">8/9 (일) · 계곡과 현수교, 산속으로</span><span class="dtag">운전 약 3시간 15분</span></div>
   <ul class="tl">
-    <li><span class="t">06:30</span><span class="ttl">체크아웃 → <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=立山駅+ケーブルカー">다테야마역</a></span>
-      <div class="desc"><b>짐을 다 싣고 나갑니다.</b> 오늘 밤은 히라유에서 자니까요. 무료 주차 900대 + 임시 600대.</div>
-      <div class="drive">🚗 35km · 50분</div></li>
-    <li><span class="t">08:00</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=美女平+高原バス+立山">케이블카 7분 → 비조다이라 → 고원버스 50분 → 무로도</a></span>
-      <div class="desc">왕복 성인 약 <b>¥8,180</b>. 버스가 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=称名滝">쇼묘폭포</a> 뷰포인트에서 서행합니다.</div>
-      <div class="drive bus">🚡 자가용 불가 · 편도 60분</div></li>
-    <li><span class="t">09:30</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=みくりが池+室堂">미쿠리가이케 순환 산책로</a></span>
-      <div class="desc">약 1시간, 거의 평지. 화산 호수에 다테야마 삼산이 비칩니다. 8월엔 고산식물 절정 + 잔설.</div></li>
-    <li><span class="t">11:00</span><span class="ttl">선택 · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=立山+雄山+山頂">다테야마 오야마(3,003m) 왕복</a></span>
-      <div class="desc">왕복 3~4시간. <b>오늘은 히라유까지 2시간 45분을 더 가야 하니</b> 정상까지 가면 13:30 하산을 못 지킵니다. 체력과 시간을 저울질하세요.</div></li>
-    <li><span class="t">13:30</span><span class="ttl">하산 → 다테야마역</span>
-      <div class="desc">여유롭게 가려면 이 시각이 마지노선입니다.</div></li>
-    <li><span class="t">15:00</span><span class="ttl">국도 41호 → <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=高山+三町+古い町並み">다카야마</a> → <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=平湯温泉+奥飛騨">히라유온천</a></span>
-      <div class="desc">진즈강 협곡을 따라 남하합니다. <b>다카야마를 지나가니 저녁은 여기서</b> — 히다규 호바미소(京や) 또는 우동(いろはにほへと). 맛집 탭 참고.</div>
-      <div class="drive">🚗 170km · 2시간 45분</div></li>
-    <li><span class="t">18:30</span><span class="ttl">히라유온천 도착 · 온천</span>
-      <div class="desc">고산에서 하루 걸은 몸을 노천탕에 담그세요. 내일 가미코치도 아침 승부입니다.</div></li>
+    <li><span class="t">07:30</span><span class="ttl">체크아웃 → 남쪽으로</span>
+      <div class="desc"><b>짐을 다 싣고 나갑니다.</b> 오늘부터 기이반도 남쪽이라 나라로 돌아오지 않아요.</div></li>
+    <li><span class="t">09:20</span><span class="ttl">💧 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=みたらい渓谷+天川村+エメラルド">미타라이 계곡 (みたらい渓谷)</a> <span class="k">이번 여행의 하이라이트</span></span>
+      <div class="desc">덴카와무라의 <b>「덴카와 블루」</b>. 에메랄드빛 소(沼)와 흰 바위, 그 위를 건너는 구름다리가 이어집니다. 8월 산속이라 <b>기온이 시내보다 5~7℃ 낮아요.</b></div>
+      <div class="desc" style="margin-top:6px">⚠️ <b>주차장이 가장 큰 문제입니다.</b> 대수가 적어 <b>여름 주말은 10시 넘으면 만차</b>가 흔해요. 8/9은 <b>일요일</b>이니 <b>9시 전 도착</b>이 사실상 필수입니다. 민영 유료주차(¥1,000)도 있습니다.</div>
+      <div class="drive">🚗 85km · 1시간 45분</div></li>
+    <li><span class="t">09:40</span><span class="ttl">미타라이 유보도 산책</span>
+      <div class="desc">주차장에서 계곡까지 도보 20분. <b>전체 코스는 왕복 2시간 30분</b>이지만, 하이라이트만 보려면 <b>왕복 1시간 30분</b>이면 충분합니다. 계단이 많으니 <b>운동화 필수.</b></div></li>
+    <li><span class="t">12:30</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=天河大辨財天社">덴카와 다이벤자이텐샤</a> · 점심</span>
+      <div class="desc">일본 3대 벤자이텐 중 하나. 예술가들이 찾는 신사로 조용합니다. 마을에 식당이 몇 곳뿐이니 기대치는 낮게.</div>
+      <div class="drive">🚗 8km · 15분</div></li>
+    <li><span class="t">15:00</span><span class="ttl">🌉 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=谷瀬の吊り橋+十津川村">다니세 현수교 (谷瀬の吊り橋)</a></span>
+      <div class="desc">길이 <b>297m, 높이 54m</b>. 관광용이 아니라 <b>주민이 실제로 쓰려고 1954년에 마을 돈을 모아 놓은 다리</b>입니다. 걸으면 출렁이고 발밑으로 계곡이 그대로 보여요. <b>동시 통행 20명 제한.</b></div>
+      <div class="drive">🚗 55km · 1시간 15분</div></li>
+    <li><span class="t">16:30</span><span class="ttl">♨️ <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=十津川温泉+源泉かけ流し">도츠카와 온천</a> 도착 <span class="k">온천 ✓</span></span>
+      <div class="desc">도츠카와무라는 <b>일본에서 가장 넓은 「촌(村)」</b>이고, <b>전국 최초로 「원천 100% 가케나가시 선언」</b>을 한 온천지입니다. 재활용·가열·희석 없이 원천 그대로만 씁니다. 관광객이 거의 없어요.</div>
+      <div class="drive">🚗 20km · 30분</div></li>
   </ul>
-  <div class="note"><b>왜 히라유에서 자나</b> — 가미코치 셔틀버스는 히라유(아칸다나 주차장)에서 <b>30분</b>이면 닿습니다. 도야마에서 출발하면 여기까지만 2시간 45분이라 가미코치 아침을 통째로 날립니다. 오늘 밤 히라유까지 가둬두는 게 이 일정의 핵심 수(手)입니다.</div>
-  <div class="stay"><b>숙소 B</b> · 오쿠히다 히라유온천 <b>1박</b></div>
+  <div class="note"><b>오늘부터 산속입니다.</b> 국도 168호는 편도 1차선에 굽이가 많고 <b>터널·교량 구간이 길어요.</b> 어두워지면 가로등이 없으니 <b>해 지기 전에 숙소에 들어가는 걸</b> 기준으로 잡았습니다. 주유는 <b>고조(五條)에서 반드시</b> — 남쪽은 주유소가 드물고 일찍 닫습니다.</div>
+  <div class="stay"><b>숙소 B</b> · 도츠카와/유노미네 방면 <b>에어비앤비·민박</b> — 8/9 1박</div>
 </div>
 
 <div class="day">
-  <div class="dayhead"><span class="dnum">DAY 4</span><span class="ddate">8/10 (월) · 가미코치 → 다카야마 → 게로온천</span><span class="dtag">운전 약 2시간 30분</span></div>
+  <div class="dayhead"><span class="dnum">DAY 4</span><span class="ddate">8/10 (월) · 세계유산 온천과 일본 최대 폭포</span><span class="dtag">운전 약 4시간</span></div>
   <ul class="tl">
-    <li><span class="t">06:30</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=あかんだな駐車場+平湯">아칸다나 주차장</a> → 셔틀버스</span>
-      <div class="desc">주차 <b>¥600/일</b>. 버스 편도 ¥1,180, <b>왕복권 ¥2,090</b>. 8/8~23은 30분 간격 임시 다이어라 대기가 짧습니다. 첫차는 4:50.</div>
-      <div class="drive bus">🚌 자가용 불가 · 30분</div></li>
-    <li><span class="t">07:10</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=大正池+上高地">다이쇼이케(大正池)</a> 하차</span>
-      <div class="desc"><b>버스를 종점 전에 내리는 게 정석입니다.</b> 물에 잠긴 고사목과 야케다케를 보고 강을 따라 걸어 내려가세요.</div></li>
-    <li><span class="t">08:00</span><span class="ttl">다이쇼이케 → 다시로습원 → <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=河童橋+上高地+穂高">갓파바시(河童橋)</a></span>
-      <div class="desc">약 1시간, 평지 산책로. 갓파바시에서 호타카 연봉이 정면으로 섭니다. 가미코치의 그 사진이 여기예요.</div></li>
-    <li><span class="t">09:30</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=明神池+上高地">묘진이케(明神池)</a> 왕복</span>
-      <div class="desc">갓파바시에서 편도 1시간. 아즈사강 우안 산길로 가서 좌안으로 돌아오면 지루하지 않습니다.</div></li>
-    <li><span class="t">13:00</span><span class="ttl">버스로 아칸다나 복귀 → 출발</span>
-      <div class="desc">센조지키를 뺀 덕에 <b>오후가 통째로 비었습니다.</b> 서두를 필요 없어요.</div></li>
-    <li><span class="t">14:30</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=高山+三町+古い町並み">히다 다카야마 · 산마치 옛 거리</a></span>
-      <div class="desc">8/9엔 저녁만 먹고 지나쳤던 곳을 오늘 제대로 걷습니다. 인파를 피하려면 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=高山+東山遊歩道">히가시야마 산책로</a>(사찰 12곳을 잇는 조용한 언덕길)로 빠지세요.</div>
-      <div class="drive">🚗 55km · 1시간</div></li>
-    <li><span class="t">16:30</span><span class="ttl">다카야마 → <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=下呂温泉+温泉街">게로온천(下呂温泉)</a></span>
-      <div class="desc"><b>구사쓰·아리마와 함께 일본 3대 온천</b>으로 꼽히는 곳. 히다강을 낀 온천 마을이고 무료 족욕탕이 곳곳에 있습니다. 국도 41호를 따라 계속 남하하는 길이라 다음 날 KIX 방향으로도 유리합니다.</div>
-      <div class="drive">🚗 55km · 1시간</div></li>
-    <li><span class="t">17:30</span><span class="ttl">게로 도착 · 온천 · 저녁</span>
-      <div class="desc">고산 이틀을 마무리하는 밤. 1박 2식으로 잡아 히다규를 먹는 걸 권합니다.</div></li>
+    <li><span class="t">08:00</span><span class="ttl">♨️ <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=湯の峰温泉+つぼ湯">유노미네 온천 · 쓰보유 (つぼ湯)</a> <span class="k">세계유산 온천</span></span>
+      <div class="desc"><b>세계유산에 등재된 유일한 온천</b>입니다. 계곡 바닥의 바위를 판 <b>두 평도 안 되는 오두막 탕</b>에 30분씩 <b>한 팀만</b> 들어갑니다. 하루에 <b>일곱 번 색이 바뀐다</b>고 해서 「나나이로노유(七色の湯)」. 1,800년 됐다는 설이 있어요.</div>
+      <div class="desc" style="margin-top:6px">⚠️ <b>번호표를 받아 순서를 기다립니다.</b> 아침 일찍이 대기가 짧아요. 마을 공중탕도 함께 있습니다.</div>
+      <div class="drive">🚗 25km · 35분</div></li>
+    <li><span class="t">09:30</span><span class="ttl">⛩ <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=熊野本宮大社+大斎原+大鳥居">구마노혼구타이샤 + 오유노하라</a></span>
+      <div class="desc">구마노 3사의 총본궁. 진짜 볼거리는 500m 떨어진 <b>오유노하라(大斎原)</b> — 원래 신사가 있던 강 가운데 모래섬으로, <b>높이 33.9m의 일본 최대 도리이</b>가 논 한가운데 서 있습니다. 사방이 트여 있어 사진이 압도적이에요.</div>
+      <div class="drive">🚗 5km · 10분</div></li>
+    <li><span class="t">13:00</span><span class="ttl">🌊 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=那智の滝+青岸渡寺+三重塔">나치폭포 + 세이간토지 삼중탑</a> <span class="k">낙차 133m</span></span>
+      <div class="desc"><b>단일 낙차로는 일본 최대(133m)</b>. 그리고 이 여행 최고의 한 컷이 여기 있습니다 — <b>주홍색 삼중탑과 폭포가 한 화면에 겹치는 구도.</b> 탑 전망대에 오르면 정면으로 폭포가 옵니다. 폭포 바로 아래 <b>히로 신사</b>까지 내려가면 물보라가 닿아요.</div>
+      <div class="drive">🚗 70km · 1시간 30분</div></li>
+    <li><span class="t">16:00</span><span class="ttl">→ 시라하마 방면 해안 드라이브</span>
+      <div class="desc">국도 42호로 <b>구마노나다 해안</b>을 따라 서쪽으로. 오른쪽은 산, 왼쪽은 바다입니다. 중간에 <b>하시구이이와(橋杭岩)</b> — 850m에 걸쳐 바위 기둥 40여 개가 바다로 줄지어 선 국가 명승 — 을 지나니 잠깐 세우세요.</div>
+      <div class="drive">🚗 100km · 2시간</div></li>
+    <li><span class="t">18:30</span><span class="ttl">시라하마 도착 · 저녁</span>
+      <div class="desc">기이반도 남단을 하루에 도는 날이라 가장 깁니다. <b>일몰은 약 18:50</b> — 도착 직후 바다 쪽으로 나가면 딱 맞아요.</div></li>
   </ul>
-  <div class="note"><b>가미코치는 마을이 아니라 자연보호구역입니다.</b> 편의점이 없고 쓰레기통도 없어 <b>쓰레기는 전부 되가져와야</b> 합니다. 곰 출몰 지역이라 안내판을 따르세요. 코스는 전부 평지 산책로라 운동화면 충분합니다.</div>
-  <div class="stay"><b>숙소 C</b> · 게로온천 <b>1박</b></div>
+  <div class="note"><b>오늘이 가장 빡셉니다.</b> 총 4시간 운전에 스팟이 넷이라, <b>어느 하나가 밀리면 나치폭포가 어두워집니다.</b> 여유가 없으면 <b>하시구이이와를 버리세요</b> — 폭포가 훨씬 중요합니다. 반대로 시간이 남으면 나치에서 <b>다이몬자카(大門坂)</b> 돌계단 삼나무길을 왕복 40분에 걸을 수 있습니다.</div>
+  <div class="stay"><b>숙소 C</b> · 시라하마 방면 <b>에어비앤비</b> — 8/10 1박</div>
 </div>
 
 <div class="day">
-  <div class="dayhead"><span class="dnum">DAY 5</span><span class="ddate">8/11 (화) · 복귀</span><span class="dtag">운전 약 3시간 20분</span></div>
+  <div class="dayhead"><span class="dnum">DAY 5</span><span class="ddate">8/11 (화) · 해안 절경 → 복귀</span><span class="dtag">운전 약 2시간</span></div>
   <ul class="tl">
-    <li><span class="t">09:00</span><span class="ttl">게로온천 아침 산책 · 아침탕</span>
-      <div class="desc">체크아웃 전에 온천 한 번 더. 온천 거리와 무료 족욕탕을 둘러볼 여유가 있습니다.</div></li>
-    <li><span class="t">10:00</span><span class="ttl">출발 → 간사이공항</span>
-      <div class="desc">국도 41호 → 도카이칸조도 → 메이신 → 한신고속. 나고야권 정체가 유일한 변수입니다.</div>
-      <div class="drive">🚗 250km · 3시간 20분 · 통행료 약 ¥6,500</div></li>
-    <li><span class="t">13:10</span><span class="ttl">🛍 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=りんくうプレミアム・アウトレット">린쿠 프리미엄 아울렛</a> <span class="k">★4.1 (15,605)</span></span>
-      <div class="desc"><b>공항 다리 건너기 직전</b>, KIX에서 차로 10분. 렌트카를 반납하면 다시 나오기 번거로우니 <b>반드시 반납 전에</b> 들르세요. 200여 개 브랜드, 10:00 오픈. 주차 무료.</div>
-      <div class="drive">🚗 게로에서 245km · 3시간 10분</div></li>
-    <li><span class="t">14:10</span><span class="ttl">🛒 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=イオンモールりんくう泉南">이온몰 린쿠센난</a> <span class="k">★3.9 (6,773)</span></span>
-      <div class="desc">아울렛에서 <b>차로 5분</b>. 여기가 <b>마트 담당</b>입니다 — 이온 식품관에서 과자·조미료·레토르트·주류를 한 번에. 캐리어 무게 계산하면서 담으세요. 트렁크에 바로 실을 수 있는 게 렌트카 마지막 날의 장점입니다.</div>
-      <div class="drive">🚗 3km · 5분</div></li>
-    <li><span class="t">15:00</span><span class="ttl">주유 → KIX 반납</span>
-      <div class="desc">반납 30분 전 공항 근처 주유소에서 만땅. 아울렛·이온 근처에 주유소가 있으니 <b>쇼핑 끝나고 바로</b> 넣고 들어가세요. 반납 후 터미널 셔틀 10분.</div>
-      <div class="drive">🚗 12km · 20분</div></li>
-    <li><span class="t">16:00</span><span class="ttl">체크인 · 공항에서 정리</span>
-      <div class="desc">면세 한도와 <b>기내 반입 액체(100ml)</b> 다시 확인. 사케·간장은 무조건 위탁수하물로.</div></li>
+    <li><span class="t">08:30</span><span class="ttl">🪨 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=三段壁+白浜+断崖">산단베키 (三段壁)</a></span>
+      <div class="desc">높이 <b>50m, 길이 2km</b>의 수직 절벽이 바다로 곧장 떨어집니다. 엘리베이터로 <b>지하 36m 동굴</b>까지 내려가면 파도가 바위굴을 때리는 걸 코앞에서 봅니다.</div></li>
+    <li><span class="t">09:40</span><span class="ttl"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=千畳敷+白浜+夕日">센조지키 (千畳敷)</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=白良浜">시라라하마 해변</a></span>
+      <div class="desc">사암이 파도에 깎여 <b>다다미 천 장처럼 층층이 펼쳐진 바위 대지.</b> 울타리가 없어 그냥 걸어 다닐 수 있습니다. 이어서 <b>시라라하마</b>는 이름 그대로 <b>새하얀 석영 모래</b> 해변이에요.</div>
+      <div class="drive">🚗 3km · 8분</div></li>
+    <li><span class="t">11:30</span><span class="ttl">→ 간사이공항</span>
+      <div class="desc">한와도 → 한신고속. <b>3시간 이상 버퍼가 있으니</b> 도중 SA나 공항에서 느긋하게 점심 드세요.</div>
+      <div class="drive">🚗 130km · 2시간</div></li>
+    <li><span class="t">13:30</span><span class="ttl">주유 → KIX 반납</span>
+      <div class="desc">반납 30분 전 공항 근처 주유소에서 만땅. 셔틀 10분.</div></li>
     <li><span class="t">18:55</span><span class="ttl">이륙</span></li>
   </ul>
-  <div class="note"><b>센조지키 카르를 뺀 이유</b> — 무로도와 겹칩니다. 성인은 다르지만(무로도는 화산, 센조지키는 빙하 권곡) <b>8월엔 눈이 거의 없어 "고산 초원 + 바위산" 인상이 상당히 비슷</b>하고, 규모는 무로도가 압도적입니다(하루 종일 vs 40~50분). 게다가 <b>센조지키 로프웨이는 예약제가 없어</b> 귀국일 아침에 1시간 넘는 대기를 감수해야 했습니다. 그 도박을 빼면서 <b>마지막 날 운전이 4시간 20분 → 3시간 20분</b>으로 줄고 여유가 3시간 생겼습니다.<br><br>
-  <b>그래도 가고 싶다면</b> — 8/10에 가미코치를 오전만 보고 고마가네로 이동, 8/11 첫차(6시대)로 올라갔다 10:30 전에 출발하는 방식뿐입니다. 다카야마와 게로온천은 포기해야 합니다.</div>
+  <div class="note"><b>여유가 크게 남습니다.</b> 마지막 날 운전이 2시간뿐이라, 시라하마에서 <b>사키노유(崎の湯)</b> — 바위에 붙어 파도가 튀는 <b>1,350년 된 노천탕</b> — 를 하나 더 넣어도 됩니다. 수영복 불가, 비누 사용 불가인 순수 노천탕입니다.</div>
 </div>
 
 <h2>구간 요약</h2>
 <table>
   <thead><tr><th>구간</th><th class="num">거리</th><th class="num">운전</th><th class="num">통행료</th></tr></thead>
   <tbody>
-    <tr><td>8/7 KIX → 도야마</td><td class="num">460km</td><td class="num">4:30</td><td class="num">¥10,000</td></tr>
-    <tr><td>8/8 도야마 ↔ 시라카와고 ↔ 이와세</td><td class="num">180km</td><td class="num">2:30</td><td class="num">¥4,000</td></tr>
-    <tr><td>8/9 도야마 → 다테야마역 → 히라유</td><td class="num">240km</td><td class="num">4:30</td><td class="num">¥1,500</td></tr>
-    <tr><td>8/10 히라유 → 다카야마 → 게로온천</td><td class="num">110km</td><td class="num">2:00</td><td class="num">—</td></tr>
-    <tr><td>8/11 게로온천 → KIX</td><td class="num">250km</td><td class="num">3:20</td><td class="num">¥6,500</td></tr>
-    <tr><td><b>합계</b></td><td class="num"><b>약 1,250km</b></td><td class="num"><b>약 17시간 50분</b></td><td class="num"><b>약 ¥22,000</b></td></tr>
+    <tr><td>8/7 KIX → 나라</td><td class="num">65km</td><td class="num">1:05</td><td class="num">약 ¥2,000</td></tr>
+    <tr><td>8/8 나라 ↔ 아스카 ↔ 이코마</td><td class="num">120km</td><td class="num">3:00</td><td class="num">스카이라인 별도</td></tr>
+    <tr><td>8/9 나라 → 미타라이 → 도츠카와</td><td class="num">125km</td><td class="num">3:15</td><td class="num">대부분 무료</td></tr>
+    <tr><td>8/10 도츠카와 → 나치 → 시라하마</td><td class="num">170km</td><td class="num">4:00</td><td class="num">일부 무료구간</td></tr>
+    <tr><td>8/11 시라하마 → KIX</td><td class="num">130km</td><td class="num">2:00</td><td class="num">약 ¥3,500</td></tr>
+    <tr><td><b>합계</b></td><td class="num"><b>약 610km</b></td><td class="num"><b>약 13:20</b></td><td class="num">—</td></tr>
   </tbody>
 </table>
-
-<h2>고산 2곳 환승 정보 <span class="k">둘 다 자가용 진입 금지</span></h2>
-<table>
-  <thead><tr><th>목적지</th><th>주차</th><th>환승</th><th class="num">왕복 요금</th></tr></thead>
-  <tbody>
-    <tr><td><b>무로도</b> 2,450m<br><span style="color:var(--muted);font-size:12.5px">8/9</span></td><td>다테야마역<br><b>무료</b> 900대</td><td>케이블카 7분<br>+ 고원버스 50분</td><td class="num">약 ¥8,180</td></tr>
-    <tr><td><b>가미코치</b> 1,500m<br><span style="color:var(--muted);font-size:12.5px">8/10</span></td><td>아칸다나<br><b>¥600</b>/일</td><td>셔틀버스 30분<br>8/8~23 30분 간격</td><td class="num">¥2,090</td></tr>
-  </tbody>
-</table>
-<div class="note"><b>무로도는 공식 WEB티켓으로 시간 지정 예매가 되니 꼭 하세요.</b> 가미코치 셔틀버스는 예약 없이 타되 8/8~23은 30분 간격으로 증편되어 대기가 짧습니다. 둘 다 <b>오전에 올라가는 게 정석</b>입니다 — 오후엔 구름이 끼고 소나기가 잦습니다.</div>
+<div class="note"><b>거리는 짧습니다.</b> 대신 <b>산길 비중이 훨씬 높아요</b> — 국도 168호·309호는 편도 1차선 굽잇길이라 같은 거리도 시간이 더 걸리고 피로도가 큽니다. 표의 시간은 그걸 반영한 값입니다.</div>
 
 <h2>📷 사진으로 미리보기</h2>
 <div class="gal">
-  <a class="gc" target="_blank" rel="noopener" data-wiki="下呂温泉" href="https://www.google.com/search?tbm=isch&q=下呂温泉+温泉街"><div class="th">♨️</div><div class="cap"><div class="cn">게로온천</div><div class="cd">일본 3대 온천 · 8/10</div></div></a>
-  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=河童橋+上高地+穂高"><div class="th">🌲</div><div class="cap"><div class="cn">가미코치 갓파바시</div><div class="cd">호타카 연봉 · 8/10</div></div></a>
-  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=みくりが池+室堂"><div class="th">🗻</div><div class="cap"><div class="cn">무로도 미쿠리가이케</div><div class="cd">2,450m · 8/9</div></div></a>
-  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=大正池+上高地"><div class="th">💧</div><div class="cap"><div class="cn">다이쇼이케</div><div class="cd">잠긴 고사목 · 8/10</div></div></a>
-  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=明神池+上高地"><div class="th">⛩</div><div class="cap"><div class="cn">묘진이케</div><div class="cd">8/10</div></div></a>
-  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=白川郷+荻町+展望台"><div class="th">🏘</div><div class="cap"><div class="cn">시라카와고</div><div class="cd">8/8</div></div></a>
-  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=称名滝"><div class="th">🌊</div><div class="cap"><div class="cn">쇼묘폭포</div><div class="cd">낙차 350m · 8/9</div></div></a>
-  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=平湯温泉+露天風呂"><div class="th">♨️</div><div class="cap"><div class="cn">히라유온천</div><div class="cd">8/9 숙박</div></div></a>
-  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=高山+三町+古い町並み"><div class="th">🏯</div><div class="cap"><div class="cn">다카야마 산마치</div><div class="cd">8/10 오후</div></div></a>
-  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=岩瀬+富山+町並み"><div class="th">🏮</div><div class="cap"><div class="cn">이와세 옛 거리</div><div class="cd">8/8</div></div></a>
-  <a class="gc" target="_blank" rel="noopener" data-wiki="高山市" href="https://www.google.com/search?tbm=isch&q=高山+東山遊歩道"><div class="th">⛩</div><div class="cap"><div class="cn">히가시야마 산책로</div><div class="cd">다카야마 · 8/10</div></div></a>
-  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=富山湾寿司+白えび"><div class="th">🍣</div><div class="cap"><div class="cn">도야마 만 스시</div><div class="cd">8/8</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=奈良公園+鹿+朝靄"><div class="th">🦌</div><div class="cap"><div class="cn">나라공원 사슴</div><div class="cd">8/8 아침</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=みたらい渓谷+天川村"><div class="th">💧</div><div class="cap"><div class="cn">미타라이 계곡</div><div class="cd">덴카와 블루 · 8/9</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=那智の滝+三重塔"><div class="th">🌊</div><div class="cap"><div class="cn">나치폭포 + 삼중탑</div><div class="cd">낙차 133m · 8/10</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=生駒山上遊園地+夜景"><div class="th">🎡</div><div class="cap"><div class="cn">이코마산조 야경</div><div class="cd">642m · 8/8</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=大斎原+大鳥居+熊野本宮"><div class="th">⛩</div><div class="cap"><div class="cn">오유노하라 대도리이</div><div class="cd">33.9m · 8/10</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=谷瀬の吊り橋"><div class="th">🌉</div><div class="cap"><div class="cn">다니세 현수교</div><div class="cd">297m · 8/9</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=湯の峰温泉+つぼ湯"><div class="th">♨️</div><div class="cap"><div class="cn">유노미네 쓰보유</div><div class="cd">세계유산 온천 · 8/10</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=三段壁+白浜"><div class="th">🪨</div><div class="cap"><div class="cn">산단베키</div><div class="cd">절벽 50m · 8/11</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=千畳敷+白浜"><div class="th">🏖</div><div class="cap"><div class="cn">센조지키</div><div class="cd">8/11</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=明日香村+石舞台古墳"><div class="th">🌾</div><div class="cap"><div class="cn">아스카무라</div><div class="cd">논밭과 고분 · 8/8</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=春日大社+回廊+灯籠"><div class="th">🏮</div><div class="cap"><div class="cn">가스가타이샤 회랑</div><div class="cd">8/8</div></div></a>
+  <a class="gc" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=橋杭岩+串本"><div class="th">🗿</div><div class="cap"><div class="cn">하시구이이와</div><div class="cd">8/10 경유</div></div></a>
 </div>
-
-<h2>➕ 기타 후보 <span class="k">아직 일정에 안 넣은 것 · 넣고 싶으면 말만 하세요</span></h2>
-
-<div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=新穂高ロープウェイ+西穂高口+展望台">신호타카 로프웨이</a></span><span class="rank">1순위 · 시간이 딱 맞음</span><span class="uwhen">8/10 오전</span></div>
-  <div class="udesc">히라유온천에서 국도 471호로 30분. <b>일본 유일의 2층 곤돌라</b>로 니시호타카구치 전망대(<b>해발 2,156m</b>)까지 올라가면 북알프스가 눈높이에 펼쳐집니다.<br><br><b>가미코치와 중복이 아니라 짝입니다.</b> 가미코치는 골짜기 바닥에서 호타카 연봉을 <b>올려다보는</b> 곳이고, 신호타카는 그 똑같은 산을 <b>위에서 내려다보는</b> 곳이에요.</div>
-  <div class="umeta">
-    <b>넣는 법</b><span>가미코치 09:30 마무리 → 아칸다나 11:00 복귀 → <b>신호타카 11:30~13:00</b> → 다카야마 14:00. 기존 일정을 거의 안 건드립니다</span>
-    <b>영업</b><span>8월 8:30~16:00 (토·일·공휴일 8:00 시작)</span>
-    <b>요금</b><span>제1·2 연결 왕복 성인 <b>¥3,800</b></span>
-    <b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://shinhotaka-ropeway.jp/">공식 사이트</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/新穂高ロープウェイ">구글맵</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=西穂高口+展望台+北アルプス">사진</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=平湯温泉&destination=新穂高ロープウェイ&travelmode=driving">히라유에서 길찾기</a></span>
-  </div>
-  <div class="htags"><span class="tg ok">2,156m</span><span class="tg ok">일정 충돌 없음</span><span class="tg ok">일본 유일 2층 곤돌라</span></div>
-</div>
-
-<div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=高山陣屋">다카야마 진야 (高山陣屋)</a></span><span class="rank b">30분짜리 공짜 추가</span><span class="uwhen">8/10 오후</span></div>
-  <div class="udesc">에도시대 <b>군다이(郡代) 관청이 건물째 남아 있는 전국 유일한 곳.</b> 막부 말에 60여 곳이 있었는데 원형이 남은 건 여기뿐입니다. <b>산마치에서 도보 5분</b>이라 이미 가는 김에 얹는 수준이에요.</div>
-  <div class="umeta">
-    <b>영업</b><span>4~10월 8:45~17:00 (입장 16:30 마감)</span>
-    <b>요금</b><span>¥500 · 고등학생 이하 무료</span>
-    <b>위치</b><span>다카야마시 하치켄마치 1-5 · JR 다카야마역 도보 10분</span>
-    <b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.kankou-gifu.jp/spot/detail_1242.html">기후현 관광공식</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/高山陣屋">구글맵</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=高山陣屋+内部">사진</a></span>
-  </div>
-  <div class="htags"><span class="tg ok">현존 유일</span><span class="tg ok">산마치 도보 5분</span><span class="tg">30분이면 충분</span></div>
-</div>
-
-<div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=称名滝">쇼묘폭포 (称名滝)</a></span><span class="rank c">넣으려면 일정 조정 필요</span><span class="uwhen">8/9</span></div>
-  <div class="udesc"><b>낙차 350m, 일본에서 가장 높은 폭포.</b> 4단으로 떨어집니다. 다테야마역에서 차로 15분, <b>무료 주차장 247대</b>에서 도보 30분.</div>
-  <div class="umeta">
-    <b>걸림돌</b><span>8/9은 06:30 체크아웃 → 08:00 케이블카라 <b>아침엔 못 끼웁니다.</b> 하산 후에 넣으면 다카야마 저녁이 밀려요. <b>무로도 하산을 한 편 앞당기면</b> 가능</span>
-    <b>통행</b><span>7~8월 6:00~19:00</span>
-    <b>8월 주의</b><span>옆에 나타나는 <b>하노키폭포는 눈 녹는 봄에만</b> 보입니다. 8월엔 본류만</span>
-    <b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.town.tateyama.toyama.jp/kankojoho/6660.html">다테야마초 공식 안내</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/称名滝">구글맵</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=称名滝+ハンノキ滝">사진</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=立山駅&destination=称名平駐車場&travelmode=driving">다테야마역에서 길찾기</a></span>
-  </div>
-  <div class="htags"><span class="tg ok">일본 최고 낙차</span><span class="tg ok">주차 무료</span><span class="tg chk">왕복 1시간 15분</span></div>
-</div>
-
-<div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=黒部ダム+観光放水">구로베댐 관광방수</a></span><span class="rank c">장관이지만 이번엔 포기 권장</span><span class="uwhen">8/9</span></div>
-  <div class="udesc">높이 <b>186m 아치댐</b>에서 쏟아지는 물줄기에 무지개가 서는, 알펜루트의 상징입니다. <b>2026년 방수는 6/26~10/15</b>, 8월은 6:30~17:00.</div>
-  <div class="umeta">
-    <b>왜 무리인가</b><span>무로도 → 다이칸보 → 구로베다이라 → 댐이 <b>편도 1시간 40분.</b> 왕복 3시간 20분에 관람까지 <b>4시간</b>이 붙습니다</span>
-    <b>넣으려면</b><span>8/9에 히라유까지 가는 걸 포기하고 <b>다테야마 근처에서 1박 추가.</b> 4박 일정 전체가 흔들립니다</span>
-    <b>솔직히</b><span>무로도까지 가서 안 보는 건 아쉽지만, 이번 루트로는 물리적으로 안 됩니다</span>
-    <b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.kurobe-dam.com/">구로베댐 공식</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.alpen-route.com/">알펜루트 공식</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/黒部ダム">구글맵</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=黒部ダム+観光放水+虹">사진</a></span>
-  </div>
-  <div class="htags"><span class="tg ok">알펜루트의 상징</span><span class="tg chk">왕복 4시간</span><span class="tg chk">숙박 재조정 필요</span></div>
-</div>
-
-<div class="note"><b>빼는 걸 권하는 곳 하나 — 아마하라시 해안(雨晴海岸)</b><br>
-"바다 위로 3,000m급 다테야마 연봉이 솟는 <b>일본 유일의 풍경</b>"으로 유명하고 도야마역에서 40분이라 후보로 자주 오릅니다. 그런데 그 풍경이 보이는 건 <b>대기가 맑고 건조한 늦가을~겨울</b>이에요. <b>8월엔 습해서 연봉이 거의 안 보입니다.</b> 검색하면 나오는 그 사진들은 전부 겨울 사진입니다.<br>
-<a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/雨晴海岸">구글맵</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=雨晴海岸+立山連峰">사진 (대부분 겨울)</a></div>
 </section>
 
 <section class="panel" id="p-food">
-<h2>🍽 코스 위의 맛집 <span class="k">구글 평점 포함 · 날짜순</span></h2>
-<div class="note" style="margin-bottom:16px">이번 루트는 <b>고산에 있는 시간이 길어</b> 제대로 된 식사를 할 수 있는 타이밍이 8/8 도야마와 8/9 다카야마 두 번뿐입니다. 나머지는 도시락과 숙소 식사로 채우는 게 현실적이에요.</div>
+<h2>🍡 당고 <span class="k">필수 항목</span></h2>
 
-<h3>8/7 (금) 심야</h3>
 <div class="card">
-  <div class="uhead"><span class="uname">고속도로 SA · PA</span><span class="ubadge">현실적 선택</span><span class="uwhen">8/7 21:00</span></div>
-  <div class="udesc">19:30 출발이라 일반 식당은 이미 닫습니다. <b>다가 SA(메이신)</b>의 24시간 푸드코트가 무난합니다. 도야마 도착이 00:30이니 여기서 제대로 먹어두세요.</div>
-</div>
-
-<h3>8/8 (토) 도야마 — 이번 여행 최고의 식사 날</h3>
-<div class="card">
-  <div class="uhead">
-    <span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=廻る富山湾+すし玉+富山駅店">廻る富山湾 すし玉 (도야마역점)</a></span>
-    <span class="gr"><span class="st">★</span>3.9<span class="cnt">(1,510)</span></span>
-    <span class="uwhen">8/8 토 저녁 ✓</span>
-  </div>
-  <div class="udesc">가나자와 명문 「타마즈시」의 세컨드 브랜드. 회전초밥인데 수준이 다릅니다. 고시히카리 + 노토 소금 + 가가 간장 샤리에, 도야마·이시카와 근해 생선만 씁니다. 흰새우 가라아게, 반딧불오징어 덴푸라 같은 안주도 있어요.</div>
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/だんご庄+坊城本店">だんご庄 坊城본점 (당고쇼)</a></span><span class="ubadge chk">1순위 · 8/8 일정에 반영됨</span></div>
+  <div class="udesc"><b>1878년(메이지 11년) 창업</b>, 야마토 지역을 대표하는 당고 노포입니다. 메뉴가 사실상 <b>기나코 당고 하나뿐</b>이에요 — 갓 볶아 향이 살아 있는 콩가루에, 초대가 만든 특제 꿀을 입힌 대나무 꼬치 당고. 소박한데 계속 들어갑니다. 매장에서 앉아 먹을 수도 있어요.</div>
   <div class="umeta">
-    <b>위치</b><span>도야마역 「토야마르셰」 안 — 숙소에서 도보</span>
-    <b>영업</b><span>11:00–21:00 · 연중무휴</span>
-    <b>가격</b><span>가가야키 7관 ¥1,650 · 1인 ¥2,000~ · 한국어 메뉴 있음</span>
-    <b>주의</b><span><b>예약을 안 받습니다.</b> 토요일 저녁은 18시 전에 가세요.</span>
+    <b>위치</b><span>가시하라시 히가시보조초 860 · 아스카 가는 길목에 정확히 걸립니다</span>
+    <b>영업</b><span>~17:00 · <b>매진되면 그날 종료</b>라 점심때가 안전</span>
+    <b>전화</b><span>0744-27-4340</span>
+    <b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/だんご庄+坊城本店">구글맵</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=だんご庄+きな粉だんご">사진</a></span>
   </div>
-</div>
-<div class="card">
-  <div class="uhead">
-    <span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=白えび亭+富山駅+白えび天丼">白えび亭 · 흰새우 튀김덮밥</a></span>
-    <span class="gr"><span class="st">★</span>4.2<span class="cnt">(2,066)</span></span>
-    <span class="uwhen">8/8 점심 대안</span>
-  </div>
-  <div class="udesc">흰새우는 <b>도야마 만에서만 상업적으로 잡힙니다.</b> 껍질을 일일이 벗겨 튀긴 덴동은 다른 데선 못 먹어요. 도야마역 구내, 스시타마와 같은 건물. 재료 소진 시 조기 마감.</div>
-</div>
-<div class="card">
-  <div class="uhead">
-    <span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=西町大喜+富山ブラックラーメン">大喜 西町본점 · 도야마 블랙 라멘</a></span>
-    <span class="gr"><span class="st">★</span>3.3<span class="cnt">(1,276)</span></span>
-    <span class="uwhen">8/8 ✓</span>
-  </div>
-  <div class="udesc"><b>도야마 블랙을 만들어낸 원조.</b> 전후 육체노동자들이 밥반찬으로 먹던 게 기원이라 진짜로 짭니다 — 반드시 <b>공깃밥을 같이</b> 시켜 면·멘마·밥을 섞어 먹어야 의도한 맛이 납니다. 국물을 다 마시는 음식이 아니에요.</div>
-  <div class="umeta">
-    <b>위치</b><span>도야마시 오타구치도리 1-1-7 — <b>주차장 없음</b>, 차는 숙소에 두고 트램</span>
-    <b>영업</b><span>11:00–20:00 · 수요일 휴무 → 8/8 영업</span>
-    <b>가격</b><span>주카소바(보통) ¥950 · 076-423-3001</span>
-  </div>
-  <div class="note" style="margin-top:12px"><b>평점 3.3의 진실</b> — 리뷰 대부분이 "너무 짜다"인데, 먹는 법을 모르고 간 사람들입니다. 맛의 문제가 아니라 <b>주문의 문제</b>예요. 원조를 경험하는 데 가치를 둔다면 가고, 실패 없는 한 끼를 원하면 스시 쪽이 낫습니다.</div>
-</div>
-<div class="card">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=五箇山豆腐+堅豆腐">고카야마 두부</a></span><span class="ubadge">향토</span><span class="uwhen">8/8 낮</span></div>
-  <div class="udesc">새끼줄로 묶어 들어도 안 부서질 만큼 단단합니다. 눈 깊은 산간에서 보존성을 높이려 물을 극도로 뺀 결과라 두부보다 치즈에 가까워요. 시라카와고 오기마치 마을 식당에서도 정식이나 단품으로 냅니다.</div>
 </div>
 
-<h3>8/9 (일) 무로도 · 다카야마</h3>
 <div class="card">
-  <div class="uhead"><span class="uname">무로도 — 도시락을 챙기세요</span><span class="ubadge chk">선택지 없음</span><span class="uwhen">8/9 점심</span></div>
-  <div class="udesc">해발 2,450m라 식당은 터미널과 호텔 다테야마뿐이고 산상 가격입니다. <b>전날 도야마역에서 마스노스시(송어 초밥)를 사서 올라가세요.</b> 대나무 잎에 싸 상온 보관이라 차에 둬도 되고, 미쿠리가이케 근처에서 먹으면 훨씬 기억에 남습니다. <b>쓰레기는 전부 되가져와야</b> 합니다.</div>
-</div>
-<div class="card">
-  <div class="uhead">
-    <span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=飛騨高山+京や+朴葉味噌">飛騨高山 京や (교야)</a></span>
-    <span class="gr hi"><span class="st">★</span>4.5<span class="cnt">(1,292)</span></span>
-    <span class="uwhen">8/9 일 저녁 ✓</span>
-  </div>
-  <div class="udesc"><b>이번 코스 최고 평점.</b> 도야마 → 히라유 이동 중 다카야마를 지나가니 저녁으로 딱 맞습니다. 옛 농가를 옮겨 지은 건물의 <b>이로리(화로)에서 직접 구워</b> 먹어요. 히다 향토요리인 <b>호바미소</b>(호오나무 잎에 된장과 고기를 올려 굽는 것)와 <b>쓰케모노 스테이크</b>를 제대로 하는 몇 안 되는 집.</div>
-  <div class="umeta">
-    <b>위치</b><span>다카야마시 오신마치 1-77 · <b>주차 12대</b></span>
-    <b>영업</b><span>11:00–22:00 (L.O. 21:00)</span>
-    <b>휴무</b><span>화요일 → <b>8/9 일요일 영업</b></span>
-    <b>가격</b><span>히다규 호바미소 정식 ¥1,800 · 스테이크동 ¥2,000 · 교야고젠 ¥3,500</span>
-  </div>
-  <div class="note" style="margin-top:12px"><b>타이밍</b> — 무로도에서 13:30 하산하면 다카야마 도착이 17:30쯤입니다. 저녁을 먹고 히라유까지는 1시간 더 가면 되니 여유롭습니다.</div>
-</div>
-<div class="card">
-  <div class="uhead">
-    <span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=丸明+飛騨高山店+飛騨牛">丸明 히다타카야마점</a></span>
-    <span class="gr"><span class="st">★</span>4.1<span class="cnt">(4,222)</span></span>
-    <span class="uwhen">8/9 대안</span>
-  </div>
-  <div class="udesc">히다규 <b>정육점 직영</b> 야키니쿠라 같은 등급을 시내 절반 가격대에 먹습니다. 분위기는 소박하지만 고기를 양껏 먹고 싶다면 여기. 리뷰 4,222개로 표본이 압도적입니다.</div>
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/にしな光喜庵+広陵町">にしな光喜庵 (니시나 고키안)</a></span><span class="ubadge">미타라시 계열</span></div>
+  <div class="udesc">당고쇼가 <b>콩가루</b> 쪽이라면 여기는 <b>미타라시(간장 단짠 소스)</b> 쪽입니다. <b>나라현산 쌀가루</b>로 뽑아 쫀득하고, 소스가 살짝 매콤해요. <b>국산 쑥을 반죽한 요모기 미타라시</b>는 수량 한정입니다.</div>
+  <div class="umeta"><b>위치</b><span>기타카쓰라기군 고료초 오쓰카 66-1</span><b>영업</b><span>9:00~18:30</span><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/にしな光喜庵+広陵町">구글맵</a></span></div>
 </div>
 
-<h3>8/10 (월) 가미코치 · 게로온천</h3>
-<div class="card">
-  <div class="uhead"><span class="uname">가미코치 — 여기도 도시락</span><span class="ubadge chk">편의점 없음</span><span class="uwhen">8/10 점심</span></div>
-  <div class="udesc">자연보호구역이라 <b>편의점도 쓰레기통도 없습니다.</b> 갓파바시 주변에 식당이 몇 곳 있지만 비싸고 붐빕니다. <b>히라유 숙소에 도시락을 부탁</b>하거나 전날 사두세요. 쓰레기는 전부 되가져와야 합니다.</div>
-</div>
-<div class="card">
-  <div class="uhead"><span class="uname">히라유온천 · 게로온천 저녁</span><span class="ubadge">1박 2식 권장</span><span class="uwhen">8/9 · 8/10</span></div>
-  <div class="udesc">두 곳 다 온천 마을이라 <b>바깥 식당이 일찍 닫고 선택지가 적습니다.</b> 예약할 때 <b>석식 포함(1박 2식)</b>으로 잡는 게 여러모로 낫습니다 — 둘 다 <b>히다규</b>가 메인이고, 게로는 「게로규」로도 불리는 지역 브랜드 소를 씁니다. 게로 온천 거리엔 저녁에 무료 족욕탕이 열려 있어 식후 산책이 좋습니다.</div>
-</div>
+<div class="note"><b>당고 vs 모찌 — 헷갈리기 쉬운 부분</b><br>
+나라 시내에서 유명한 <b>나카타니도(中谷堂)</b>는 <b>당고가 아니라 요모기 모찌</b>입니다. 두 사람이 무섭게 빠른 속도로 떡메를 치는 그 퍼포먼스로 유명한 곳이에요. 당고를 먹으러 갔다가 다른 걸 먹게 되니 <b>둘 다 하고 싶으면 따로 잡으세요.</b> 나카타니도는 나라마치 근처라 <b>8/8 오전 동선에 그냥 걸립니다.</b></div>
 
-<h3>8/11 (화) 복귀</h3>
-<div class="card">
-  <div class="uhead"><span class="uname">여유롭게 · SA 점심 → 린쿠 쇼핑</span><span class="ubadge">버퍼 3시간</span><span class="uwhen">8/11 점심</span></div>
-  <div class="udesc">센조지키를 뺀 덕에 마지막 날이 <b>3시간 20분 운전</b>입니다. 10:00에 나서면 13:10 린쿠 도착. 점심은 <b>도카이칸조도·신메이신 SA</b>(오사이잔·쓰치야마)에서 해결하고, 남은 시간은 전부 <b>린쿠 프리미엄 아울렛 + 이온몰 린쿠센난</b>에 쓰면 됩니다. 공항 다리 건너기 전이라 동선 손해가 없어요.</div>
-</div>
+<h2>🥞 오코노미야끼 <span class="k">필수 항목 · 오사카 시내 제외</span></h2>
+<div class="note" style="margin-bottom:16px"><b>오사카를 뺐지만 아쉬울 게 없습니다.</b> 나라 시내 오코노미야끼 집들이 <b>구글 4.7~4.9</b>로 상당히 강해요. 문제는 <b>영업시간</b>입니다 — 대부분 점심(~15:00)과 저녁(17:00~)으로 쪼개져 있고 일찍 닫습니다.</div>
 
-<h2>🛒 도야마만 장보기 + 요리 <span class="k">8/8 저녁 · 에어비앤비 자취</span></h2>
-<div class="note" style="margin-bottom:16px"><b>동선이 이미 완벽합니다.</b> 시라카와고 15:30 출발 → <b>16:50 알비스 에스타(도야마역)</b> → 17:30 이와세 → 19:20 숙소. 슈퍼가 이와세 가는 길목이라 따로 도는 시간이 0입니다. 다만 <b>회 코너는 저녁이 되면 비므로 17시 전에 들어가야 해요.</b></div>
-
-<div class="card">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/アルビス+エスタ店+富山">アルビス エスタ店 (알비스 에스타)</a></span><span class="gr"><span class="st">★</span>3.7<span class="cnt">(213)</span></span><span class="ubadge chk">1순위</span></div>
-  <div class="udesc"><b>도야마역 바로 옆</b> 덴테쓰토야마역 빌딩 「에스타」 <b>지하 1층</b>. 역세권에서 제대로 된 슈퍼는 사실상 여기뿐입니다. 리뷰 키워드에 <b>사시미</b>가 잡힐 만큼 생선 코너가 강하고, ¥500 안팎 스시 팩도 있습니다. <b>영업이 20시까지</b>라는 리뷰가 있고 <b>토요일 19:30엔 즉석식품이 이미 빠졌다</b>는 후기도 있어요.</div>
-  <div class="umeta"><b>위치</b><span>도야마시 사쿠라마치 1-1-1 · 덴테쓰역빌딩 B1</span><b>영업</b><span>10:00~ (마감 시각 당일 확인)</span><b>결제</b><span>IC카드 가능</span></div>
-</div>
-<div class="card">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/大阪屋ショップ+北新町店+富山">大阪屋ショップ 기타신마치점</a></span><span class="gr"><span class="st">★</span>3.6<span class="cnt">(531)</span></span><span class="ubadge">차로 가면 여기</span></div>
-  <div class="udesc">도야마 로컬 슈퍼 체인. <b>주차장이 있어 렌트카로는 오히려 편하고</b> 매장이 커서 품목이 많습니다. 에스타가 시간에 걸리거나 원하는 게 없으면 여기로. 시내에 지점이 여럿(고후쿠·다로마루·도요타마치)이라 숙소 위치에 맞춰 고르면 됩니다.</div>
-</div>
-
-<h3>8월에 실제로 살 수 있는 것 <span style="font-weight:400;color:var(--muted);font-size:13px">제철을 착각하기 쉬운 부분</span></h3>
 <table>
-  <thead><tr><th>품목</th><th>8월 상태</th><th>손질</th><th>추천 조리</th></tr></thead>
+  <thead><tr><th>가게</th><th class="num">평점</th><th class="num">리뷰</th><th>영업</th><th>메모</th></tr></thead>
   <tbody>
-    <tr><td><b>시로에비 (흰새우)</b></td><td>제철 ○ (4~11월 조업)</td><td><b>껍질 깐 むき身 팩</b>으로 팝니다</td><td>그대로 회 · 간장 살짝 · 가키아게</td></tr>
-    <tr><td><b>이와가키 (암굴)</b></td><td>제철 ◎ (4~8월)</td><td>까 놓은 것도 있음</td><td>생굴 · 레몬 · 구이</td></tr>
-    <tr><td><b>바이가이 (고둥)</b></td><td>제철 ○ (여름)</td><td>삶은 것 판매</td><td>간장 조림 (쓰보야키)</td></tr>
-    <tr><td><b>노도구로 (아카무츠)</b></td><td>연중 · 여름도 좋음</td><td>손질된 토막</td><td><b>소금구이</b> — 프라이팬으로 충분</td></tr>
-    <tr><td><b>마스노스시 (송어초밥)</b></td><td>연중</td><td>불필요</td><td>사서 바로 · 8/9 무로도 도시락으로도</td></tr>
-    <tr><td>호타루이카 (반딧불오징어)</td><td><b>✕ 제철은 3~5월</b></td><td>—</td><td>8월엔 냉동·보존식만</td></tr>
-    <tr><td>부리 (방어)</td><td><b>△ 제철은 겨울 «간부리»</b></td><td>—</td><td>8월 방어는 기대치를 낮추세요</td></tr>
+    <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/お好み焼き染+奈良">お好み焼き 染</a></b></td><td class="num">4.9</td><td class="num">122</td><td>12:00~</td><td>이마미카도초 · 나라 최고 평점</td></tr>
+    <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/Takomi+お好み焼き+奈良+三条町">Takomi (たこみ)</a></b></td><td class="num">4.9</td><td class="num">200</td><td>~19:00</td><td>산조초 · 표본도 충분</td></tr>
+    <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/Omitsu+お好み焼き+奈良">Omitsu</a></b></td><td class="num">4.8</td><td class="num">419</td><td>~15:00 / 17:00~</td><td><b>리뷰 419개에 4.8 — 가장 안전</b></td></tr>
+    <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/お好み焼き+Fuji+奈良+三条町">Fuji</a></b></td><td class="num">4.8</td><td class="num">122</td><td>18:00~</td><td>저녁 전용</td></tr>
+    <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/スルガ町お好み焼き+奈良">수루가마치 오코노미야키</a></b></td><td class="num">4.7</td><td class="num">553</td><td>~15:00 / 17:00~</td><td>산조초 · 리뷰 많음</td></tr>
+    <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/広島お好み焼き+やきとら+奈良">やきとら</a></b> (히로시마풍)</td><td class="num">4.6</td><td class="num">54</td><td><b>~23:00</b></td><td><b>8/7 밤 유일한 선택</b></td></tr>
+    <tr><td><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/おかる+奈良+東向南町">오카루</a></td><td class="num">4.4</td><td class="num">871</td><td>~15:00 / 17:00~</td><td>히가시무키 상점가</td></tr>
   </tbody>
 </table>
-<div class="note"><b>회 + 간단 요리 구성 예시</b> — 시로에비·이와가키는 <b>접시에 옮기기만</b> 하고, 노도구로나 아지를 <b>소금 뿌려 프라이팬에 굽고</b>, 즉석 미소시루와 햇반급 팩밥을 더하면 끝입니다. 슈퍼에서 <b>사시미를 사면 얼음(氷)을 무료로 줍니다</b> — 반드시 받아서 보냉백에 넣으세요. 8월이라 차 안 1시간 반은 얼음 없이는 위험합니다. 보냉백은 100엔숍이나 슈퍼 계산대에서 ¥100~300.</div>
-<div class="note" style="margin-top:10px"><b>사놓으면 편한 것</b> — 간장·소금·기름은 <b>사지 마세요.</b> 대부분의 민박에 기본 조미료가 있습니다(리스팅에서 확인). 대신 <b>즉석 미소시루, 팩밥, 폰즈, 와사비, 레몬</b>만 사면 회 중심 식탁이 완성됩니다. 남은 조미료는 버리고 가야 하니 최소로.</div>
 
-<h2>🏮 이와세 — 미슐랭 6곳의 항구 마을 <span class="k">8/8 저녁 · 도야마역에서 20분</span></h2>
-<div class="note" style="margin-bottom:16px"><b>왜 이 동네에 미슐랭이 모였나</b> — 명주 <b>「만수천(満寿泉)」</b>을 빚는 <b>마스다주조</b> 5대 당주 <b>마스다 류이치로</b>가, 북전선(北前船) 시대 이후 비어가던 회선문제 거리의 빈 상가와 곳간을 사들여 <b>도야마 전역의 요리사들을 이 골목으로 불러 모았습니다.</b> 그 결과 반경 300m 안에 미슐랭 가이드 호쿠리쿠 게재점이 6곳 넘게 모인, 호쿠리쿠 최고 밀도의 미식 거리가 됐어요. 거리 자체는 <b>일본유산</b>으로 등록돼 있습니다.</div>
+<div class="note"><b>어떻게 넣을 것인가</b><br>
+<b>①</b> <b>8/7 밤 21:15 도착</b> — 이 시각에 여는 곳은 사실상 <b>やきとら(23:00까지)</b>뿐입니다. 일정에 이걸로 넣어놨어요.<br>
+<b>②</b> 평점 최상위를 노리려면 <b>8/8 점심</b>에 <b>Omitsu(4.8, 419)</b>나 <b>染(4.9)</b>로 바꾸고, 당고쇼를 오후로 미루는 방법이 있습니다. 다만 <b>당고쇼는 매진되면 끝</b>이라 이쪽이 더 위험해요.<br>
+<b>③</b> 가장 안전한 건 <b>8/7 밤 やきとら + 8/8 점심 Omitsu</b>로 <b>두 번 먹는</b> 겁니다. 히로시마풍과 간사이풍을 비교하게 되니 오히려 이득이에요.</div>
 
+<h2>🍚 나라에서 이것도</h2>
 <div class="card">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=御料理ふじ居+岩瀬">御料理 ふじ居 (후지이)</a></span><span class="gr"><span class="st">★</span>4.6<span class="cnt">(185)</span></span><span class="ubadge">⭐⭐ 2스타</span></div>
-  <div class="udesc">이 거리의 정점. 일본 요리 가이세키로 <b>미슐랭 가이드 호쿠리쿠 2스타</b>. 식재의 대부분을 도야마현 내에서, 생산자에게 직접 받아 씁니다. 정원을 향한 카운터석과 별실. <b>완전 예약제 · 12:00 / 저녁 2부제 · ¥10,000 이상.</b></div>
-  <div class="umeta"><b>위치</b><span>히가시이와세마치 93</span><b>주의</b><span>드레스코드는 없지만 렌트카 복장으로 가기엔 격이 높습니다</span></div>
-</div>
-
-<div class="card">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=Piatto+Suzuki+Cinque+岩瀬">Piatto Suzuki Cinque</a></span><span class="gr"><span class="st">★</span>4.3<span class="cnt">(246)</span></span><span class="ubadge chk">현실적 1순위</span></div>
-  <div class="udesc">도쿄 니시아자부의 명가 「피아트 스즈키」 계열 이탈리안. 도야마 제철 식재와 현지 술을 쓰는 정통 이탈리안인데 <b>분위기는 편하고 가격대가 ¥3,000~9,000</b>이라, 여행 중 저녁으로 가장 현실적입니다. 후지이와 같은 93번지 부지.</div>
-  <div class="umeta"><b>영업</b><span>11:30~ · 예약 권장</span><b>가격</b><span>¥3,000~9,000</span></div>
-</div>
-
-<div class="card">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=Cave+Yunoki+岩瀬">Cave Yunoki (카브 유노키)</a></span><span class="ubadge">프렌치</span></div>
-  <div class="udesc">회선문제 <b>「모리가(森家)」의 100년 된 곳간 하나를 개조</b>한 은신처. 천장이 높고 공간이 근사합니다. <b>디너는 하루 딱 한 팀</b>만 받습니다. 구글 리뷰 자체가 거의 없을 만큼 조용한 곳이라, 가려면 훨씬 전에 잡아야 합니다.</div>
-</div>
-
-<div class="card">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=鮨+GEJO+岩瀬">鮨 GEJO (게조)</a></span><span class="gr"><span class="st">★</span>4.2<span class="cnt">(77)</span></span><span class="ubadge">미슐랭 플레이트</span></div>
-  <div class="udesc">2020년 오픈. 도야마만 어패류에 세계 각지에서 익힌 기법을 얹는 오마카세. 만수천이나 와인과 페어링. <b>12:00 오픈 · ¥10,000 이상 · 예약제.</b></div>
-</div>
-
-<div class="card">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=酒蕎楽くちいわ+岩瀬">酒蕎楽 くちいわ (슈쿄라쿠 구치이와)</a></span><span class="gr"><span class="st">★</span>4.3<span class="cnt">(115)</span></span><span class="ubadge">소바+사케</span></div>
-  <div class="udesc">메밀을 <b>눈앞에서 갈고 치고 삶아</b> 내주는 어른들의 은신처. 소바와 일본술을 코스처럼 엮습니다. <b>18:00 오픈 · ¥10,000 이상 · 예약제.</b></div>
-</div>
-
-<div class="card">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=磯料理+松月+岩瀬">磯料理 松月 (쇼게쓰)</a></span><span class="gr"><span class="st">★</span>4.4<span class="cnt">(348)</span></span><span class="ubadge">해산물 정찬</span></div>
-  <div class="udesc">이와세미나토마치의 노포 해산물 요릿집. 리뷰 348개에 4.4로 <b>이 동네에서 표본과 평점이 동시에 좋은 유일한 집.</b> ¥10,000 이상, 11:30~.</div>
-</div>
-
-<h3>예약 없이 갈 수 있는 곳</h3>
-<div class="card">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=沙石+桝田酒造+岩瀬">沙石 (사세키) · 만수천 시음</a></span><span class="ubadge chk">필수</span></div>
-  <div class="udesc">마스다주조 직영 시음바. <b>셀프 형식</b>이라 부담 없이 들어가 마셔볼 수 있습니다. <b>일반 유통되지 않는 한정주와 빈티지주</b>, 와인 배럴 숙성주까지 비교 시음 가능하고 마음에 들면 그 자리에서 삽니다. <b>운전자는 절대 금물</b> — 마실 사람과 운전할 사람을 미리 정하세요.</div>
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=柿の葉寿司">가키노하즈시 (감잎 초밥)</a></span><span class="ubadge">향토</span></div>
+  <div class="udesc">고등어·연어 초밥을 <b>감잎에 싸서 눌러 숙성</b>시킨 나라 향토음식. 바다가 없는 산간 지역이라 소금에 절인 생선을 오래 두고 먹으려던 방식이에요. <b>상온 보관이 되니 8/9 미타라이 계곡 도시락으로 딱</b>입니다. 나라역·가시하라 어디서든 삽니다.</div>
 </div>
 <div class="card">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=KOBO+Brew+Pub+岩瀬">KOBO Brew Pub</a></span><span class="gr"><span class="st">★</span>4.5<span class="cnt">(344)</span></span><span class="uwhen">11:00~</span></div>
-  <div class="udesc"><b>구 바바가(馬場家) 주택의 쌀 곳간을 개조</b>한 양조장 겸 펍. 체코식 라거에 자체 소시지, 사케 지게미나 과일을 쓴 한정 크래프트도 냅니다. 이 동네에서 평점·리뷰수가 제일 안정적(4.5/344).</div>
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=三輪そうめん">미와 소멘 (三輪素麺)</a></span><span class="ubadge">향토</span></div>
+  <div class="udesc"><b>일본 소멘의 발상지</b>가 나라현 사쿠라이시 미와입니다. 8/8 아스카 가는 길에 미와 지역을 지나니 점심을 여기서 해결해도 좋아요. 여름에 찬 소멘은 실패가 없습니다.</div>
 </div>
-<div class="card">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=Ikkaku+岩瀬+居酒屋">Ikkaku 이자카야</a></span><span class="gr"><span class="st">★</span>4.2<span class="cnt">(118)</span></span><span class="uwhen">¥2,000~3,000</span></div>
-  <div class="udesc">이와세 오마치의 해산물 이자카야. <b>예약 없이 저녁을 해결할 수 있는 사실상 유일한 선택지.</b> 미슐랭 예약을 못 잡았을 때의 백업으로 잡아두세요.</div>
-</div>
-
-<h3>먹는 것 말고 볼 것</h3>
-<div class="card">
-  <div class="udesc">
-    <b>① 이와세 오마치 거리</b> — 북전선(오사카↔홋카이도 일본해 항로) 중계항으로 번성한 회선문제 거리. 메이지기 저택과 흙곳간이 줄지어 있습니다. <b>일본유산</b>.<br>
-    <b>② 구 바바가 주택</b> — 호쿠리쿠 「5대 북전선주」의 하나. 내부 견학 가능하고 지금도 관리되고 있습니다. <b>③ 모리가 주택</b> — 국가지정 중요문화재.<br>
-    <b>④ 도야마항 전망대</b> — 오마치 거리에서 바다 쪽으로 한 블록. 원래 등대였고 지금은 <b>높이 20m 전망실 무료 개방</b>. 맑으면 도야마만 건너 노토반도까지 보입니다. <b>8/8 일몰 약 18:50 — 여기가 석양 포인트.</b><br>
-    <b>⑤ 오쓰카야 삼각 도라야키</b> — 얇고 쫀득한 피로 팥소를 둘둘 만 삼각형. 이 동네 명물 기념품.
-  </div>
-  <div class="umeta"><b>주차</b><span>이와세 카날회관 무료주차 · 오마치 거리 주변 코인파킹 다수</span><b>도야마역에서</b><span>차 20분 / 노면전차 이와세하마행 25분 ¥240</span></div>
-</div>
-
-<h2>구글 평점 한눈에</h2>
-<table>
-  <thead><tr><th>가게</th><th>언제</th><th class="num">평점</th><th class="num">리뷰</th></tr></thead>
-  <tbody>
-    <tr><td><b>飛騨高山 京や</b></td><td>8/9 저녁</td><td class="num">4.5</td><td class="num">1,292</td></tr>
-    <tr><td><b>白えび亭</b></td><td>8/8</td><td class="num">4.2</td><td class="num">2,066</td></tr>
-    <tr><td><b>御料理 ふじ居</b> (이와세·2스타)</td><td>8/8 저녁 후보</td><td class="num">4.6</td><td class="num">185</td></tr>
-    <tr><td><b>鶴喜</b> (냉우동)</td><td>8/8 점심</td><td class="num">4.3</td><td class="num">251</td></tr>
-    <tr><td><b>Piatto Suzuki Cinque</b> (이와세)</td><td>8/8 저녁 후보</td><td class="num">4.3</td><td class="num">246</td></tr>
-    <tr><td><b>丸明 히다타카야마점</b></td><td>8/9 · 8/10</td><td class="num">4.1</td><td class="num">4,222</td></tr>
-    <tr><td><b>廻る富山湾 すし玉</b></td><td>8/8 저녁</td><td class="num">3.9</td><td class="num">1,510</td></tr>
-    <tr><td><b>いろはにほへと</b> (우동)</td><td>8/9 경유</td><td class="num">3.8</td><td class="num">111</td></tr>
-    <tr><td><b>大喜 西町본점</b></td><td>8/8</td><td class="num">3.3</td><td class="num">1,276</td></tr>
-  </tbody>
-</table>
-<div class="note"><b>평점 읽는 법</b> — 일본 식당은 구글 평점이 전반적으로 짜게 나옵니다. <b>4.0 이상이면 좋은 집, 4.3 이상이면 확실한 집</b>으로 보세요. 리뷰가 100개 안팎인 곳은 표본이 적어 흔들릴 수 있습니다.</div>
 </section>
 
-<section class="panel" id="p-udon">
-<h2>🍜 코시가 강한 우동집 <span class="k">면발 탄력 기준</span></h2>
-<div class="note" style="margin-bottom:16px">루트가 북알프스 종단으로 바뀌면서 <b>구조하치만의 翔太のうどん(4.5)은 코스에서 완전히 벗어났습니다.</b> 아래 두 곳이 동선에 남습니다.</div>
+<section class="panel" id="p-view">
+<h2>🏞 일정에 들어간 풍경 스팟 <span class="k">사람 적은 순으로</span></h2>
 
 <div class="card">
-  <div class="uhead">
-    <span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=鶴喜+富山+手打ちうどん+ざる">鶴喜 (쓰루키)</a></span>
-    <span class="gr"><span class="st">★</span>4.3<span class="cnt">(251)</span></span>
-    <span class="uwhen">8/8 토 점심 ✓ · 냉우동</span>
-  </div>
-  <div class="ukoshi">코시 <span class="bar"><i style="width:95%"></i></span> 매우 강함 · 차게 조여 탱글탱글</div>
-  <div class="udesc">도야마성터 바로 옆 수타 우동집. <b>구글 리뷰 키워드가 덴푸라(35) · 자루우동(23) · 식감(19) · 코시(12)</b> 순으로 뜹니다. 즉 <b>손님 대부분이 냉우동을 먹는 집</b>이에요. 삶은 면을 찬물에 조여 내기 때문에 쫀득함이 최대치로 살아납니다. 한국인 리뷰도 "면발이 수타여서 고소하고 탱글하다"로 일치.</div>
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/みたらい渓谷">미타라이 계곡</a></span><span class="rank">이번 여행 1순위</span><span class="uwhen">8/9 오전</span></div>
+  <div class="udesc"><b>「덴카와 블루」</b>로 불리는 에메랄드빛 물색. 화강암 계곡이라 물이 탁해지지 않고, 흰 바위와 초록 물이 대비됩니다. <b>8월에도 산속이라 시내보다 5~7℃ 낮아요.</b> 구름다리 몇 개를 건너며 걷습니다.</div>
   <div class="umeta">
-    <b>냉</b><span><b>덴자루우동 ¥1,200</b> (새우튀김 2마리) · 자루우동 ¥900</b></span>
-    <b>온</b><span>덴푸라 ¥1,200 · 쓰키미 ¥950 · 가케 ¥900 · 가마아게 ¥950</b></span>
-    <b>위치</b><span>도야마시 신사쿠라마치 6-2 · 도야마역·숙소에서 5분</span>
-    <b>영업</b><span>11:30–14:00 (L.O. 13:40) → <b>7·8월은 11:00 오픈</b></span>
-    <b>휴무</b><span>일·월·공휴일 → <b>8/8 토요일 영업</b></span>
-    <b>전화</b><span>076-441-8496</span>
+    <b>코스</b><span>주차장→계곡 도보 20분 · 전체 왕복 2시간 30분 · <b>하이라이트만 왕복 1시간 30분</b></span>
+    <b>⚠️ 주차</b><span>대수가 적어 <b>여름 주말 10시면 만차</b>. 8/9은 일요일 → <b>9시 전 도착 필수.</b> 민영 유료 ¥1,000</span>
+    <b>복장</b><span>계단이 많습니다. <b>운동화</b>. 샌들 금지</span>
+    <b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.vill.tenkawa.nara.jp/tourism/spot/5159/">덴카와무라 공식</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/みたらい渓谷">구글맵</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=みたらい渓谷+青">사진</a></span>
   </div>
-  <div class="note" style="margin-top:12px"><b>양 주의</b> — 1인분이 원래 많습니다(가가와 수타집 3다마급이라는 리뷰). <b>주문할 때 「少なめ(스쿠나메)」라고 하면 같은 값에 줄여줍니다.</b> 반대로 「多め」도 가능. 14시 마감(L.O. 13:40)이라 시라카와고 출발 전에 반드시 먼저 먹고 가세요. 7·8월 11시 오픈은 가게 공지 기준이라 <b>당일 전화 확인</b>이 안전합니다.</div>
-  <div class="note" style="margin-top:8px"><b>다른 4.3 후보</b> — 하쓰하나 はつ花(4.3/207), 데우치우동 다지마 手打ちうどん田じま(4.3/78). 뜨끈한 쪽이 당기면 도야마 소울푸드 <b>糸庄 이토쇼(4.3/3,155)</b>의 모쓰 니코미 우동이 있지만, 곱창 국물에 끓여 내는 방식이라 8월 냉우동과는 정반대입니다.</div>
 </div>
 
 <div class="card">
-  <div class="uhead">
-    <span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=いろはにほへと+高山+うどん">めん処 いろはにほへと</a></span>
-    <span class="gr"><span class="st">★</span>3.8<span class="cnt">(111)</span></span>
-    <span class="uwhen">8/9 일 경유 ✓</span>
-  </div>
-  <div class="ukoshi">코시 <span class="bar"><i style="width:100%"></i></span> 매우 강함 · 각이 살아있는 식감</div>
-  <div class="udesc">주인이 <b>가가와현 「곤피라우동」에서 수련</b>한 29년 된 집. 면을 가늘게 자르는 데 그치지 않고 <b>가늘게 치면서 얇게 늘리는</b> 고난도 방식이라, 가늘면서도 코시가 강하고 모서리가 또렷합니다. 히다규 니쿠우동이 간판. <b>국도 41호 도야마→다카야마 길목</b>이라 8/9 저녁에 그냥 지나갑니다.</div>
-  <div class="umeta">
-    <b>위치</b><span>다카야마시 고쿠후초 가미히로세 28</span>
-    <b>영업</b><span>10:00–19:30 (19:10 이후 도착 시 전화 권장)</span>
-    <b>휴무</b><span>화요일 → <b>8/9 일요일 영업</b></span>
-    <b>전화</b><span>0577-72-2332</span>
-  </div>
-  <div class="note" style="margin-top:12px"><b>솔직한 단서</b> — "코시 최강"은 <b>가게가 밝힌 곤피라우동 수련 이력</b>에 근거한 평가이고, 실제 구글 평점은 <b>3.8(리뷰 111개)</b>로 평범합니다. 면발 자체를 보러 가는 거면 좋지만, 확실한 한 끼를 원하면 조금 더 남쪽의 <b>京や(4.5, 1,292)</b>가 안전합니다. <b>무로도 하산이 늦어지면 19:30 마감에 걸리니</b> 그때도 京や(22:00까지)로 가세요.</div>
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/那智の滝">나치폭포 + 세이간토지 삼중탑</a></span><span class="rank b">최고의 한 컷</span><span class="uwhen">8/10 오후</span></div>
+  <div class="udesc"><b>단일 낙차 133m로 일본 최대.</b> 폭포 자체보다 <b>주홍색 삼중탑과 폭포가 겹치는 구도</b>가 이 장소의 상징입니다. 탑 전망대(유료)에 오르면 정면으로 옵니다. 관광객은 있지만 <b>산 위쪽 다이몬자카는 대부분 그냥 지나칩니다.</b></div>
+  <div class="umeta"><b>추가</b><span><b>다이몬자카(大門坂)</b> — 이끼 낀 돌계단과 수백 년 삼나무. 왕복 40분. 여유 있으면 여기가 진짜입니다</span><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/那智の滝">구글맵</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=那智の滝+三重塔">사진</a></span></div>
 </div>
 
 <div class="card">
-  <div class="uhead">
-    <span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=氷見うどん+海津屋">うどん茶屋 海津屋 (氷見うどん)</a></span>
-    <span class="gr"><span class="st">★</span>4.2<span class="cnt">(867)</span></span>
-    <span class="uwhen no">코스에서 40분 이탈</span>
-  </div>
-  <div class="ukoshi">코시 <span class="bar"><i style="width:75%"></i></span> 쫀득한 계열 · 목넘김이 압권</div>
-  <div class="udesc">도야마 향토 우동인 <b>히미우동</b>의 대표 제면소 직영점. 사누키처럼 <i>치는</i> 게 아니라 <b>손으로 늘리는(手延べ)</b> 방식이라 코시의 성격이 다릅니다 — 뚝 끊기는 탄력이 아니라 <b>쫀득하게 늘어나며 버티는 탄력</b>에 매끄러운 목넘김. 도야마 시내에서 북서쪽으로 40분이라 이번 일정엔 넣기 어렵습니다.</div>
-  <div class="umeta">
-    <b>위치</b><span>도야마현 히미시 가미이즈미 20</span>
-    <b>영업</b><span>11:00–15:00 · 목요일 휴무(공휴일이면 영업)</span>
-    <b>메뉴</b><span>새우튀김 자루우동 ¥1,630 · 나베야키우동 ¥1,100</span>
-  </div>
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/大斎原">오유노하라 대도리이 (大斎原)</a></span><span class="rank b">사방이 트인 압도감</span><span class="uwhen">8/10 오전</span></div>
+  <div class="udesc"><b>높이 33.9m — 일본에서 가장 큰 도리이.</b> 원래 구마노혼구타이샤가 있던 강 가운데 모래섬인데, 1889년 대홍수로 신사가 떠내려간 뒤 지금은 <b>논 한가운데 도리이만 서 있습니다.</b> 배경에 아무것도 없어서 사진이 압도적이에요. 본궁에서 도보 10분.</div>
 </div>
+
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/谷瀬の吊り橋">다니세 현수교</a></span><span class="rank c">무섭습니다</span><span class="uwhen">8/9 오후</span></div>
+  <div class="udesc">길이 <b>297m, 높이 54m</b>. 관광 시설이 아니라 <b>1954년 주민들이 마을 돈을 모아 놓은 생활용 다리</b>입니다. 바닥 판자 사이로 계곡이 그대로 보이고 걸으면 출렁여요. <b>동시 통행 20명 제한.</b> 고소공포가 있으면 중간까지만 가도 됩니다.</div>
+</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/明日香村">아스카무라</a></span><span class="rank c">가장 한적</span><span class="uwhen">8/8 오후</span></div>
+  <div class="udesc">일본 최초의 도읍터인데, 지금은 <b>논밭과 고분만</b> 남았습니다. 고층 건물이 하나도 없어서 <b>7세기 풍경이 그대로 보존</b>돼 있어요. <b>이시부타이 고분</b>(뚜껑돌 77톤이 노출된 석실)이 중심이고, 나머지는 그냥 시골길입니다. <b>관광지 밀도가 낮아 사람이 거의 없어요.</b></div>
+</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/三段壁+白浜">산단베키 · 센조지키</a></span><span class="rank c">해안 절경</span><span class="uwhen">8/11 오전</span></div>
+  <div class="udesc"><b>산단베키</b>는 높이 50m·길이 2km 수직 절벽. 엘리베이터로 <b>지하 36m 동굴</b>까지 내려갑니다. <b>센조지키</b>는 사암이 층층이 깎인 넓은 바위 대지로, <b>울타리가 없어 그냥 걸어 다닙니다.</b> 둘이 차로 8분 거리.</div>
+</div>
+
+<h2>➕ 기타 후보 <span class="k">아직 안 넣은 것 · 넣고 싶으면 말씀만</span></h2>
+
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/曽爾高原">소니 고원 (曽爾高原)</a></span><span class="rank">풍경 1순위 후보</span><span class="uwhen">나라 동부</span></div>
+  <div class="udesc"><b>38헥타르 억새 초원</b>이 산 사면을 통째로 덮습니다. 억새가 은빛으로 변하는 건 가을이지만, <b>8월엔 짙은 초록 융단</b>이라 이것도 장관이에요. 고원을 한 바퀴 도는 산책로가 있고 <b>오카메이케(연못)</b>가 중심에 있습니다. <b>관광객이 거의 없습니다.</b></div>
+  <div class="umeta"><b>넣는 법</b><span>나라 시내에서 동쪽으로 1시간 20분. <b>8/8 아스카 대신</b> 넣거나, 8/9 남하 전 아침에 넣기엔 방향이 반대라 어렵습니다</span><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/曽爾高原">구글맵</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=曽爾高原+夏">사진</a></span></div>
+</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/大台ヶ原">오다이가하라 (大台ヶ原)</a></span><span class="rank b">트레킹 좋아하면</span><span class="uwhen">나라 남부</span></div>
+  <div class="udesc">해발 1,695m. <b>일본에서 비가 가장 많이 오는 곳</b> 중 하나라 원시림과 이끼가 압도적입니다. <b>다이자곤겐 절벽</b>에서 내려다보는 조망이 상징. 정상 주차장까지 차로 올라가고 <b>동쪽 코스 일주 4km·2시간</b>이면 핵심을 봅니다. <b>8월 평균 20℃</b>로 시원해요.</div>
+  <div class="umeta"><b>주의</b><span>진입로 「오다이가하라 드라이브웨이」는 <b>굽잇길 1시간</b>. 안개가 잦고 <b>겨울 폐쇄</b>. 8월은 정상 운영</span><b>넣는 법</b><span>8/9 미타라이 대신 넣는 식. <b>둘 다는 하루에 무리</b>입니다</span></div>
+</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/高野山+奥の院">코야산 오쿠노인</a></span><span class="rank b">분위기가 다릅니다</span><span class="uwhen">와카야마 북부</span></div>
+  <div class="udesc">해발 800m 산속의 <b>세계유산 사찰 도시.</b> 핵심은 <b>오쿠노인 참배길</b> — 2km 삼나무 숲길 양옆으로 <b>20만 기가 넘는 묘탑</b>이 늘어서 있습니다. 수백 년 된 삼나무와 이끼 낀 석탑이라 낮에도 어둑해요. <b>이른 아침이나 해질녘이 압도적</b>입니다.</div>
+  <div class="umeta"><b>넣는 법</b><span>나라 → 코야산 2시간. <b>8/9에 미타라이 대신</b> 넣고 코야산에서 자면(슈쿠보) 자연스럽습니다. 다만 <b>계곡을 포기</b>하게 돼요</span><b>숙박</b><span><b>슈쿠보(절 숙박)</b> 가능 — 정진요리와 새벽 근행. 1박 2식 ¥15,000~</span></div>
+</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/橋杭岩+串本">하시구이이와 (橋杭岩)</a></span><span class="rank c">지나가는 김에</span><span class="uwhen">8/10 경로상</span></div>
+  <div class="udesc"><b>850m에 걸쳐 바위 기둥 40여 개가 바다로 일직선</b>으로 늘어선 국가 명승·천연기념물. 다리 기둥처럼 보여서 붙은 이름입니다. <b>8/10 나치 → 시라하마 경로에 그대로 걸리니</b> 5분만 세우면 됩니다. 썰물이면 걸어 들어갈 수 있어요.</div>
+</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/崎の湯+白浜">사키노유 (崎の湯)</a></span><span class="rank c">온천 하나 더</span><span class="uwhen">8/11 오전</span></div>
+  <div class="udesc"><b>1,350년 된 노천탕</b>으로 <b>바위에 붙어 있어 파도가 튀어 들어옵니다.</b> 지붕도 벽도 없이 태평양이 정면. 수영복·비누 불가인 순수 온천이에요. <b>8/11 오전에 여유가 크게 남으니</b> 산단베키와 묶기 좋습니다.</div>
+</div>
+
+<div class="note"><b>빼는 걸 권하는 곳 — 아마노하시다테 · 이세</b><br>
+간사이 풍경 검색을 하면 자주 나오는데, <b>둘 다 이 루트와 정반대 방향</b>입니다. 아마노하시다테는 교토 북부 동해안(나라에서 3시간), 이세는 미에현 동쪽(2시간 30분)이라 <b>기이반도 남부 루트를 통째로 버려야</b> 넣을 수 있어요. 4박으로는 물리적으로 안 됩니다.</div>
 </section>
 
 <section class="panel" id="p-hotel">
-<h2>🏨 호텔 후보 <span class="k">도야마 2박 + 히라유 1박 + 게로 1박</span></h2>
-<div class="note" style="margin-bottom:16px">이번 루트는 숙소마다 <b>역할이 다릅니다.</b> 도야마는 심야 체크인, 히라유는 가미코치 첫차 접근성, 게로는 마지막 밤의 휴식 — 이 셋이 각 숙소의 선정 기준입니다.</div>
+<h2>🏨 숙소 <span class="k">호텔 2박 + 에어비앤비 2박 · 1박 14만원 이하</span></h2>
+<div class="note" style="margin-bottom:16px"><b>배치 원칙</b> — 앞의 <b>나라 2박은 호텔</b>(늦은 도착·매일 아침 일찍 나가야 함), 뒤의 <b>산·바다 2박은 에어비앤비</b>(그 동네에 호텔이 거의 없고, 있어도 비싼 료칸뿐)로 나눴습니다.<br><br>⚠️ <b>가격은 검색 시점 추정치</b>이고 수시로 바뀝니다. 예약 전 반드시 재확인하세요.</div>
 
-<h3>도야마 · 8/7–8/8 (2박) <span style="font-weight:400;color:var(--muted);font-size:13px">예산 1박 14만원 이하 · 시내 밖 OK</span></h3>
-
-<div class="note" style="margin-bottom:14px"><b>왜 비싼가</b> — 8/8이 <b>토요일</b>인 데다 오봉 직전 성수기라, 도야마역 주변 호텔이 평소의 1.5~2배로 뜁니다. 실제 <b>8/7~8/9 2인 1실</b> 구글 검색가를 보면 컴포트 ₩17.0만, 노노 ₩22.5만, JAL시티 ₩33.9만, 힐튼 ₩34.3만이에요. <b>시내를 벗어나면 절반</b>이 됩니다.<br><br>
-<b>⚠️ 가격은 구글 호텔 기준 1박당 추정치</b>이고 수시로 바뀝니다. 실제 예약 전에 반드시 다시 확인하세요.</div>
-
-<div class="note" style="margin-bottom:14px;border-left:3px solid var(--warn,#c96)"><b>❗ 가장 중요한 조건 — 00:30 체크인</b><br>
-저가 숙소일수록 <b>프런트 운영 시간이 짧습니다.</b> 게스트하우스·호스텔은 체크인 마감이 21~22시인 곳이 대부분이고, 요스가는 <b>체크인이 17:00 시작</b>이에요. <b>가격보다 이 조건을 먼저 거르세요.</b> 아래 순서는 「심야 도착에 강한 순」입니다.</div>
+<h3>🅰 나라 · 8/7–8/8 (2박) <span style="font-weight:400;color:var(--muted);font-size:13px">호텔 · 보내주신 후보 2곳</span></h3>
 
 <div class="card h">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/HOTEL+R9+The+Yard+上市">HOTEL R9 The Yard 가미이치</a></span><span class="rank">가성비 1순위</span><span class="hprice">약 ₩82,000</span></div>
-  <div class="udesc"><b>★4.5 (32)</b> — 컨테이너를 개조한 <b>독채형</b> 비즈니스호텔 체인. 옆방 소리가 없고 신축이라 깨끗합니다. <b>무료 주차 · 무료 Wi-Fi · 조식 포함</b>에 이 가격이면 이번 예산에서 가장 강합니다.<br><br>
-  <b>위치가 오히려 이득입니다.</b> 가미이치초는 도야마역에서 동쪽으로 20분인데, <b>8/9 아침 다테야마역까지 30분</b>이라 시내에 자는 것보다 <b>20분 더 잘 수 있어요.</b> 도보 5분에 세븐일레븐.</div>
+  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.agoda.com/sh-app/7YxfCNlna6j">온야도 노노 나라 (御宿 野乃奈良)</a></span><span class="rank">추천</span><span class="hprice">약 ₩104,000~120,000</span></div>
+  <div class="udesc"><b>★4.5 (1,973)</b> — 도미인 상위 브랜드. <b>JR나라역 도보 2분</b>에 <b>천연온천 대욕장</b>, 전관 다다미입니다.<br><br>
+  <b>이 일정에서 특히 잘 맞는 이유</b> — 8/8 아침 <b>6시 반에 나라공원으로 걸어갈 수 있고</b>, 8/8 밤 이코마에서 21시 반에 돌아와도 <b>온천으로 하루를 마감</b>할 수 있습니다. 8/7 밤 오코노미야끼집도 도보권이에요.</div>
   <div class="umeta">
-    <b>위치</b><span>나카니이카와군 가미이치마치 쇼인 145-1</span>
-    <b>체크인</b><span>15:00 / 체크아웃 10:00 — <b>00:30 도착 가능 여부 예약 시 반드시 문의</b></span>
-    <b>전화</b><span>076-413-2170 · hotel-r9.jp</span>
-    <b>단점</b><span>8/8 시라카와고·이와세 왕복에 <b>하루 40분</b>이 더 붙습니다</span>
+    <b>위치</b><span>나라시 오미야초 1-1-6</span>
+    <b>체크인</b><span>15:00 / 체크아웃 <b>11:00</b> (1시간 여유가 큽니다)</span>
+    <b>⚠️ 단점</b><span><b>주차가 유료</b>입니다. 2박이면 ¥3,000 안팎 추가 — 예약 시 주차 확보를 명시하세요</span>
+    <b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.agoda.com/sh-app/7YxfCNlna6j">아고다 (보내주신 링크)</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/御宿+野乃奈良">구글맵</a></span>
   </div>
-  <div class="htags"><span class="tg ok">무료 주차</span><span class="tg ok">조식 포함</span><span class="tg ok">독채</span><span class="tg ok">다테야마역 30분</span></div>
+  <div class="htags"><span class="tg ok">천연온천</span><span class="tg ok">★4.5 · 1,973</span><span class="tg ok">나라공원 도보</span><span class="tg chk">주차 유료</span></div>
 </div>
 
 <div class="card h">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/The+Pasadena+Hotel+富山">The Pasadena Hotel</a></span><span class="rank b">시내 유지 + 온천</span><span class="hprice">약 ₩91,000</span></div>
-  <div class="udesc"><b>★3.9 (132) · 3성급</b> — 도야마시 안에 있으면서 <b>노천탕과 사우나</b>가 있고 <b>주차가 무료</b>입니다. 시내 동선(우동집·이와세·시라카와고)을 그대로 유지하면서 값을 반으로 줄이는 가장 무난한 선택이에요. 무로도 다녀온 날 온천이 있다는 게 큽니다.</div>
-  <div class="umeta"><b>체크인</b><span><b>심야 프런트 운영 여부 확인 필수</b></span><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/The+Pasadena+Hotel+富山">구글맵</a></span></div>
-  <div class="htags"><span class="tg ok">노천탕·사우나</span><span class="tg ok">무료 주차</span><span class="tg ok">시내</span></div>
+  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.agoda.com/sh-app/Mh51K4w6aCy">그랜드브리오 호텔 나라 와쿠라</a></span><span class="rank b">값은 싸지만 위치 주의</span><span class="hprice">약 ₩65,000~85,000</span></div>
+  <div class="udesc"><b>★4.3 (824) · 3성급</b> — <b>무료 주차</b>에 대욕장·수영장까지 있고 값이 노노의 <b>3분의 2</b>입니다.<br><br>
+  <b>❗ 여기가 나라시가 아니라 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/グランヴィリオホテル奈良+和蔵">덴리시(天理市)</a>입니다.</b> 나라공원까지 <b>차로 25분</b>이라, 8/8 아침 6시 반 사슴을 보려면 <b>6시에 나서고 주차 자리도 찾아야</b> 해요. 대신 <b>아스카·당고쇼·남부로 가는 길목</b>이라 8/8 오후와 8/9 출발은 오히려 가깝습니다.</div>
+  <div class="umeta">
+    <b>위치</b><span>덴리시 니카이도카미노쇼초 430-1</span>
+    <b>체크인</b><span>15:00 / 체크아웃 10:00</span>
+    <b>판단</b><span><b>아침 사슴을 중시하면 노노, 예산과 주차를 중시하면 여기.</b> 2박 차액이 약 6~7만원입니다</span>
+    <b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.agoda.com/sh-app/Mh51K4w6aCy">아고다 (보내주신 링크)</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/グランヴィリオホテル奈良+和蔵">구글맵</a></span>
+  </div>
+  <div class="htags"><span class="tg ok">무료 주차</span><span class="tg ok">대욕장</span><span class="tg ok">저렴</span><span class="tg chk">나라공원 25분</span></div>
+</div>
+
+<div class="note" style="margin-bottom:14px"><b>같은 값대의 나라역 대안</b> — 헨나호텔 나라 <b>★4.3(734)</b> 약 ₩65,000 · 다이와 로이넷 나라 <b>★4.3(1,095)</b> 약 ₩85,000 · 슈퍼호텔 로하스 JR나라 <b>★4.3(1,859)</b> 약 ₩77,000 · 피아짜 호텔 나라 <b>★4.2(690)</b> 약 ₩68,000. 전부 JR나라역 300m 안이고 노노보다 쌉니다. <b>온천이 필요 없다면</b> 이쪽이 가성비가 낫습니다.</div>
+
+<h3>🅱 보내주신 에어비앤비 2곳 <span style="font-weight:400;color:var(--muted);font-size:13px">둘 다 오사카시입니다</span></h3>
+<div class="note" style="margin-bottom:14px"><b>먼저 짚을 점</b> — 보내주신 두 곳은 <b>모두 오사카시</b>(니시나리·이쿠노)입니다. <b>오사카 시내는 안 가신다고 하셨으니 관광용으로는 안 맞고</b>, 나라공원까지도 차로 50분이에요. 다만 <b>8/10 이코마 야간 뒤 자거나, 8/11 공항 접근용</b>으로는 쓸 만합니다. 아래에 슬롯별로 판단을 적었습니다.</div>
+
+<div class="card h">
+  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.airbnb.co.kr/rooms/1683040911299848907">하나조노초역 6분 · 3층 독채</a></span><span class="rank b">독채 · 주차 가능</span><span class="hprice">2박 ₩186,034 (1박 약 ₩93,000)</span></div>
+  <div class="udesc"><b>★5.0 (후기 5개)</b> · <b>집 전체</b> · 최대 5명 · 침실 2 · 침대 4 · 욕실 1 · <b>주차 가능.</b><br><br>
+  <b>장점</b> — 독채라 프라이버시가 완전하고, 2인이 쓰기엔 넉넉합니다. 원가 ₩266,840에서 <b>할인된 가격</b>이에요.<br>
+  <b>단점</b> — <b>후기가 5개뿐</b>이라 표본이 매우 적습니다. 오사카시 니시나리구라 <b>나라·이코마 모두 40~50분.</b></div>
+  <div class="umeta"><b>적합 슬롯</b><span><b>8/10 이코마 야간 후 1박</b>(이코마에서 40분) 또는 <b>8/11 공항 접근용</b>. 나라 2박용으로는 비추</span><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.airbnb.co.kr/rooms/1683040911299848907">에어비앤비</a></span></div>
+  <div class="htags"><span class="tg ok">집 전체</span><span class="tg ok">주차</span><span class="tg chk">후기 5개</span><span class="tg chk">나라에서 멀다</span></div>
 </div>
 
 <div class="card h">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/HOTEL+R9+The+Yard+滑川">R9 The Yard 나메리카와 / 우오즈 / 구로베</a></span><span class="rank b">R9 자매점</span><span class="hprice">약 ₩89,000~90,000</span></div>
-  <div class="udesc">가미이치가 만실이면 같은 체인의 동쪽 지점들. <b>나메리카와 ★4.6(18) · 우오즈 ★4.3(24) · 구로베 ★4.2(82).</b> 전부 무료 주차·조식 포함이고 조건이 동일합니다. 나메리카와가 도야마역에서 가장 가까워요.</div>
-  <div class="htags"><span class="tg ok">동일 조건</span><span class="tg">만실 대비</span></div>
+  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.airbnb.co.kr/rooms/1228752449094945591">이쿠노구 셰어하우스 [N02]</a></span><span class="rank c">최저가 · 조건 확인 필수</span><span class="hprice">2박 ₩95,830 (1박 약 ₩48,000)</span></div>
+  <div class="udesc"><b>★4.68 (28)</b> · <b>방 1개</b>(6.6㎡ 다다미, 세미더블) · <b>공용 욕실·주방</b> · <b>무료 주차 1대</b> · 세탁기 · <b>셀프 체크인.</b><br><br>
+  <b>장점</b> — <b>1박 5만원이 안 됩니다.</b> 주방이 제대로 갖춰져 있어(조리기구·조미료까지) 아침을 해결할 수 있고, <b>셀프 체크인</b>이라 늦게 들어가도 됩니다. 호스트 응답률 100%.<br>
+  <b>❗ 반드시 알고 가야 할 것</b> — <b>침실에 잠금장치가 없습니다.</b> 욕실은 최대 3명과 공용이고, <b>3층인데 엘리베이터가 없어</b> 캐리어를 들고 올라가야 해요. 청결도 평점이 <b>4.5</b>로 항목 중 가장 낮습니다.</div>
+  <div class="umeta"><b>적합 슬롯</b><span>값만 보면 최고. <b>둘이 가는 여행에 방 하나·침대 하나</b>라는 점, <b>문에 열쇠가 없다</b>는 점을 감당할 수 있는지가 갈림길입니다</span><b>신고번호</b><span>M270040586 (민파쿠 정식 등록)</span><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.airbnb.co.kr/rooms/1228752449094945591">에어비앤비</a></span></div>
+  <div class="htags"><span class="tg ok">1박 5만원</span><span class="tg ok">셀프 체크인</span><span class="tg ok">무료 주차</span><span class="tg chk">침실 잠금 없음</span><span class="tg chk">공용 욕실</span></div>
+</div>
+
+<h3>🅲 8/9 산속 · 8/10 바다 <span style="font-weight:400;color:var(--muted);font-size:13px">여기가 아직 비어 있습니다</span></h3>
+<div class="note" style="margin-bottom:14px"><b>이 두 밤이 이번 일정의 실제 과제입니다.</b> 도츠카와·유노미네·시라하마는 <b>숙소 총량 자체가 적어</b> 8월엔 금방 찹니다. 아래 방향으로 찾으세요.</div>
+
+<div class="card h">
+  <div class="uhead"><span class="uname">8/9 · <a target="_blank" rel="noopener" href="https://www.airbnb.co.kr/s/Totsukawa--Nara--Japan/homes">도츠카와 · 유노미네 방면</a></span><span class="rank">산속 1박</span><span class="hprice">목표 ₩80,000~140,000</span></div>
+  <div class="udesc"><b>찾는 순서</b><br>
+  <b>①</b> <b>유노미네 온천 민박</b> — 쓰보유가 도보권이라 8/10 아침이 편해집니다. 소규모 료칸·민숙이 대부분이고 1박 2식이 많아요.<br>
+  <b>②</b> <b>도츠카와 온천</b> — <b>원천 100% 가케나가시 선언</b> 지역. 「호테루 스바루」 같은 공영 계열이 있어 가격이 안정적입니다.<br>
+  <b>③</b> <b>에어비앤비 고민가(古民家)</b> — 도츠카와·구마노 일대에 개조 고민가 독채가 꽤 있습니다. <b>주차가 기본 무료</b>고 값도 쌉니다.</div>
+  <div class="umeta">
+    <b>필수 조건</b><span><b>무료 주차</b>(산속이라 대부분 있음) · <b>체크인 시간</b>(산속은 18시 마감이 흔합니다) · <b>저녁 제공 여부</b> — <b>주변에 식당이 없습니다</b></span>
+    <b>⚠️ 가장 중요</b><span><b>저녁을 주는 곳으로 잡으세요.</b> 도츠카와·유노미네는 밤에 문 연 식당이 사실상 없습니다. 1박 2식이 편의성 면에서 압도적입니다</span>
+    <b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.airbnb.co.kr/s/Totsukawa--Nara--Japan/homes">에어비앤비 도츠카와</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/湯の峰温泉+旅館">유노미네 숙소 구글맵</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/十津川温泉+宿">도츠카와 숙소 구글맵</a></span>
+  </div>
 </div>
 
 <div class="card h">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/Toyama+Town+Hotel">Toyama Town Hotel</a></span><span class="rank c">시내 최저가급</span><span class="hprice">약 ₩106,000</span></div>
-  <div class="udesc"><b>★3.6 (199)</b> — 도야마역 도보권의 소형 비즈니스호텔. 시설 기대치는 낮게 잡으세요. <b>주차가 유료</b>라 2박이면 ¥2,000 안팎이 더 붙습니다.</div>
-</div>
-
-<div class="card h">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/Yosuga+寄処+富山">Yosuga (寄処)</a></span><span class="rank c">평점 최고 · 심야 불가 위험</span><span class="hprice">약 ₩83,000</span></div>
-  <div class="udesc"><b>★4.5 (79) · 호스텔</b> — 트램 정류장 도보 1분, 도야마성 도보 8분. <b>무료 주차에 조식 포함</b>이고 평점이 이 가격대 최고입니다. 그런데 <b>체크인이 17:00부터</b>이고 호스텔이라 <b>야간 프런트가 없을 가능성이 높습니다.</b> 8/7 00:30 도착과 정면 충돌이에요.<br><br>
-  <b>쓰는 방법</b> — 8/7 첫 밤만 심야 체크인 되는 곳으로 잡고 <b>8/8 하루만 여기서</b> 자는 방식은 가능합니다. 짐을 한 번 옮기는 대신 값이 크게 내려가요.</div>
-  <div class="htags"><span class="tg ok">평점 4.5</span><span class="tg ok">무료 주차</span><span class="tg chk">체크인 17:00~</span></div>
-</div>
-
-<div class="card h">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/富山マンテンホテル">도야마 만텐 호텔</a></span><span class="rank c">예산 살짝 초과</span><span class="hprice">약 ₩142,000</span></div>
-  <div class="udesc"><b>★3.9 (1,756) · 4성급</b> — <b>온천 대욕장·노천탕·사우나</b>를 갖췄고 리뷰가 1,700개 넘어 실패 확률이 가장 낮습니다. 14만원을 <b>2천원 넘기는</b> 수준이라, 시내에 있으면서 온천까지 원한다면 여기가 상한선이에요.</div>
-  <div class="htags"><span class="tg ok">온천·노천탕</span><span class="tg ok">리뷰 1,756</span><span class="tg chk">14만원 턱걸이</span></div>
-</div>
-
-<div class="note" style="margin-bottom:14px"><b>주방은 뺐습니다.</b> 예산을 낮추면서 주방 있는 집을 찾으면 선택지가 거의 사라져서, <b>8/8 저녁은 다시 사 먹는 쪽</b>으로 보시면 됩니다. 이와세 식당 표는 「일정」 탭 DAY 2에 그대로 있어요. 자취를 되살리고 싶으면 <b>요스가 같은 게스트하우스의 공용주방</b>을 쓰는 방법이 남아 있습니다.</div>
-
-<div class="note" style="margin-bottom:14px"><b>참고 · 예산 초과라 뺀 곳</b> — 컴포트 도야마 ₩17.0만(★3.9) · 온야도 노노 ₩22.5만(★4.4) · 다이와 로이넷 ₩22.5만 · 도큐 엑셀 ₩23.8만 · JAL시티 ₩33.9만(★4.4) · 더블트리 힐튼 ₩34.3만(★4.3). 아래 카드들은 <b>예산을 올릴 여지가 생겼을 때</b>의 참고용으로 남겨둡니다.</div>
-
-<div class="card h">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" data-wiki="富山市" href="https://www.google.com/search?q=天然温泉+剱の湯+ドーミーイン富山">도미인 도야마</a></span><span class="rank">호텔 1순위</span><span class="hprice">¥11,000~</span></div>
-  <div class="udesc">지하 1,200m 천연온천 대욕장. 야식 소바 무료, 조식에 반딧불오징어. 주차 있음(유료). 도야마역 도보 15분 / 트램 1분.</div>
-  <div class="htags"><span class="tg ok">천연온천</span><span class="tg ok">주차 가능</span><span class="tg chk">심야 체크인 확인</span></div>
-</div>
-<div class="card h">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?q=ANAクラウンプラザホテル富山">ANA 크라운플라자 도야마</a></span><span class="rank b">심야 도착 최안전</span><span class="hprice">¥16,000~</span></div>
-  <div class="udesc">도야마역 도보 5분 대형 호텔. <b>프런트 24시간 유인</b>이라 00:30 도착 리스크가 가장 낮습니다. 자체 주차장이 넓어요.</div>
-  <div class="htags"><span class="tg ok">프런트 24시간</span><span class="tg ok">자체 주차장</span><span class="tg">도야마성 뷰</span></div>
-</div>
-<div class="card h">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?q=御宿+野乃富山">온야도 노노 도야마</a></span><span class="rank b">온천 업그레이드</span><span class="hprice">¥15,000~</span></div>
-  <div class="udesc">도미인 상위 브랜드. 전관 다다미에 온천 품질이 한 단계 위. 도야마역 도보 8분.</div>
-  <div class="htags"><span class="tg ok">천연온천</span><span class="tg">전관 다다미</span><span class="tg chk">주차 제휴 확인</span></div>
-</div>
-<div class="card h">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?q=コンフォートホテル富山駅前+東横イン富山駅前">컴포트 / 도요코인 도야마역앞</a></span><span class="rank c">예산 절약</span><span class="hprice">¥8,000~</span></div>
-  <div class="udesc">2박이면 6~7만 원 아낍니다. 조식 무료. 온천은 없고 주차 대수가 적으니 예약 시 주차 확보를 명시하세요.</div>
-  <div class="htags"><span class="tg ok">저렴</span><span class="tg chk">주차 대수 적음</span></div>
-</div>
-
-<h3>오쿠히다 히라유온천 · 8/9 (1박) <span style="font-weight:400;color:var(--muted);font-size:13px">기준: 아칸다나 주차장까지 거리</span></h3>
-<div class="card h">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?q=ひらゆの森+平湯温泉">히라유노모리 (ひらゆの森)</a></span><span class="rank">1순위</span><span class="hprice">¥10,000~</span></div>
-  <div class="udesc"><b>남녀 합쳐 노천탕 16개.</b> 무로도에서 하루 종일 걷고 내려온 밤에 이만한 게 없습니다. 통나무집 분위기에 주차 넉넉하고, <b>아칸다나 주차장과 히라유 버스터미널이 코앞</b>이라 다음 날 가미코치 첫차 접근이 가장 좋습니다.</div>
-  <div class="umeta"><b>위치</b><span>다카야마시 오쿠히다온센고 히라유 763-1</span></div>
-  <div class="htags"><span class="tg ok">노천탕 16개</span><span class="tg ok">아칸다나 인접</span><span class="tg ok">주차 넉넉</span><span class="tg chk">석식 포함 여부 확인</span></div>
-</div>
-<div class="card h">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?q=平湯温泉+岡田旅館+和楽亭">오카다 료칸 · 와라쿠테이</a></span><span class="rank b">전통 료칸</span><span class="hprice">¥20,000~</span></div>
-  <div class="udesc">히라유의 대표 료칸. 1박 2식으로 히다규와 산채 요리가 나옵니다. 온천 마을에서 제대로 대접받고 싶다면 이쪽.</div>
-  <div class="htags"><span class="tg ok">1박 2식</span><span class="tg ok">히다규</span><span class="tg chk">가격대 높음</span></div>
-</div>
-<div class="card h">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" href="https://www.google.com/search?q=奥飛騨温泉郷+新平湯+福地温泉+宿">플랜 B · 오쿠히다온천향 전체</a></span><span class="rank c">만실일 때</span><span class="hprice">—</span></div>
-  <div class="udesc">히라유는 마을이 작아 <b>객실이 금방 찹니다.</b> 못 잡으면 신히라유·후쿠지·신호타카로 넓히세요. 아칸다나까지 10~20분이면 갑니다.</div>
-  <div class="htags"><span class="tg ok">선택지 넓힘</span><span class="tg chk">아침 이동 10~20분 추가</span></div>
-</div>
-
-<h3>게로온천 · 8/10 (1박) <span style="font-weight:400;color:var(--muted);font-size:13px">기준: 1박 2식 + 온천</span></h3>
-<div class="note" style="margin-bottom:14px">게로는 <b>구사쓰·아리마와 함께 일본 3대 온천</b>으로 꼽힙니다. 마지막 밤이고 다음 날 운전이 3시간 20분뿐이라 <b>여기서 제대로 쉬는 게 이번 일정의 보상</b>입니다. 1박 2식으로 잡으세요.</div>
-
-<div class="card h">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" data-wiki="下呂温泉" href="https://www.google.com/search?q=下呂温泉+湯之島館">유노시마칸 (湯之島館)</a></span><span class="rank">전통 · 등록유형문화재</span><span class="hprice">¥25,000~</span></div>
-  <div class="udesc">1931년 개업, 산 중턱의 목조 본관이 <b>국가 등록유형문화재</b>입니다. 온천 마을을 내려다보는 전망과 쇼와 초기 건축이 그대로 남아 있어, 숙소 자체가 관광지인 곳. 예산이 허락하면 여기가 마지막 밤에 가장 어울립니다.</div>
-  <div class="htags"><span class="tg ok">등록유형문화재</span><span class="tg ok">전망</span><span class="tg ok">1박 2식</span><span class="tg chk">가격대 높음</span></div>
-</div>
-<div class="card h">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" data-wiki="下呂温泉" href="https://www.google.com/search?q=下呂温泉+水明館">스이메이칸 (水明館)</a></span><span class="rank b">대표 대형 료칸</span><span class="hprice">¥20,000~</span></div>
-  <div class="udesc">게로를 대표하는 대형 료칸. 히다강 바로 앞이고 <b>대욕장이 여러 개</b>라 온천만으로도 시간을 보낼 수 있습니다. 주차 넉넉하고 시설이 안정적이라 실패 확률이 낮습니다.</div>
-  <div class="htags"><span class="tg ok">대욕장 다수</span><span class="tg ok">강변</span><span class="tg ok">주차 넉넉</span></div>
-</div>
-<div class="card h">
-  <div class="uhead"><span class="uname"><a target="_blank" rel="noopener" data-wiki="下呂温泉" href="https://www.google.com/search?q=下呂温泉+旅館+ホテル+一覧">게로온천 여관 전체 · 중저가</a></span><span class="rank c">예산형</span><span class="hprice">¥10,000~</span></div>
-  <div class="udesc">게로는 온천지 규모가 커서 <b>객실 총량이 넉넉합니다.</b> 히라유·고마가네와 달리 만실 걱정이 적고, 1만 엔대 료칸도 1박 2식으로 잡을 수 있습니다. 온천 거리 안쪽이면 저녁에 <b>무료 족욕탕</b>을 돌아보기 좋습니다.</div>
-  <div class="htags"><span class="tg ok">객실 많음</span><span class="tg ok">1만엔대 가능</span><span class="tg">족욕탕 도보권</span></div>
+  <div class="uhead"><span class="uname">8/10 · <a target="_blank" rel="noopener" href="https://www.airbnb.co.kr/s/Shirahama--Wakayama--Japan/homes">시라하마 방면</a></span><span class="rank b">바다 1박</span><span class="hprice">목표 ₩90,000~140,000</span></div>
+  <div class="udesc">시라하마는 <b>간사이의 대표 온천·해변 리조트</b>라 숙소가 많습니다. 대신 <b>8월은 성수기 정점</b>이에요.<br><br>
+  <b>①</b> <b>에어비앤비 독채</b> — 시라하마·다나베 일대에 해변 근처 독채가 많고, 리조트 호텔보다 훨씬 쌉니다.<br>
+  <b>②</b> <b>다나베시(田辺市)로 한 칸 빼기</b> — 시라하마에서 차로 20분인데 값이 눈에 띄게 내려갑니다. 8/11 공항 방향으로도 20분 더 가까워요.<br>
+  <b>③</b> <b>나치가쓰우라</b>에서 자고 8/11에 길게 달리는 방법도 있지만, 마지막 날 운전이 <b>2시간 → 4시간</b>이 됩니다. 권하지 않습니다.</div>
+  <div class="umeta">
+    <b>필수 조건</b><span><b>주차 무료</b> · 8/10 도착이 <b>18:30</b>이니 체크인 마감 확인</span>
+    <b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.airbnb.co.kr/s/Shirahama--Wakayama--Japan/homes">에어비앤비 시라하마</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/白浜+宿+温泉">구글맵</a></span>
+  </div>
 </div>
 
 <h2>추천 조합</h2>
 <table>
-  <thead><tr><th>조합</th><th>도야마 2박</th><th>히라유</th><th>게로온천</th><th class="num">4박 합계</th></tr></thead>
+  <thead><tr><th>조합</th><th>8/7·8/8 나라</th><th>8/9 산속</th><th>8/10 바다</th><th class="num">4박 합계</th></tr></thead>
   <tbody>
-    <tr><td><b>예산형</b> (권장)</td><td><b>R9 가미이치</b></td><td>히라유노모리</td><td>게로 중저가 료칸</td><td class="num">약 ¥30,000</td></tr>
-    <tr><td><b>예산형 · 시내 유지</b></td><td><b>파사데나</b></td><td>히라유노모리</td><td>게로 중저가 료칸</td><td class="num">약 ¥32,000</td></tr>
-    <tr><td><b>밸런스형</b></td><td>도미인</td><td>히라유노모리</td><td>게로 중저가 료칸</td><td class="num">약 ¥42,000</td></tr>
-    <tr><td><b>안전 우선형</b></td><td>ANA 크라운플라자</td><td>히라유노모리</td><td>스이메이칸</td><td class="num">약 ¥62,000</td></tr>
-    <tr><td><b>온천 만끽형</b></td><td>노노 도야마</td><td>오카다 료칸</td><td>유노시마칸</td><td class="num">약 ¥75,000</td></tr>
-    <tr><td><b>절약형</b></td><td>컴포트 / 도요코인</td><td>히라유노모리</td><td>게로 중저가 료칸</td><td class="num">약 ¥38,000</td></tr>
+    <tr><td><b>균형형</b> (권장)</td><td>온야도 노노</td><td>유노미네 민박</td><td>시라하마 에어비앤비</td><td class="num">약 ₩450,000</td></tr>
+    <tr><td><b>절약형</b></td><td>그랜드브리오 (덴리)</td><td>도츠카와 고민가</td><td>다나베 에어비앤비</td><td class="num">약 ₩330,000</td></tr>
+    <tr><td><b>온천 만끽형</b></td><td>온야도 노노</td><td>도츠카와 온천 1박 2식</td><td>시라하마 온천 숙소</td><td class="num">약 ₩560,000</td></tr>
   </tbody>
 </table>
-<div class="note"><b>8월 성수기 2인 1실 대략치</b>입니다. 오봉(8/13~) 직전이라 8/10(월)은 비교적 저렴하고 8/8(토)이 가장 비쌉니다. 히라유·게로는 온천지라 <b>1박 2식으로 잡으면 저녁 걱정이 사라집니다.</b></div>
+<div class="note"><b>2인 1실 대략치</b>입니다. 8월 성수기이고 <b>8/8이 토요일</b>이라 그날이 가장 비쌉니다. 반대로 <b>8/9(일)·8/10(월)</b>은 상대적으로 저렴해요. 산속·바다 숙소는 <b>총량이 적으니 나라 호텔보다 먼저 잡으세요.</b></div>
 </section>
 
 <section class="panel" id="p-play">
-<h2>🎮 게임센터 · 가챠 · 인형뽑기 <span class="k">구글 평점 · 게임센터는 평점이 원래 짜게 나옵니다</span></h2>
-<div class="note" style="margin-bottom:16px"><b>먼저 알아둘 것</b> — 일본 게임센터는 구글 평점이 <b>2점대~3점대가 정상</b>입니다. "안 뽑힌다"는 리뷰가 구조적으로 쌓이는 업종이라, <b>3.0을 넘으면 준수, 3.5면 좋은 편</b>으로 보세요. 대부분 <b>10:00 오픈</b>이고 <b>동전 교환기는 지폐만</b> 받습니다. 인형뽑기는 대개 1회 ¥100, 5회 ¥500 세트가 있어요.</div>
+<h2>🎢 이코마산조 유원지 <span class="k">필수 항목 · 야간</span></h2>
 
-<h3>도야마 · 8/7~8/8</h3>
 <div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/GiGO+マリエとやま">GiGO 마리에토야마</a></span><span class="gr"><span class="st">★</span>2.2<span class="cnt">(53)</span></span><span class="ubadge chk">접근성 최고</span></div>
-  <div class="udesc"><b>도야마역 바로 앞</b> 「마리에토야마」 빌딩 <b>4층.</b> 세가 계열 GiGO. 숙소가 역 근처면 걸어서 갑니다. <b>평점 2.2는 낮지만 리뷰가 53개뿐</b>이라 표본이 적고, 도야마역에서 도보로 닿는 유일한 게임센터라는 게 가장 큰 장점이에요. 밤에 요리 끝내고 잠깐 나가기 좋습니다.</div>
-  <div class="umeta"><b>위치</b><span>사쿠라마치 1-1-61 마리에토야마 4F</span><b>영업</b><span>10:00~</span><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/GiGO+マリエとやま">구글맵</a></span></div>
-</div>
-<div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/タイトーステーション+ファボーレ富山">타이토 스테이션 · 파보레 도야마</a></span><span class="gr"><span class="st">★</span>2.9<span class="cnt">(344)</span></span><span class="ubadge">쇼핑+게임 한 번에</span></div>
-  <div class="udesc"><b>도야마 최대 쇼핑몰 「파보레」(★3.9, 3,929) 2층.</b> 이게 핵심인데, <b>파보레는 도야마IC 바로 옆</b>이라 <b>8/8 시라카와고 오갈 때 길목에 정확히 걸립니다.</b> 몰에서 쇼핑하고 같은 층에서 인형뽑기까지 끝내면 동선 손해가 0이에요. 타이토 계열이라 <b>크레인 대수가 도야마에서 가장 많습니다.</b></div>
-  <div class="umeta"><b>위치</b><span>후추마치 시모쿠쓰와다 165-1 · 파보레 2F</span><b>영업</b><span>10:00~ (몰 기준)</span><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/ファボーレ富山">파보레 구글맵</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/タイトーステーション+ファボーレ富山">게임센터 구글맵</a></span></div>
-</div>
-<div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/トヤマレジャーランド+呉羽店">토야마 레저랜드 구레하점</a></span><span class="gr"><span class="st">★</span>3.5<span class="cnt">(358)</span></span><span class="ubadge">평점 1위</span></div>
-  <div class="udesc"><b>도야마 게임센터 중 평점이 가장 높습니다(3.5 / 리뷰 358).</b> 09:00 오픈이라 아침부터 열려 있고 주차가 넓어요. 다만 시내 서쪽 구레하라 <b>동선에서 살짝 벗어납니다.</b> 뽑기 자체를 목적으로 간다면 여기가 정답.</div>
-  <div class="umeta"><b>위치</b><span>다카기 가이즈카 2054</span><b>영업</b><span>09:00~</span><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/トヤマレジャーランド+呉羽店">구글맵</a></span></div>
-</div>
-<div class="card">
-  <div class="uhead"><span class="uname">아피나 (Apina) 3개 지점</span><span class="gr"><span class="st">★</span>3.2~3.5</span><span class="ubadge">호쿠리쿠 로컬 체인</span></div>
-  <div class="udesc">도야마 로컬 게임센터 체인. <b>도요타점(★3.5, 359)</b> · <b>신조점(★3.2, 367)</b> · <b>미나미점(★3.3, 265)</b> 셋 다 리뷰가 250개 넘어 표본이 탄탄합니다. 전부 10:00 오픈. 숙소 위치에 맞춰 가까운 데로 가면 됩니다.</div>
-  <div class="umeta"><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/アピナ+富山">아피나 도야마 전체 보기</a></span></div>
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.ikomasanjou.com/">生駒山上遊園地 (이코마산조 유원지)</a></span><span class="ubadge chk">입원료 무료</span><span class="uwhen">8/8 저녁</span></div>
+  <div class="udesc">해발 <b>642m 이코마산 정상</b>. 1929년 개장한 오래된 유원지인데, 놀이기구보다 <b>오사카 평야가 통째로 발밑에 깔리는 조망</b>이 본편입니다. 해가 지면서 야경으로 넘어가는 시간대가 정점이에요.</div>
+  <div class="umeta">
+    <b>✅ 확인된 것</b><span><b>8월 「평일」은 서머타임 영업 12:00~21:00</b> (주차장 11:30 개문). 공식 공지로 확인했습니다</span>
+    <b>⚠️ 미확인</b><span><b>8/8은 토요일</b>입니다. 주말 시간표는 월별 캘린더가 이미지로만 제공돼 확인이 안 됐어요. <b>가기 전 공식 캘린더나 전화(0743-74-2173)로 확인하세요</b></span>
+    <b>휴원일</b><span><b>매주 목요일</b> (8/13 제외) · 8/12(수)도 휴원 → <b>8/7~8/11은 모두 영업일</b></span>
+    <b>요금</b><span>입원 <b>무료</b> · 놀이기구 개별 ¥300~1,000 · <b>프리패스 성인 ¥4,000</b></span>
+    <b>주차</b><span>승용차 <b>¥1,500</b> (토·일·공휴일·성수기는 <b>¥2,000</b>) · <b>입고는 영업 종료 30분 전까지</b></span>
+    <b>진입로</b><span><b>시기이코마 스카이라인(유료도로)</b>을 타야 합니다. 별도 요금 · <a class="ph" target="_blank" rel="noopener" href="https://www.kintetsu.co.jp/leisure/skyline/">도로 상황 확인</a></span>
+    <b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.ikomasanjou.com/">공식</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.ikomasanjou.com/calendar/calendar.html">영업 캘린더</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/生駒山上遊園地">구글맵</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=生駒山上遊園地+夜景">야경 사진</a></span>
+  </div>
 </div>
 
-<h3>다카야마 · 8/10 오후</h3>
+<div class="note"><b>토요일이 안 되면 어떻게 하나</b><br>
+8/8 토요일 야간영업이 없다면 <b>8/10(월)이 확실한 평일</b>입니다. 다만 그날은 나치폭포·시라하마 일정이라, 이코마를 넣으려면 <b>남부 일정을 하루로 압축</b>해야 해요. 현실적인 대안은 <b>①</b> 8/8에 <b>낮~해질녘</b>(주말도 최소 17시까지는 영업)까지만 보고 야경 대신 <b>석양</b>으로 만족하거나, <b>②</b> 8/8 대신 <b>8/7 금요일</b>에 넣는 것 — 다만 KIX 19:00 도착이라 21시 마감까지 30분밖에 안 남아 사실상 어렵습니다.<br><br>
+가장 안전한 건 <b>지금 전화로 8/8 시간표를 확인하고</b> 일정을 확정하는 겁니다.</div>
+
 <div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/GiGO高山">GiGO 다카야마</a></span><span class="gr"><span class="st">★</span>3.1<span class="cnt">(330)</span></span><span class="ubadge chk">다카야마 유일한 선택</span></div>
-  <div class="udesc">다카야마에서 <b>사실상 유일하게 갈 만한 게임센터</b>입니다. 리뷰 330개에 3.1이면 지방 게임센터로는 준수해요. 나머지 두 곳(루빗랜드 ★2.1 / G-SQUARE ★2.7)은 리뷰도 20개 안팎이라 굳이 갈 이유가 없습니다. <b>산마치 관광 끝나고 저녁 전에</b> 들르기 좋습니다.</div>
-  <div class="umeta"><b>위치</b><span>가미오카모토마치 7-7</span><b>영업</b><span>10:00~</span><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/GiGO高山">구글맵</a></span></div>
+  <div class="uhead"><span class="uname">타는 것 · 뭘 고를까</span><span class="ubadge">프리패스 vs 개별</span></div>
+  <div class="udesc"><b>둘이서 야경만 보러 간다면 프리패스(¥4,000)는 과합니다.</b> 개별권 ¥300~1,000이니 <b>2~3개만 골라 타는 게</b> 훨씬 쌉니다.<br><br>
+  <b>꼭 타야 하는 것</b> — <b>비행탑(飛行塔)</b>은 <b>1929년 개장 때부터 돌고 있는, 현존 일본 최고령 유희시설</b>입니다. 30m 높이에서 오사카 평야가 돌아갑니다. 그리고 <b>사이클 모노레일</b> — 산 사면을 따라 페달을 밟는데, 공식 공지에 <b>「특히 혼잡하다」</b>고 따로 적혀 있을 만큼 인기입니다.</div>
 </div>
 
-<h3>게로온천 · 8/10 밤</h3>
-<div class="note"><b>게로에는 게임센터가 없습니다.</b> 대신 온천 마을이라 <b>료칸 안 게임코너</b>와 <b>사격장(射的)</b>이 있는 곳이 있어요. 유카타 입고 온천 거리를 걸으며 하는 그 옛날식 사격이 오히려 이 동네에 어울립니다. 인형뽑기를 꼭 하고 싶다면 <b>8/10 다카야마에서 GiGO를 들르고 오세요.</b></div>
+<h2>🎮 게임센터 · 인형뽑기 <span class="k">게임센터는 평점이 원래 짜게 나옵니다</span></h2>
+<div class="note" style="margin-bottom:16px">일본 게임센터는 <b>2~3점대가 정상</b>입니다. "안 뽑힌다"는 리뷰가 구조적으로 쌓이는 업종이라 <b>3.0 넘으면 준수, 3.5면 좋은 편</b>으로 보세요. 대부분 10:00 오픈이고 동전 교환기는 <b>지폐만</b> 받습니다.</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/ゲームセンター+奈良市">나라 시내 게임센터</a></span><span class="ubadge">8/7 밤 · 8/8</span></div>
+  <div class="udesc">나라는 도시 규모에 비해 게임센터가 적습니다. <b>대형 쇼핑몰 안의 게임 코너</b>가 사실상 전부예요. <b>이온몰 다카노하라</b>·<b>이토요카도 나라점</b> 게임 코너, 그리고 <b>미도리 전기</b> 계열 매장의 크레인 코너 정도입니다.<br><br>
+  <b>제대로 된 게임센터를 원한다면</b> 이코마·오사카 동부 쪽이 훨씬 낫습니다. 8/8 이코마 가는 길에 <b>히가시오사카·이코마시</b> 쪽을 지나니 그때 들르는 게 효율적이에요.</div>
+  <div class="umeta"><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/ゲームセンター+クレーンゲーム+奈良市">나라 게임센터 검색</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/ゲームセンター+生駒市+東大阪">이코마·히가시오사카 검색</a></span></div>
+</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/ガチャガチャの森">가챠가챠 (캡슐토이)</a></span><span class="ubadge">전용 매장</span></div>
+  <div class="udesc">요즘 일본은 <b>가챠 전용 매장</b>이 따로 있습니다 — 벽 전체가 캡슐 자판기예요. <b>「가챠가챠노모리(ガチャガチャの森)」</b>, <b>「가샤폰 백화점」</b> 같은 체인이 쇼핑몰 안에 입점해 있습니다. 나라권에서는 <b>이온몰</b> 계열을 찾으면 됩니다.<br><br>
+  참고로 <b>고속도로 SA·PA와 공항</b>에도 가챠 코너가 꽤 큽니다. <b>8/11 KIX 출국 전</b>에 남은 동전을 털기 좋아요.</div>
+</div>
 
 <h2>🛍 쇼핑</h2>
-<h3>도야마</h3>
-<div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/ファボーレ富山">파보레 도야마 (ファボーレ)</a></span><span class="gr"><span class="st">★</span>3.9<span class="cnt">(3,929)</span></span><span class="ubadge chk">1순위</span></div>
-  <div class="udesc"><b>도야마 최대 쇼핑몰.</b> 유니클로·GU·무인양품·서점·다이소에 영화관까지 다 있고 <b>2층에 타이토 스테이션</b>이 붙어 있습니다. <b>도야마IC 옆이라 8/8 시라카와고 왕복 길목</b>이라는 게 결정적이에요. 주차 무료·대규모.</div>
-  <div class="umeta"><b>영업</b><span>10:00~</span><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/ファボーレ富山">구글맵</a></span></div>
-</div>
-<div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/マルート+富山駅">마루트 (MAROOT)</a></span><span class="gr"><span class="st">★</span>3.9<span class="cnt">(1,134)</span></span><span class="ubadge">도야마역 직결</span></div>
-  <div class="udesc"><b>도야마역에 붙어 있는 신축 쇼핑몰.</b> 1층에 스타벅스, 안에 식료품점도 여럿이라 <b>기념품·간식 사기에 가장 편합니다.</b> 차 없이 걸어서 갈 수 있다는 게 장점.</div>
-  <div class="umeta"><b>영업</b><span>10:00~</span><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/マルート+富山駅">구글맵</a></span></div>
-</div>
-<div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/総曲輪フェリオ+富山">소가와 페리오</a></span><span class="gr"><span class="st">★</span>3.7<span class="cnt">(410)</span></span><span class="ubadge">시내 번화가</span></div>
-  <div class="udesc">도야마 구도심 소가와 상점가의 중심. 아케이드 상가라 비 와도 괜찮고, <b>유리미술관과 도보권</b>이라 묶어서 돌기 좋습니다.</div>
-</div>
-<h3>다카야마 · 8/10</h3>
-<div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/高山三町+古い町並み">산마치 옛 거리 상점가</a></span><span class="ubadge chk">이미 일정에 있음</span></div>
-  <div class="udesc">쇼핑은 여기가 본편입니다. <b>사루보보 인형, 히다 목공, 이치이잇토보리 조각, 사케 시음(양조장 6곳)</b>. 관광지 가격이지만 물건 자체가 이 지역 것이라 값어치는 합니다. <b>17시면 대부분 닫으니</b> 저녁 먹기 전에 도세요.</div>
-</div>
-<h3>8/11 복귀 · 이미 일정에 반영됨</h3>
-<div class="note">린쿠 프리미엄 아울렛(★4.1, 15,605) + 이온몰 린쿠센난(★3.9, 6,773). <b>둘 다 공항 다리 건너기 전</b>이라 렌트카 반납 전에 들러야 합니다. 일정 탭 DAY 5에 시간까지 넣어놨어요.</div>
+<div class="note" style="margin-bottom:16px"><b>이번 루트는 쇼핑에 불리합니다.</b> 나라를 빼면 8/9·8/10이 산과 바다라 상점 자체가 거의 없어요. <b>사고 싶은 게 있으면 나라에서, 아니면 마지막 날 공항 근처에서</b> 몰아서 사세요.</div>
 
-<h2>📍 추가 관광지</h2>
-<h3>도야마 · 시간 남을 때</h3>
 <div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/スターバックス+環水公園">스타벅스 간스이공원점</a></span><span class="gr"><span class="st">★</span>4.3<span class="cnt">(5,425)</span></span><span class="ubadge chk">강추</span></div>
-  <div class="udesc"><b>「세계에서 가장 아름다운 스타벅스」</b>로 뽑힌 그 매장입니다. 후간 운하 공원 안 유리 상자 같은 건물이고, <b>운하와 덴몬교 야경</b>이 정면. 도야마역에서 <b>도보 15분</b>. 08:00 오픈이라 <b>8/8 아침(우동 전)</b>이나 <b>8/9 새벽 출발 전</b>에 끼우기 좋습니다.</div>
-  <div class="umeta"><b>영업</b><span>08:00~</span><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/スターバックス+環水公園">구글맵</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=環水公園+スターバックス+夜景">사진</a></span></div>
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/近鉄百貨店+奈良店">나라 · 히가시무키 상점가 + 나라마치</a></span><span class="uwhen">8/8 오전</span></div>
+  <div class="udesc">긴테쓰나라역 앞 <b>히가시무키 아케이드</b>가 나라의 번화가입니다. <b>나라마치</b>는 공예·잡화 쪽. 사슴 굿즈, 나라 붓(奈良筆), 가키노하즈시, 미와 소멘이 대표 기념품이에요.</div>
 </div>
 <div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/富山市ガラス美術館">도야마시 유리미술관</a></span><span class="gr"><span class="st">★</span>4.2<span class="cnt">(7,677)</span></span><span class="ubadge">비 오는 날 대안</span></div>
-  <div class="udesc"><b>구마 겐고 설계.</b> 도서관과 한 건물이라 나선형 목재 아트리움이 위로 뚫려 있는데, <b>건물 자체가 전시물</b>입니다. 리뷰 7,677개에 4.2면 도야마 실내 관광지 중 최상위. 9:30 오픈.</div>
-  <div class="umeta"><b>위치</b><span>니시초 5-1 · 소가와 페리오 도보권</span><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/富山市ガラス美術館">구글맵</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=富山市ガラス美術館+隈研吾">사진</a></span></div>
-</div>
-<h3>다카야마 · 8/10</h3>
-<div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/高山昭和館">다카야마 쇼와관</a></span><span class="gr"><span class="st">★</span>4.4<span class="cnt">(2,163)</span></span><span class="ubadge chk">숨은 강자</span></div>
-  <div class="udesc"><b>리뷰 2,163개에 4.4</b> — 이번 일정에 있는 다카야마 명소 중 평점이 가장 높습니다. 쇼와 30년대 거리를 통째로 재현해 놓은 곳이라 <b>만지고 앉고 사진 찍는</b> 체험형이에요. 산마치 바로 옆(시모이치노마치), 9:00 오픈.</div>
-  <div class="umeta"><b>링크</b><span><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/高山昭和館">구글맵</a> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=高山昭和館+内部">사진</a></span></div>
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/イオンモール高の原">이온몰 다카노하라 · 이온몰 나라돔시티</a></span><span class="uwhen">8/7~8/8</span></div>
+  <div class="udesc">대형 마트 + 게임 코너 + 가챠가 한 건물에 있습니다. <b>주차 무료</b>이고 밤늦게까지 열어요. 과자·조미료 같은 <b>마트 쇼핑은 여기가 정답</b>입니다.</div>
 </div>
 <div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/宮川朝市+高山">미야가와 아침시장</a></span><span class="gr"><span class="st">★</span>4.1<span class="cnt">(10,443)</span></span><span class="ubadge chk">이번 일정으론 불가</span></div>
-  <div class="udesc">리뷰 1만 개가 넘는 다카야마 대표 명소인데, <b>07:00~12:00</b>만 엽니다. 8/10은 가미코치를 보고 오후에 다카야마에 닿으니 <b>시간대가 안 맞아요.</b> 넣으려면 8/10 아침 가미코치를 포기해야 합니다 — 권하지 않습니다.</div>
-</div>
-<h3>게로온천 · 8/10 밤 ~ 8/11 아침</h3>
-<div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/噴泉池+下呂温泉">噴泉池 (분센치) 노천</a></span><span class="gr"><span class="st">★</span>4.1<span class="cnt">(937)</span></span><span class="ubadge">24시간 · 무료</span></div>
-  <div class="udesc">히다강 강변에 그대로 놓인 <b>게로의 상징</b>. 24시간 무료입니다. <b>지금은 입욕이 아니라 족욕 용도</b>로 운영되니 수영복 챙길 필요 없이 발만 담그면 됩니다. 밤에 유카타 입고 나가기 딱이에요.</div>
-</div>
-<div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/下呂温泉合掌村">게로온천 합장마을</a></span><span class="gr"><span class="st">★</span>4.0<span class="cnt">(4,927)</span></span><span class="ubadge chk">시라카와고와 중복</span></div>
-  <div class="udesc">합장가옥을 옮겨 지은 야외 박물관. 4,927개 리뷰에 4.0으로 평은 좋은데, <b>8/8에 시라카와고를 이미 봤으니 감흥이 확 줄어듭니다.</b> 8:30 오픈이라 8/11 아침에 넣을 수는 있어요.</div>
-</div>
-<div class="card">
-  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/下呂温泉+いでゆ朝市">이데유 아침시장</a></span><span class="gr"><span class="st">★</span>3.2<span class="cnt">(465)</span></span><span class="ubadge">8/11 아침에 가능</span></div>
-  <div class="udesc">게로 온천 거리의 작은 아침시장. <b>08:00 오픈</b>이라 8/11 아침 산책(09:00) 코스에 자연스럽게 걸립니다. 평점 3.2로 기대치는 낮게 — <b>규모가 작습니다.</b> 지나는 김에 들르는 정도로.</div>
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/りんくうプレミアム・アウトレット">린쿠 프리미엄 아울렛 · 이온몰 린쿠센난</a></span><span class="gr"><span class="st">★</span>4.1<span class="cnt">(15,605)</span></span><span class="uwhen">8/11</span></div>
+  <div class="udesc"><b>KIX 다리 건너기 직전</b>, 공항에서 차로 10분. 200여 브랜드에 <b>10:00 오픈·주차 무료</b>. 차로 5분 거리의 <b>이온몰 린쿠센난(★3.9, 6,773)</b>이 마트 담당입니다.<br><br>
+  <b>8/11에 3시간 이상 버퍼가 있으니</b> 이 두 곳을 넣으면 마지막 날이 알차집니다. <b>반드시 렌트카 반납 전에</b> 들르세요 — 반납 후엔 다시 나오기가 번거롭습니다.</div>
 </div>
 </section>
 
@@ -958,31 +656,44 @@
 <h2>✅ 예약 · 준비 체크리스트</h2>
 <div class="grid">
   <div class="box">
-    <h3>지금 바로 예약</h3>
+    <h3>지금 바로</h3>
     <ul>
-      <li>도야마 2박 — <b>00:30 체크인 가능 여부를 가격보다 먼저</b> 확인</li>
-      <li>히라유온천 1박 — 마을이 작아 금방 참</li>
-      <li>게로온천 1박 — <b>1박 2식</b>으로</li>
-      <li><b>알펜루트 WEB티켓</b> (다테야마역↔무로도 시간 지정)</li>
+      <li><b>8/9 산속 1박</b> — 총량이 적습니다. <b>가장 먼저</b></li>
+      <li><b>8/10 시라하마 1박</b> — 8월 성수기 정점</li>
+      <li>나라 2박 — 8/8(토)이 제일 비쌉니다</li>
+      <li><b>이코마 8/8 토요일 야간영업 확인</b> — 0743-74-2173</li>
       <li>렌트카 <b>ETC 카드</b> 옵션</li>
-      <li>8/8 저녁 — 요리하면 예약 불필요. 사 먹을 거면 <b>이와세 미슐랭은 지금 바로</b></li>
+      <li>산속 숙소는 <b>저녁 제공 여부</b> 반드시 확인</li>
     </ul>
   </div>
   <div class="box">
-    <h3>현장에서 타는 것</h3>
+    <h3>예약 없이 되는 것</h3>
     <ul>
-      <li>가미코치 셔틀버스 — 예약 없음, 8월은 30분 간격 증편</li>
-      <li>아칸다나 주차장은 선착순이지만 여유 있음</li>
-      <li>→ 그래도 <b>아침 일찍이 정석</b> (오후 소나기)</li>
+      <li>나라공원 · 가스가타이샤 — 그냥 가면 됩니다</li>
+      <li>미타라이 계곡 — 대신 <b>주차가 선착순</b></li>
+      <li>유노미네 쓰보유 — <b>현장 번호표</b>, 30분 1팀</li>
+      <li>나치폭포 · 다니세 현수교 · 산단베키</li>
+      <li>이코마산조 유원지 — 입원 무료</li>
     </ul>
   </div>
   <div class="box">
-    <h3>야간 운전 대비 (8/7)</h3>
+    <h3>⚠️ 산길 운전 (8/9~8/10)</h3>
     <ul>
-      <li>비행 직후 4시간 반 — 가능하면 운전 교대</li>
-      <li>휴게소 2회 이상, 졸리면 PA에서 20분 수면</li>
-      <li>호쿠리쿠도 후쿠이~도야마는 터널이 많고 어둡습니다</li>
-      <li>0~4시 통과 시 ETC 심야할인 30%</li>
+      <li>국도 <b>168호·309호</b>는 편도 1차선 굽잇길</li>
+      <li><b>주유는 고조(五條)에서 반드시</b> — 남쪽은 주유소가 드물고 일찍 닫습니다</li>
+      <li>가로등이 없습니다 — <b>해 지기 전 도착</b>이 기본</li>
+      <li>휴대폰이 안 터지는 구간이 있습니다 — <b>지도 오프라인 저장</b></li>
+      <li>여름 오후 <b>소나기</b>가 잦습니다. 계곡은 특히 주의</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>복장 · 짐</h3>
+    <ul>
+      <li><b>운동화 필수</b> — 미타라이·나치 모두 계단</li>
+      <li>산속은 시내보다 <b>5~7℃ 낮습니다</b> — 얇은 겉옷</li>
+      <li>온천용 <b>수건</b> (쓰보유는 소규모라 챙기는 게 편함)</li>
+      <li>벌레 기피제 — 8월 산속은 필수</li>
+      <li>사슴에게 줄 센베는 <b>현장 구매</b> (반입 금지)</li>
     </ul>
   </div>
   <div class="box">
@@ -990,69 +701,34 @@
     <ul>
       <li>국제운전면허증(제네바) + 한국 면허증 + 여권</li>
       <li>좌측통행 · 우회전 시 대향차 우선</li>
-      <li>국도 41호·158호(아보터널)는 산길, 야간 조명 없음</li>
-      <li>주유는 도야마·다카야마·마쓰모토 시내에서 미리</li>
+      <li>나라 시내 주차는 <b>코인파킹</b>이 기본 — 숙소 주차 확인</li>
+      <li>시기이코마 스카이라인은 <b>유료도로</b> (ETC 가능 여부 확인)</li>
     </ul>
   </div>
   <div class="box">
-    <h3>고산 복장</h3>
+    <h3>🦌 사슴 주의사항</h3>
     <ul>
-      <li>무로도 2,450m — 8월에도 <b>10~18℃</b></li>
-      <li>가미코치 1,500m — 아침엔 15℃ 안팎</li>
-      <li>얇은 경량 패딩 + 바람막이 + 긴바지 필수</li>
-      <li>트레킹화 (가미코치는 운동화도 가능)</li>
-      <li>선크림·선글라스·모자 — 고산 자외선 매우 강함</li>
-      <li>평지용 여름옷 별도 (도야마·다카야마 30℃ 넘음)</li>
-    </ul>
-  </div>
-  <div class="box">
-    <h3>날씨 · 리스크</h3>
-    <ul>
-      <li>고산은 <b>오후 소나기·뇌우가 잦음</b> → 셋 다 오전 승부</li>
-      <li>태풍 시즌 초입 — 출발 3일 전 예보 확인</li>
-      <li>구름이 끼면 무로도는 아무것도 안 보입니다</li>
-      <li>가미코치는 흐려도 볼 만해 <b>날씨 나쁜 날의 보험</b>입니다</li>
-    </ul>
-  </div>
-  <div class="box">
-    <h3>가미코치 규칙</h3>
-    <ul>
-      <li>편의점·쓰레기통 없음 → 전부 되가져오기</li>
-      <li>곰 출몰 지역, 안내판 준수</li>
-      <li>다이쇼이케에서 내려 걸어 내려오는 게 정석</li>
-      <li>도시락은 히라유 숙소에 부탁하거나 미리 구입</li>
-    </ul>
-  </div>
-  <div class="box">
-    <h3>8/11 마지막 날</h3>
-    <ul>
-      <li>게로 10:00 출발 → KIX 13:20 도착</li>
-      <li><b>버퍼 3시간</b> — 이번 일정에서 가장 편한 날</li>
-      <li>반납 30분 전 공항 근처에서 만땅 주유</li>
-      <li>나고야권 정체가 유일한 변수</li>
+      <li>센베를 <b>손에 들고 망설이면</b> 옷을 뭅니다 — 빠르게 주세요</li>
+      <li><b>봉지·지도·티켓</b>도 먹으려 듭니다. 가방에 넣으세요</li>
+      <li>새끼 사슴(6~7월생) 근처엔 어미가 예민합니다</li>
+      <li>야생동물입니다 — <b>천연기념물</b>이고 다치게 하면 처벌 대상</li>
     </ul>
   </div>
 </div>
 
 <h2>이번 루트에서 뺀 것</h2>
-<table>
-  <thead><tr><th>항목</th><th>이유</th></tr></thead>
-  <tbody>
-    <tr><td><b>구로베 협곡 트롯코</b></td><td>2024년 노토반도 지진 → 히가시가네쓰리산 낙석 → 가네쓰리교 손상. 2026년 8월엔 <b>우나즈키~네코마타 왕복만</b> 운행하고, 게야키평까지 전 구간 재개는 <b>2026년 10월 1일</b></td></tr>
-    <tr><td><b>센조지키 카르</b></td><td>무로도와 인상이 겹치고(화산 vs 빙하 권곡이지만 8월엔 둘 다 고산 초원+바위산), 규모는 무로도가 압도적. 로프웨이가 <b>예약제가 없어</b> 귀국일 아침에 1시간+ 대기를 감수해야 했습니다</td></tr>
-    <tr><td><b>마쓰모토성</b></td><td>센조지키를 빼면서 나가노 방향으로 갈 이유가 사라짐</td></tr>
-    <tr><td><b>구조하치만</b></td><td>루트가 북알프스 종단으로 바뀌며 완전히 벗어남</td></tr>
-    <tr><td><b>가나자와</b></td><td>8/7 야간 통과 구간. 들르려면 하루가 더 필요합니다</td></tr>
-  </tbody>
-</table>
+<div class="note"><b>오사카 시내</b> — 요청대로 통째로 뺐습니다. 도톤보리·신세카이·USJ는 이번 루트에 없습니다.<br><br>
+<b>교토</b> — 8월 교토는 덥고 사람이 가장 많은 시기라 <b>「사람 없고 풍경」 기준과 정반대</b>입니다. 나라에서 1시간이면 가지만 넣지 않았습니다.<br><br>
+<b>코야산</b> — 넣을 만한데, <b>미타라이 계곡과 하루를 놓고 경쟁</b>합니다. 둘 다는 무리예요. 「풍경 스팟」 탭에 비교를 적어뒀습니다.<br><br>
+<b>아마노하시다테 · 이세</b> — 방향이 정반대라 물리적으로 불가능합니다.</div>
 </section>
 
 <footer>
-  요금·운행·영업 정보는 2026년 8월 기준 공식 자료를 참고했습니다. 출발 전
-  <a href="https://www.alpen-route.com/">알펜루트</a>,
-  <a href="https://www.kamikochi.or.jp/">가미코치</a>,
-  <a href="https://www.chuo-alps.com/">주오알프스 고마가타케 로프웨이</a>,
-  <a href="https://www.nouhibus.co.jp/">노히버스</a> 공식 사이트에서 운행 시각을 재확인하세요.
+  영업시간·요금은 2026년 8월 기준 공식 자료와 구글 지도를 참고했습니다. 출발 전
+  <a href="https://www.ikomasanjou.com/calendar/calendar.html">이코마산조 유원지 캘린더</a>,
+  <a href="https://www.vill.tenkawa.nara.jp/tourism/spot/5159/">덴카와무라(미타라이 계곡)</a>,
+  <a href="https://www.kintetsu.co.jp/leisure/skyline/">시기이코마 스카이라인</a>
+  공식 사이트에서 재확인하세요. 구글 평점·숙소 요금은 조회 시점 값이라 변동됩니다.
 </footer>
 
 </div>
@@ -1062,36 +738,35 @@
 (function(){
   var COLORS={1:'#7c5cff',2:'#12876c',3:'#2f7fd4',4:'#cc6b3a',5:'#c9962a'};
   var ROUTES={
-    1:[[34.4342,135.2440],[34.5100,135.3900],[34.5900,135.4300],[34.7000,135.4900],[34.7800,135.5200],[34.8500,135.6200],[34.9000,135.6900],[35.0100,135.8700],[35.0200,135.9600],[35.2700,136.2500],[35.3200,136.2900],[35.3800,136.2700],[35.5000,136.2200],[35.6450,136.0660],[35.8000,136.2000],[35.9500,136.1900],[36.0640,136.2190],[36.1500,136.2700],[36.3000,136.3200],[36.4100,136.4500],[36.5780,136.6480],[36.6700,136.7300],[36.6800,136.8700],[36.7500,137.0300],[36.7010,137.2137]],
-    2:[[36.7010,137.2137],[36.6971,137.2136],[36.6300,136.9700],[36.5500,136.8900],[36.4272,136.9350],[36.3600,136.9100],[36.2585,136.9060],[36.3600,136.9100],[36.4272,136.9350],[36.6300,136.9700],[36.7010,137.2137],[36.7597,137.2135]],
-    3:[[36.7010,137.2137],[36.6900,137.3200],[36.6300,137.3300],[36.5793,137.3113],[36.7010,137.2137],[36.6100,137.2200],[36.4500,137.2200],[36.3400,137.3000],[36.2373,137.1866],[36.1955,137.2606],[36.1424,137.2580],[36.1600,137.3500],[36.1831,137.5559]],
-    4:[[36.1831,137.5559],[36.1600,137.3500],[36.1424,137.2580],[36.0500,137.2400],[35.9000,137.2500],[35.7965,137.2440]],
-    5:[[35.7965,137.2440],[35.6000,137.1600],[35.4400,137.0200],[35.2900,136.9100],[35.2000,136.7200],[35.1500,136.5000],[35.1200,136.2500],[34.9800,135.7600],[34.8500,135.6200],[34.6800,135.4900],[34.5900,135.4300],[34.4118,135.2965],[34.3862,135.2727],[34.4342,135.2440]]
+    1:[[34.4342,135.2440],[34.4600,135.3200],[34.5200,135.4300],[34.5900,135.5400],[34.6300,135.6600],[34.6600,135.7500],[34.6808,135.8190]],
+    2:[[34.6808,135.8190],[34.6889,135.8398],[34.6813,135.8482],[34.6790,135.8290],[34.5900,135.8000],[34.4930,135.7790],[34.4665,135.8210],[34.5300,135.7600],[34.6200,135.7000],[34.6790,135.6780],[34.6808,135.8190]],
+    3:[[34.6808,135.8190],[34.5000,135.7300],[34.3500,135.7000],[34.2580,135.8360],[34.2407,135.8716],[34.2580,135.8360],[34.1800,135.8000],[34.1330,135.7830],[34.0500,135.7900],[33.9882,135.7939]],
+    4:[[33.9882,135.7939],[33.8900,135.7800],[33.8400,135.7730],[33.8404,135.7736],[33.7800,135.8300],[33.7000,135.9200],[33.6706,135.8907],[33.5400,135.8300],[33.4750,135.7830],[33.5500,135.5900],[33.6300,135.4200],[33.6760,135.3400]],
+    5:[[33.6760,135.3400],[33.7400,135.3800],[33.8800,135.3700],[34.0500,135.3600],[34.2000,135.2400],[34.3400,135.2100],[34.4118,135.2965],[34.4342,135.2440]]
   };
-  var LIFTS=[
-    {d:3,pts:[[36.5793,137.3113],[36.5820,137.3480],[36.5650,137.4700],[36.5773,137.5947]]},
-    {d:4,pts:[[36.1876,137.5622],[36.2100,137.6000],[36.2317,137.6208],[36.2503,137.6350],[36.2560,137.6640]]}
-  ];
+  var LIFTS=[];
   var STOPS=[
-    {d:1,ll:[34.4342,135.2440],n:'간사이 국제공항',t:'8/7 19:00 · 8/11 15:30',x:'렌트카 수령/반납. ETC 카드 필수.'},
-    {d:1,ll:[36.7010,137.2137],n:'도야마역 · 숙소 A',t:'8/7 00:30 도착',x:'2박 연박. 1박 14만원 이하 후보는 호텔 탭 참고. 00:30 체크인 가능 여부가 최우선.'},
-    {d:2,ll:[36.6971,137.2136],n:'🍜 鶴喜 (냉 자루우동)',t:'8/8 11:00',x:'★4.3(251). 덴자루우동 ¥1,200. 7·8월 11시 오픈, L.O.13:40. 일·월 휴무.'},
-    {d:2,ll:[36.2585,136.9060],n:'시라카와고 오기마치',t:'8/8 13:20',x:'2시간 10분: 전망대 셔틀 → 마을 → 와다케 가옥 → 데아이바시.'},
-    {d:2,ll:[36.6996,137.2170],n:'🛒 알비스 에스타 (장보기)',t:'8/8 16:50',x:'도야마역 옆 B1. 회 코너는 저녁이면 비니 17시 전에. 사시미 사면 얼음 무료.'},
-    {d:2,ll:[36.7597,137.2135],n:'이와세 옛 거리',t:'8/8 17:30',x:'미슐랭 6곳의 항구 마을. 만수천 시음(사세키), 도야마항 전망대, 일몰 18:50.',s:1},
-    {d:3,ll:[36.5793,137.3113],n:'다테야마역',t:'8/9 07:20',x:'무료주차 900대. 여기서부터 자가용 불가.'},
-    {d:3,ll:[36.5773,137.5947],n:'무로도 · 미쿠리가이케 (2,450m)',t:'8/9 09:30',x:'왕복 약 ¥8,180. 8월에도 10~18℃. 경량 패딩 필수.'},
-    {d:3,ll:[36.1424,137.2580],n:'다카야마 · 저녁 (京や)',t:'8/9 17:30',x:'히다규 호바미소 정식 ¥1,800. ★4.5. 화요일 휴무.'},
-    {d:3,ll:[36.1831,137.5559],n:'히라유온천 · 숙소 B',t:'8/9 18:30',x:'아칸다나 주차장 인접. 내일 가미코치 첫차 접근 최적.'},
-    {d:4,ll:[36.1876,137.5622],n:'아칸다나 주차장',t:'8/10 06:30',x:'주차 ¥600/일. 셔틀버스 왕복 ¥2,090, 30분.'},
-    {d:4,ll:[36.2317,137.6208],n:'다이쇼이케',t:'8/10 07:10',x:'종점 전에 내리는 게 정석. 물에 잠긴 고사목과 야케다케.'},
-    {d:4,ll:[36.2503,137.6350],n:'갓파바시',t:'8/10 08:00',x:'호타카 연봉이 정면. 가미코치의 그 사진이 여기.'},
-    {d:4,ll:[36.2560,137.6640],n:'묘진이케',t:'8/10 09:30',x:'갓파바시에서 편도 1시간. 우안으로 가서 좌안으로 복귀.',s:1},
-    {d:4,ll:[36.1424,137.2580],n:'다카야마 산마치 · 히가시야마',t:'8/10 14:30',x:'오후가 통째로 비어 제대로 걷습니다. 히가시야마 산책로로 인파 회피.'},
-    {d:4,ll:[35.7965,137.2440],n:'게로온천 · 숙소 C',t:'8/10 17:30',x:'일본 3대 온천. 1박 2식 권장. 무료 족욕탕 다수.'},
-    {d:5,ll:[34.4118,135.2965],n:'🛍 린쿠 프리미엄 아울렛',t:'8/11 13:10',x:'★4.1(15,605). 200여 브랜드. 공항 다리 건너기 전 — 반드시 렌트카 반납 전에.'},
-    {d:5,ll:[34.3862,135.2727],n:'🛒 이온몰 린쿠센난',t:'8/11 14:10',x:'★3.9(6,773). 마트 담당 — 과자·조미료·주류. 아울렛에서 5분.'},
-    {d:5,ll:[34.4342,135.2440],n:'KIX 반납',t:'8/11 15:30',x:'반납 30분 전 주유 만땅. 셔틀 10분. 18:55 이륙.',s:1}
+    {d:1,ll:[34.4342,135.2440],n:'간사이 국제공항',t:'8/7 19:00 · 8/11 13:30',x:'렌트카 수령/반납. ETC 카드 옵션 필수.'},
+    {d:1,ll:[34.6820,135.8202],n:'나라 · 숙소 A',t:'8/7 22:30',x:'호텔 2박 연박. 온야도 노노(★4.5) 또는 그랜드브리오 덴리(★4.3).'},
+    {d:1,ll:[34.6840,135.8270],n:'🥞 やきとら (오코노미야끼)',t:'8/7 21:15',x:'★4.6(54). 히로시마풍. 23시까지 — 첫날 밤 사실상 유일한 선택.',s:1},
+    {d:2,ll:[34.6889,135.8398],n:'🦌 나라공원 · 사슴',t:'8/8 06:30',x:'9시 넘으면 관광객이 덮습니다. 아침 안개 낀 시각이 승부처.'},
+    {d:2,ll:[34.6813,135.8482],n:'가스가타이샤',t:'8/8 08:30',x:'등롱 3,000개의 주홍 회랑. 개문 직후엔 사람이 없습니다.'},
+    {d:2,ll:[34.4930,135.7790],n:'🍡 だんご庄 坊城본점',t:'8/8 12:30',x:'1878년 창업. 기나코 당고 한 가지. 매진되면 종료, ~17:00.'},
+    {d:2,ll:[34.4665,135.8210],n:'아스카무라 · 이시부타이 고분',t:'8/8 14:00',x:'논밭과 고분뿐. 이번 일정에서 낮에 가장 한적한 곳.'},
+    {d:2,ll:[34.6790,135.6780],n:'🎡 이코마산조 유원지',t:'8/8 17:00',x:'642m. 입원 무료, 주차 ¥1,500~2,000. 8월 평일 12~21시. 토요일 시간표 확인 필요.',s:1},
+    {d:3,ll:[34.2407,135.8716],n:'💧 미타라이 계곡',t:'8/9 09:20',x:'덴카와 블루. 주차 소수 — 일요일이라 9시 전 도착 필수. 왕복 1시간 30분.'},
+    {d:3,ll:[34.2580,135.8360],n:'덴카와 다이벤자이텐샤',t:'8/9 12:30',x:'일본 3대 벤자이텐. 마을에 식당이 몇 곳뿐.'},
+    {d:3,ll:[34.1330,135.7830],n:'🌉 다니세 현수교',t:'8/9 15:00',x:'297m · 높이 54m. 1954년 주민들이 놓은 생활용 다리. 동시 20명 제한.'},
+    {d:3,ll:[33.9882,135.7939],n:'♨️ 도츠카와 온천 · 숙소 B',t:'8/9 16:30',x:'전국 최초 원천 100% 가케나가시 선언. 저녁 주는 곳으로 잡으세요.',s:1},
+    {d:4,ll:[33.8400,135.7730],n:'♨️ 유노미네 온천 쓰보유',t:'8/10 08:00',x:'세계유산에 등재된 유일한 온천. 30분에 1팀, 현장 번호표.'},
+    {d:4,ll:[33.8380,135.7790],n:'⛩ 오유노하라 대도리이',t:'8/10 09:30',x:'높이 33.9m 일본 최대 도리이. 논 한가운데라 사방이 트여 있습니다.'},
+    {d:4,ll:[33.6706,135.8907],n:'🌊 나치폭포 + 삼중탑',t:'8/10 13:00',x:'단일 낙차 133m 일본 최대. 주홍 삼중탑과 겹치는 구도가 상징.'},
+    {d:4,ll:[33.4750,135.7830],n:'하시구이이와',t:'8/10 15:00',x:'850m에 걸친 바위 기둥 40여 개. 경로상이라 5분만.',s:1},
+    {d:4,ll:[33.6760,135.3400],n:'시라하마 · 숙소 C',t:'8/10 18:30',x:'에어비앤비 1박. 일몰 약 18:50 — 도착 직후 바다로.',s:1},
+    {d:5,ll:[33.6650,135.3350],n:'🪨 산단베키',t:'8/11 08:30',x:'절벽 50m · 2km. 엘리베이터로 지하 36m 동굴까지.'},
+    {d:5,ll:[33.6760,135.3400],n:'센조지키 · 시라라하마',t:'8/11 09:40',x:'층층이 깎인 바위 대지. 울타리가 없어 그냥 걷습니다.'},
+    {d:5,ll:[34.4118,135.2965],n:'🛍 린쿠 프리미엄 아울렛',t:'8/11 12:00',x:'★4.1(15,605). 공항 다리 건너기 전 — 반납 전에 들르세요.'},
+    {d:5,ll:[34.4342,135.2440],n:'KIX 반납',t:'8/11 13:30',x:'반납 30분 전 주유 만땅. 셔틀 10분. 18:55 이륙.',s:1}
   ];
 
   function init(){
@@ -1152,7 +827,7 @@
     window.scrollTo({top:0,behavior:'smooth'});
   }
   btns.forEach(function(b){ b.addEventListener('click',function(){ go(b.dataset.tab); }); });
-  var valid=['itin','food','udon','hotel','play','prep'], h=location.hash.slice(1);
+  var valid=['itin','food','view','hotel','play','prep'], h=location.hash.slice(1);
   if(valid.indexOf(h)!==-1) go(h);
 })();
 </script>
