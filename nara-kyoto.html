@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>나라 · 교토 4박 5일 · 2026.8.7–8.11</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root{
+    --bg:#faf8f5; --card:#ffffff; --ink:#1f2328; --muted:#6b7280;
+    --line:#e6e1da; --accent:#1d6f5c; --accent-soft:#e7f2ee;
+    --warn:#8a5a00; --warn-soft:#fdf3e0; --blue:#2b5f9e; --blue-soft:#e9f0fa;
+    --udon:#a8502a; --udon-soft:#fbeee6;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#15171a; --card:#1e2126; --ink:#e8e6e3; --muted:#9aa1ab;
+      --line:#2e333a; --accent:#5fc0a4; --accent-soft:#16302a;
+      --warn:#e0b062; --warn-soft:#2e2617; --blue:#7fb0e8; --blue-soft:#172231;
+      --udon:#e09a72; --udon-soft:#2d1f18; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:36px 20px 80px}
+  header{margin-bottom:24px}
+  h1{font-size:28px;line-height:1.3;margin:0 0 8px;letter-spacing:-0.02em}
+  .sub{color:var(--muted);font-size:15px;margin:0}
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .pill{font-size:13px;padding:5px 11px;border-radius:99px;background:var(--accent-soft);
+    color:var(--accent);font-weight:600}
+  .hint{font-size:13px;color:var(--muted);margin-top:14px;padding:10px 14px;
+    background:var(--card);border:1px dashed var(--line);border-radius:10px}
+
+  .tabs{display:flex;gap:6px;position:sticky;top:0;z-index:20;padding:10px 0 12px;
+    background:linear-gradient(var(--bg) 72%,transparent);margin-bottom:6px;
+    overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tab-btn{flex:0 0 auto;font:inherit;font-size:14px;font-weight:700;cursor:pointer;
+    padding:9px 16px;border-radius:99px;border:1px solid var(--line);
+    background:var(--card);color:var(--muted);white-space:nowrap;
+    transition:background .15s,color .15s,border-color .15s}
+  .tab-btn:hover{color:var(--ink);border-color:var(--muted)}
+  .tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  @media (prefers-color-scheme: dark){ .tab-btn.active{color:#12211d} }
+  .panel{display:none;animation:fade .18s ease}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .panel > h2:first-child{margin-top:14px}
+
+  #livemap{height:560px;border-radius:12px;overflow:hidden;border:1px solid var(--line);
+    background:var(--bg)}
+  .leaflet-container{font-family:inherit;background:#eef2f5}
+  @media (prefers-color-scheme: dark){ .leaflet-container{background:#1a1d21} }
+  .leaflet-popup-content{margin:11px 13px;font-size:13px;line-height:1.5}
+  .leaflet-popup-content b{font-size:14px}
+  .leaflet-popup-content .pw{font-size:11.5px;font-weight:700;color:#fff;
+    padding:2px 7px;border-radius:99px;display:inline-block;margin-bottom:5px}
+  .leaflet-popup-content .pn{color:#666;display:block;margin-top:4px}
+  .mapswitch{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+  .ms{font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;padding:6px 12px;
+    border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--muted)}
+  .ms.on{color:#fff}
+  .mapbox{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:18px;margin-bottom:16px}
+  .legend{display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:center;
+    margin-top:14px;font-size:13px}
+  .lg{display:flex;align-items:center;gap:6px}
+  .lg i{width:22px;height:4px;border-radius:99px;display:inline-block}
+  .gmaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;
+    margin-top:16px}
+  .gm{display:block;text-decoration:none;background:var(--blue-soft);color:var(--blue);
+    border-radius:10px;padding:11px 14px;font-size:13.5px;font-weight:700;
+    border:1px solid transparent;transition:border-color .15s}
+  .gm:hover{border-color:var(--blue)}
+  .gm span{display:block;font-weight:400;font-size:12px;color:var(--muted);margin-top:2px}
+  .gm.all{background:var(--accent-soft);color:var(--accent)}
+
+  .day{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:22px 24px;margin-bottom:18px}
+  .dayhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:16px}
+  .dnum{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--accent);
+    background:var(--accent-soft);padding:4px 9px;border-radius:6px}
+  .ddate{font-size:19px;font-weight:700;letter-spacing:-0.01em}
+  .dtag{font-size:13px;color:var(--muted);margin-left:auto}
+  ul.tl{list-style:none;margin:0;padding:0}
+  ul.tl li{position:relative;padding:0 0 16px 20px;border-left:2px solid var(--line);margin-left:6px}
+  ul.tl li:last-child{border-left-color:transparent;padding-bottom:0}
+  ul.tl li::before{content:"";position:absolute;left:-6px;top:9px;width:9px;height:9px;
+    border-radius:50%;background:var(--accent)}
+  .t{font-variant-numeric:tabular-nums;font-weight:700;font-size:14px;color:var(--accent);margin-right:8px}
+  .ttl{font-weight:600}
+  a.ph{color:inherit;text-decoration:none;border-bottom:1.5px dotted var(--blue)}
+  a.ph:hover{color:var(--blue);border-bottom-style:solid}
+  a.ph::after{content:"  ⌖";font-size:11px;color:var(--blue);vertical-align:2px}
+  .desc{font-size:14px;color:var(--muted);margin-top:3px}
+  .drive{display:inline-block;font-size:12.5px;color:var(--blue);background:var(--blue-soft);
+    padding:2px 8px;border-radius:5px;font-weight:600;margin-top:5px}
+  .drive.bus{background:var(--warn-soft);color:var(--warn)}
+  .note{background:var(--warn-soft);border-left:3px solid var(--warn);color:var(--ink);
+    padding:11px 14px;border-radius:0 8px 8px 0;font-size:13.5px;margin-top:14px}
+  .note b{color:var(--warn)}
+  .stay{margin-top:14px;font-size:13.5px;padding:10px 14px;background:var(--accent-soft);border-radius:8px}
+  .stay b{color:var(--accent)}
+  h2{font-size:20px;margin:42px 0 14px;letter-spacing:-0.01em}
+  h2 .k{font-size:14px;color:var(--muted);font-weight:400;margin-left:8px}
+  h3{font-size:16px;margin:26px 0 10px}
+  table{width:100%;border-collapse:collapse;font-size:14px;background:var(--card);
+    border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+  th{background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:700}
+  tr:last-child td{border-bottom:none}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .box h3{margin:0 0 8px;font-size:15px}
+  .box ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--muted)}
+  .box li{margin-bottom:5px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--udon);
+    border-radius:0 12px 12px 0;padding:18px 20px;margin-bottom:14px}
+  .card.h{border-left-color:var(--accent)}
+  .uhead{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+  .uname{font-size:17px;font-weight:700}
+  .uname a{color:inherit;text-decoration:none;border-bottom:1.5px dotted var(--udon)}
+  .uname a:hover{color:var(--udon)}
+  .ubadge{font-size:11.5px;font-weight:700;color:var(--udon);background:var(--udon-soft);
+    padding:3px 9px;border-radius:99px}
+  .ubadge.chk{color:var(--warn);background:var(--warn-soft)}
+  .uwhen{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--accent);
+    background:var(--accent-soft);padding:3px 10px;border-radius:99px}
+  .uwhen.no{color:#c0392b;background:#fdeceb}
+  @media (prefers-color-scheme: dark){ .uwhen.no{color:#f08a7a;background:#3a201c} }
+  .gr{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;
+    padding:3px 9px;border-radius:99px;background:var(--bg);border:1px solid var(--line);white-space:nowrap}
+  .gr .st{color:#e8a33d}
+  .gr .cnt{font-weight:400;color:var(--muted);font-size:11.5px}
+  .gr.hi{border-color:#e8a33d}
+  .ukoshi{margin:10px 0 8px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+  .bar{display:inline-block;width:104px;height:7px;border-radius:99px;background:var(--line);
+    position:relative;overflow:hidden}
+  .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--udon);border-radius:99px}
+  .udesc{font-size:14px;margin:8px 0 10px}
+  .umeta{font-size:12.5px;color:var(--muted);display:grid;grid-template-columns:64px 1fr;gap:3px 10px}
+  .umeta b{color:var(--ink);font-weight:600}
+  .rank{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px;
+    background:var(--accent-soft);color:var(--accent)}
+  .rank.b{background:var(--blue-soft);color:var(--blue)}
+  .rank.c{background:var(--warn-soft);color:var(--warn)}
+  .hprice{margin-left:auto;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+  .htags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+  .tg{font-size:11.5px;padding:3px 8px;border-radius:6px;background:var(--bg);
+    border:1px solid var(--line);color:var(--muted)}
+  .tg.ok{color:var(--accent);border-color:var(--accent)}
+  .tg.chk{color:var(--warn);border-color:var(--warn)}
+  .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+  .gc{display:block;text-decoration:none;color:inherit;background:var(--card);
+    border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:transform .15s ease}
+  .gc:hover{transform:translateY(-3px)}
+  .gc .th{height:82px;display:flex;align-items:center;justify-content:center;font-size:30px;
+    background:linear-gradient(135deg,var(--accent-soft),var(--blue-soft))}
+  .gc .cap{padding:9px 11px}
+  .gc .cn{font-size:13.5px;font-weight:700;line-height:1.35}
+  .gc .cd{font-size:11.5px;color:var(--muted);margin-top:2px}
+  #hovercard{position:fixed;z-index:999;pointer-events:none;opacity:0;
+    transform:translateY(6px);transition:opacity .16s ease,transform .16s ease;
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    box-shadow:0 10px 32px rgba(0,0,0,.18);overflow:hidden;width:280px}
+  #hovercard.on{opacity:1;transform:none}
+  #hovercard img{display:block;width:100%;height:170px;object-fit:cover;background:var(--accent-soft)}
+  #hovercard .hc-t{font-size:13.5px;font-weight:700;padding:9px 12px 3px}
+  #hovercard .hc-d{font-size:11.5px;color:var(--muted);padding:0 12px 10px;line-height:1.45;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  #hovercard .hc-s{font-size:10.5px;color:var(--muted);padding:0 12px 9px;opacity:.7}
+  footer{margin-top:44px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+  a{color:var(--blue)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>나라 · 교토 4박 5일 자동차 여행</h1>
+  <p class="sub">2026년 8월 7일(금) 13:00 KIX 입국 · 렌트카 15:00 수령 → 8월 11일(화) 16:00 반납</p>
+  <div class="pills">
+    <span class="pill">나라 사슴 새벽</span>
+    <span class="pill">이코마산조 야간</span>
+    <span class="pill">루리코인</span>
+    <span class="pill">오타기 넨부쓰지</span>
+    <span class="pill">히가시야마 야간</span>
+    <span class="pill">덴덴타운</span>
+    <span class="pill">숙소 3곳</span>
+  </div>
+  <div class="hint">💡 <b>「⚠️ 예약 필수」 탭을 먼저 보세요.</b> 지금 안 잡으면 못 하는 것 · 전화로 확인해야 하는 것을 한 장에 모아뒀습니다. 밑줄 친 장소를 누르면 사진이나 지도가 열립니다.</div>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button class="tab-btn active" data-tab="itin" role="tab">🗺 루트 &amp; 일정</button>
+  <button class="tab-btn" data-tab="book" role="tab">⚠️ 예약 필수</button>
+  <button class="tab-btn" data-tab="food" role="tab">🍜 당고 · 우동 · 맛집</button>
+  <button class="tab-btn" data-tab="play" role="tab">🎮 게임센터 · 쇼핑</button>
+  <button class="tab-btn" data-tab="prep" role="tab">✅ 준비</button>
+</nav>
+
+<section class="panel active" id="p-itin">
+
+<h2>🗺 루트 지도 <span class="k">날짜별 색 구분 · 마커를 누르면 상세</span></h2>
+<div class="mapbox">
+  <div class="mapswitch">
+    <button class="ms on" data-day="1" style="background:#7c5cff;border-color:#7c5cff">8/7 입국·클리닉</button>
+    <button class="ms on" data-day="2" style="background:#12876c;border-color:#12876c">8/8 나라·이코마</button>
+    <button class="ms on" data-day="3" style="background:#2f7fd4;border-color:#2f7fd4">8/9 교토</button>
+    <button class="ms on" data-day="4" style="background:#cc6b3a;border-color:#cc6b3a">8/10 오사카</button>
+    <button class="ms on" data-day="5" style="background:#c9962a;border-color:#c9962a">8/11 복귀</button>
+  </div>
+  <div id="livemap"></div>
+  <div class="legend">
+    <span class="lg"><i style="background:#7c5cff"></i>8/7 KIX↔오사카↔나라 175km</span>
+    <span class="lg"><i style="background:#12876c"></i>8/8 나라↔가시하라↔이코마 120km</span>
+    <span class="lg"><i style="background:#2f7fd4"></i>8/9 나라→교토 110km</span>
+    <span class="lg"><i style="background:#cc6b3a"></i>8/10 교토→모리구치 60km</span>
+    <span class="lg"><i style="background:#c9962a"></i>8/11 모리구치→KIX 70km</span>
+  </div>
+</div>
+
+<div class="day">
+  <div class="dayhead"><span class="dnum">DAY 1</span><span class="ddate">8/7 (금) · 입국 · 클리닉 · 나라 이동</span><span class="dtag">운전 약 3시간</span></div>
+  <ul class="tl">
+    <li><span class="t">13:00</span><span class="ttl">KIX 착륙</span>
+      <div class="desc">입국심사 + 수하물까지 <b>보통 60~90분</b>. 성수기라 넉넉히 잡으세요. 14:30 전후에 나오는 걸로 계산했습니다.</div></li>
+    <li><span class="t">15:00</span><span class="ttl">🚗 렌트카 수령 · <b>ATB Rental Car</b></span>
+      <div class="desc">공항 밖 영업소면 <b>셔틀 이동 시간이 추가</b>됩니다. 계약·보험·차량 점검에 <b>30분 안팎</b> 걸려요.</div>
+      <div class="desc" style="margin-top:6px">⛽ <b>ETC 카드 옵션을 꼭 넣으세요.</b> 이번 루트는 한신고속·게이나와도·제2게이한을 반복해서 탑니다. 현금 요금소 처리가 훨씬 번거로워요.</div></li>
+    <li><span class="t">16:00</span><span class="ttl">🏥 <b>고토클리닉 오사카</b> (마운자로) <span class="k">예약 16:00~16:30</span></span>
+      <div class="desc">⚠️ <b>여기가 이날 가장 빠듯한 구간입니다.</b> 15:00에 차를 받아 수속에 30분이 걸리면 <b>15:30 출발</b>인데, KIX에서 오사카 시내까지 <b>한신고속으로 50~60분</b>이라 <b>16:20~16:30 도착</b>이 현실적이에요.</div>
+      <div class="desc" style="margin-top:6px"><b>대응 두 가지</b> — <b>①</b> 클리닉에 <b>미리 전화해 「비행기 도착이 13시라 조금 늦을 수 있다」</b>고 말해두기. <b>②</b> 예약을 <b>16:30~17:00</b>으로 미룰 수 있는지 문의. 둘 중 하나는 지금 해두시는 게 안전합니다.</div>
+      <div class="desc" style="margin-top:6px">❗ <b>클리닉 정확한 주소를 알려주시면</b> 주변 코인파킹을 구체적으로 찾아 넣겠습니다. 지금은 위치를 특정하지 못했습니다.</div>
+      <div class="drive">🚗 50km · 50~60분</div></li>
+    <li><span class="t">16:30</span><span class="ttl">🅿️ 주차 <span class="k">오사카 시내 공통</span></span>
+      <div class="desc"><b>오사카 도심은 노상 주차가 사실상 불가</b>합니다. 30분 정도면 <b>「타임즈」·「三井のリパーク」 코인파킹</b>이 답이고, 도심 시세는 <b>15분 ¥200~400</b>이에요. 30분이면 ¥400~800 안팎.</div>
+      <div class="desc" style="margin-top:6px"><b>팁</b> — <a class="ph" target="_blank" rel="noopener" href="https://www.akippa.com/">akippa</a>나 <a class="ph" target="_blank" rel="noopener" href="https://www.timesclub.jp/">타임즈</a> 앱으로 <b>미리 예약</b>해두면 클리닉 앞에서 자리를 찾아 헤매지 않습니다. 시간이 빠듯한 날이라 이게 은근히 큽니다.</div></li>
+    <li><span class="t">17:00</span><span class="ttl">→ KIX 복귀</span>
+      <div class="desc">퇴근 시간대라 한신고속이 막힐 수 있습니다. <b>여유 있게 17:00에 나서세요.</b></div>
+      <div class="drive">🚗 50km · 60분</div></li>
+    <li><span class="t">19:00</span><span class="ttl">✈️ KIX 합류 → 나라로</span>
+      <div class="desc">한신고속 → 니시메이한 → 게이나와도. 야간이라 정체는 없습니다.</div>
+      <div class="drive">🚗 75km · 1시간 15분</div></li>
+    <li><span class="t">20:15</span><span class="ttl">🏨 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/御宿+野乃奈良">天然温泉 吉野桜の湯 御宿 野乃奈良</a> 체크인</span>
+      <div class="desc"><b>나라시 오미야초 1-1-6 · JR나라역 도보 2분.</b> 도미인 상위 브랜드라 <b>전관 다다미</b>이고 <b>천연온천 대욕장</b>이 있습니다. 체크아웃이 <b>11:00</b>이라 아침에 여유가 큽니다.</div>
+      <div class="desc" style="margin-top:6px">⚠️ <b>주차가 유료</b>입니다(1박 ¥1,500 안팎). 2박이면 ¥3,000 — 예약 시 주차 확보를 명시하세요.</div></li>
+    <li><span class="t">21:00</span><span class="ttl">🥞 늦은 저녁 · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/広島お好み焼き+鉄板酒場+やきとら+奈良">やきとら</a> <span class="k">★4.6 · 23:00까지</span></span>
+      <div class="desc"><b>이 시각에 여는 나라 맛집은 손에 꼽습니다.</b> 히로시마풍 오코노미야끼 집인데 <b>23시까지</b> 열어요. 쓰노후리초, 긴테쓰나라역 도보권.<br>대안: 나라역 주변 <b>이자카야</b>, 또는 호텔의 <b>야식 소바 무료 서비스</b>(도미인 계열 전통 — 노노도 제공하는지 체크인 때 확인).</div></li>
+    <li><span class="t">22:30</span><span class="ttl">🌙 밤 산책 &amp; 쇼핑 <span class="k">이날 밤 할 것</span></span>
+      <div class="desc"><b>① <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/猿沢池+奈良">사루사와이케 + 고후쿠지 오층탑 야간</a></b> — 호텔에서 <b>도보 12분.</b> 연못에 오층탑이 비칩니다. 조명이 들어와 밤이 오히려 낫고, 사람이 없어요.<br>
+      <b>② <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/三条通り+奈良+商店街">산조도리 · 히가시무키 상점가</a></b> — 상점은 닫지만 아케이드라 걷기 좋고 편의점·약국은 열려 있습니다.<br>
+      <b>③ <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/ドン・キホーテ奈良店">돈키호테 나라점 (★3.5, 1,530)</a></b> — <b>새벽 3시까지!</b> 가시와기초 480-1, 주차 있음. <b>내일 새벽 사슴 보러 나갈 때 필요한 물·간식·모기약을 여기서</b> 사두세요.</div></li>
+  </ul>
+  <div class="note"><b>이날의 핵심은 「16시 클리닉에 늦지 않기」 하나입니다.</b> 렌트카 수속 30분 + 이동 60분이라 계산상 아슬아슬해요. <b>지금 클리닉에 전화 한 통</b>으로 시간을 조정하거나 양해를 구해두면 하루가 편해집니다.</div>
+  <div class="stay"><b>숙소 A</b> · 御宿 野乃奈良 — <b>8/7 · 8/8 2박 연박</b></div>
+</div>
+
+<div class="day">
+  <div class="dayhead"><span class="dnum">DAY 2</span><span class="ddate">8/8 (토) · 새벽 사슴 · 당고 · 이코마 야경</span><span class="dtag">운전 약 3시간</span></div>
+  <ul class="tl">
+    <li><span class="t">05:50</span><span class="ttl">🦌 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=奈良公園+鹿+朝靄">나라공원 · 새벽 사슴</a> <span class="k">이날의 승부처</span></span>
+      <div class="desc"><b>9시가 넘으면 나라공원은 관광객으로 덮입니다.</b> 반대로 <b>6시대엔 사람이 거의 없고 사슴은 가장 활발</b>해요. 여름 아침엔 <b>안개가 깔려</b> 사진도 이때가 압도적입니다.<br>
+      <b>동선</b> — 우키미도(연못 위 정자) → 도부쿠사 잔디밭 → 가스가타이샤 참배길 삼나무 숲. 관광객은 도다이지 쪽에 몰리니 <b>반대로 도세요.</b></div>
+      <div class="desc" style="margin-top:6px">🅿️ <b>이 시각에 여는 주차장은 사실상 하나</b>입니다 — <b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/One+Park飛火野">One Park 히토부노</a>, 24시간, 24시간 최대 ¥500.</b> 다카바타케마루야마는 7:00, 노보리오지 현영은 8:00부터라 못 들어갑니다.</div>
+      <div class="desc" style="margin-top:6px">🦌 <b>사슴 주의</b> — 센베를 손에 들고 망설이면 옷을 뭅니다. 봉지·지도·티켓도 먹으려 드니 가방에 넣으세요. 센베는 현장 구매(반입 금지).</div>
+      <div class="drive">🚗 3km · 10분</div></li>
+    <li><span class="t">08:00</span><span class="ttl">⛩ <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=春日大社+回廊+灯籠">가스가타이샤</a> · 개문 직후</span>
+      <div class="desc">주홍색 회랑에 <b>등롱 3,000개</b>가 매달린 곳. 개문 직후엔 회랑에 사람이 없습니다. 이어서 <b>가스가야마 원시림</b> 산책로로 빠지면 관광객이 완전히 사라져요.</div></li>
+    <li><span class="t">09:30</span><span class="ttl">호텔 복귀 · 조식 &amp; 온천</span>
+      <div class="desc">새벽에 나갔으니 여기서 한 번 쉬어갑니다. <b>체크아웃이 11:00</b>이라 여유가 있어요 — 오늘은 연박이라 짐도 그대로.</div></li>
+    <li><span class="t">11:00</span><span class="ttl">🍜 점심 · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/うどん一期一会+奈良">우동 一期一会</a> <span class="k">★4.9 (255) · 우동 1순위</span></span>
+      <div class="desc">히가시무키기타마치 상점가. <b>나라 우동집 중 평점 1위</b>입니다. <b>17시까지</b>만 열어요.<br>가는 길에 <b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/中谷堂+奈良">나카타니도</a></b> — 두 사람이 무섭게 빠른 속도로 떡메를 치는 그 집 — 에서 <b>갓 친 요모기 모찌</b>를 하나 먹고 가세요.<br>대기가 길면 <b>衣掛茶屋(★4.7, 359)</b>이나 <b>釜粋 카마이키(★4.4, 1,270)</b>로. 셋 다 도보권입니다.</div></li>
+    <li><span class="t">12:30</span><span class="ttl">🏘 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=奈良町+格子の家">나라마치 (奈良町)</a></span>
+      <div class="desc">에도 상가 골목. <b>미가에리 원숭이(붉은 인형)</b>가 처마마다 매달려 있습니다. 골목이 좁아 관광버스가 못 들어와요. 30분이면 충분합니다.</div></li>
+    <li><span class="t">13:30</span><span class="ttl">🍡 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/だんご庄+坊城本店">だんご庄 坊城본점 (당고쇼)</a> <span class="k">당고 1순위</span></span>
+      <div class="desc"><b>1878년(메이지 11년) 창업.</b> 야마토 명물 <b>기나코 당고</b> 한 가지만 150년째 팝니다. 갓 볶은 콩가루에 초대가 만든 특제 꿀을 입힌 대나무 꼬치 당고예요.<br><b>❗매진되면 그날 끝</b>이고 17시 전에 닫으니 이 시간대가 안전합니다. 가시하라시 히가시보조초 860. <b>전용 주차 무료.</b></div>
+      <div class="drive">🚗 30km · 35분</div></li>
+    <li><span class="t">14:30</span><span class="ttl">🏯 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=法隆寺+五重塔+回廊">호류지 (法隆寺)</a> <span class="k">현존 세계 最古 목조건축</span></span>
+      <div class="desc"><b>1993년 일본 최초로 세계문화유산에 등재된 곳.</b> 금당과 오층탑이 <b>7세기에 세워진 그대로</b>이고, 이게 <b>현존하는 세계에서 가장 오래된 목조건축물</b>입니다. 1,400년을 버틴 건물을 눈앞에서 봅니다.<br>백제 계통 양식이라 한국인이 보면 익숙한 구석이 있어요. 넓은 경내에 회랑과 소나무가 이어지고, <b>나라공원과 비교가 안 되게 한산합니다.</b></div>
+      <div class="desc" style="margin-top:6px">⚠️ <b>배관 8:00~17:00 (입장 16:30 마감)</b> · 성인 ¥1,500 · 주변 민영 주차 ¥500. <b>1시간 45분</b>이면 금당·오층탑·대보장원까지 다 봅니다.</div>
+      <div class="drive">🚗 22km · 30분</div></li>
+    <li><span class="t">16:45</span><span class="ttl">🎡 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=生駒山上遊園地+夜景">이코마산조 유원지 · 야간</a> <span class="k">야경</span></span>
+      <div class="desc">해발 <b>642m 이코마산 정상</b>. 1929년 개장한 오래된 유원지인데, 놀이기구보다 <b>오사카 평야가 통째로 발밑에 깔리는 조망</b>이 본편입니다. 해가 지면서 야경으로 넘어가는 시간대가 정점이에요. <b>입원료 무료.</b><br>
+      꼭 타야 할 건 <b>비행탑(飛行塔)</b> — <b>1929년 개장 때부터 돌고 있는, 현존 일본 최고령 유희시설</b>입니다. 30m 높이에서 오사카 평야가 돌아갑니다.</div>
+      <div class="desc" style="margin-top:6px">⚠️ <b>8/8이 토요일이라 영업시간 확인이 필요합니다.</b> 8월 <b>평일</b>은 12:00~21:00 서머타임이 공식 확인됐지만 주말 시간표는 미확인이에요. ☎ <b>0743-74-2173</b><br>
+      🅿️ 주차 <b>¥1,500</b>(토·일·성수기 <b>¥2,000</b>) + <b>시기이코마 스카이라인(유료도로)</b> 별도. <b>입고는 영업 종료 30분 전까지.</b></div>
+      <div class="drive">🚗 20km · 30분</div></li>
+    <li><span class="t">21:15</span><span class="ttl">→ 나라 복귀</span>
+      <div class="desc">길에 <b>메가 돈키호테 UNY 니시야마토점(★3.7, 2,242 · 자정까지)</b>이 있습니다. 야식이나 내일 아침거리를 여기서.</div>
+      <div class="drive">🚗 20km · 35분</div></li>
+  </ul>
+  <div class="note"><b>하루가 다섯 덩어리로 나뉩니다</b> — 새벽 <b>사슴</b>, 오전 <b>휴식</b>, 점심 <b>우동+모찌</b>, 오후 <b>당고+세계유산</b>, 밤 <b>야경</b>. 새벽 5시 반에 일어나는 대신 <b>9시 반~11시에 호텔에서 쉬는 구간</b>을 넣어놨으니 무리하지 마세요.</div>
+  <div class="stay"><b>숙소 A</b> · 御宿 野乃奈良 (연박)</div>
+</div>
+
+<div class="day">
+  <div class="dayhead"><span class="dnum">DAY 3</span><span class="ddate">8/9 (일) · 교토 — 오쿠사가 아침 · 루리코인 · 히가시야마 야간</span><span class="dtag">운전 약 2시간 30분</span></div>
+  <ul class="tl">
+    <li><span class="t">06:30</span><span class="ttl">체크아웃 → 오쿠사가(奥嵯峨)로</span>
+      <div class="desc"><b>짐을 다 싣고 나갑니다.</b> 오늘부터 교토예요. 게이나와도 → 제2게이한 → 교토 남부. <b>일요일 아침이라 정체 없습니다.</b></div>
+      <div class="drive">🚗 65km · 1시간 20분</div></li>
+    <li><span class="t">08:00</span><span class="ttl">🗿 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=愛宕念仏寺+千二百羅漢">오타기 넨부쓰지 (愛宕念仏寺)</a> <span class="k">개문 시각 · 필수</span></span>
+      <div class="desc"><b>1,200개의 라칸 석상</b>이 이끼를 뒤집어쓴 채 산비탈을 가득 메우고 있습니다. 놀라운 건 이 석상들이 옛것이 아니라 <b>1980년대에 일반 참배객들이 직접 조각한 것</b>이라는 점 — 그래서 표정이 하나같이 다르고, 개중엔 테니스 라켓을 든 것도 있어요.<br>
+      <b>8시 개문에 맞춰 가면 사실상 전세</b>입니다. 아라시야마 인파가 여기까지 올라오는 건 10시 이후예요.</div>
+      <div class="desc" style="margin-top:6px">⚠️ <b>배관 8:00~17:00 · ¥300</b> · 🅿️ <b>절 안 2대 + 절 밖 10대</b>로 매우 적습니다. 8시 도착이면 문제없어요.<br>일부 자료에 <b>수·토 휴산일</b> 표기가 있는데 <b>8/9은 일요일</b>이라 무관합니다. 그래도 <b>전날 전화 확인을 권합니다.</b></div></li>
+    <li><span class="t">09:00</span><span class="ttl">🎋 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=化野念仏寺+竹林">아다시노 넨부쓰지</a> + <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=嵯峨鳥居本+町並み">사가토리이모토 전통 거리</a></span>
+      <div class="desc">오타기에서 <b>걸어서 내려오면 됩니다.</b> 초가지붕 찻집이 늘어선 <b>사가토리이모토</b>는 국가 중요전통적건조물군보존지구인데, 아라시야마 중심에서 벗어나 있어 조용해요.<br>
+      <b>아다시노 넨부쓰지</b>는 무연고 망자를 위한 <b>8,000기의 석불·석탑</b>이 모여 있는 곳이고, 경내 안쪽에 <b>사람 없는 대나무 숲</b>이 있습니다. <b>아라시야마 대나무길의 한적한 버전</b>이에요.</div></li>
+    <li><span class="t">10:00</span><span class="ttl">🌿 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=祇王寺+苔庭">기오지 (祇王寺)</a> <span class="k">이끼 정원</span></span>
+      <div class="desc"><b>『헤이케 이야기』의 무대.</b> 작은 초가집 하나와 <b>수십 종의 이끼로 덮인 정원</b>뿐인데, 여름 초록이 절정입니다. 아주 작아서 <b>30분이면 충분</b>해요.</div></li>
+    <li><span class="t">11:00</span><span class="ttl">🎍 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=嵐山+竹林の小径">아라시야마 대나무길</a> · 점심</span>
+      <div class="desc">여기부터는 사람이 많습니다 — 이미 오쿠사가에서 <b>한적한 버전</b>을 봤으니 <b>가볍게 통과</b>해도 됩니다. 도게쓰교 주변에서 점심.<br>여유가 있으면 <b>덴류지 조겐치 정원</b>(세계유산, 아라시야마 산을 정원으로 끌어들인 차경)만 추가하세요.</div>
+      <div class="drive">🚗 3km · 10분</div></li>
+    <li><span class="t">13:00</span><span class="ttl">→ 야세(八瀬)로 이동</span>
+      <div class="desc">교토를 서쪽 끝에서 북동쪽 끝으로 가로지릅니다. 시내를 통과하니 <b>일요일 오후 정체</b>를 감안하세요.</div>
+      <div class="drive">🚗 20km · 50분</div></li>
+    <li><span class="t">14:00</span><span class="ttl">💚 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=瑠璃光院+床緑">루리코인 (瑠璃光院)</a> <span class="k">여름 특별공개 · 필수</span></span>
+      <div class="desc"><b>운이 좋습니다 — 2026년 여름 특별공개가 7/1~8/17이라 8/9에 딱 걸립니다.</b> 이 절은 <b>봄·여름·가을에만 문을 여는</b> 곳이에요.<br><br>
+      본편은 2층 서원의 <b>「유카미도리(床緑)」</b> — 검게 옻칠한 책상과 마룻바닥에 <b>바깥의 단풍나무 초록이 통째로 비쳐</b> 마치 바닥이 초록 호수처럼 보입니다. 가을 「유카모미지」가 유명하지만 <b>여름 초록이 더 선명하다</b>는 사람도 많아요.<br>
+      정원이 셋(루리노니와·가류노니와·산로지) 있고 <b>사경(寫經) 체험</b>도 포함됩니다.</div>
+      <div class="desc" style="margin-top:6px">⚠️ <b>배관 10:00~17:00 (16:30 접수 종료) · ¥2,000</b> (중학생 이상 학생증 제시 시 ¥1,000)<br>
+      <b>여름 공개는 예약제가 아닙니다</b> — 현장에서 배관권을 사면 됩니다. 다만 <b>가을은 예약제</b>라 정보가 섞여 있으니 헷갈리지 마세요.<br>
+      🅿️ 전용 주차장이 없습니다. <b>야세히에이잔구치역 주변 코인파킹</b>에 대고 도보 5분.</div></li>
+    <li><span class="t">16:00</span><span class="ttl">🏨 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/京都梅小路+花伝抄">京都 梅小路 花伝抄 (교리쓰 리조트)</a> 체크인</span>
+      <div class="desc">교토시 시모교구, <b>JR 우메코지쿄토니시역 도보 1분.</b> <b>천연온천 대욕장과 노천탕</b>이 있고, <b>무료 대절탕(프라이빗 배스)이 5종</b> — 그중 2개는 대욕장과 같은 온천수를 씁니다.<br>체크인 15:00 / 체크아웃 11:00. 주차장 있음.</div>
+      <div class="desc" style="margin-top:6px">💡 <b>대절탕은 선착순이거나 체크인 시 예약제인 경우가 많습니다.</b> 도착하자마자 프런트에서 <b>시간대를 먼저 잡으세요</b> — 밤에 나갔다 오면 좋은 시간은 다 차 있습니다.</div>
+      <div class="drive">🚗 15km · 40분</div></li>
+    <li><span class="t">18:30</span><span class="ttl">🏮 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=八坂の塔+夜+ライトアップ">히가시야마 야간 산책</a> <span class="k">밤에 가고 싶다던 그 거리</span></span>
+      <div class="desc"><b>낮에 피하고 밤에 가는 게 정답입니다.</b> 니넨자카·산넨자카는 낮엔 발 디딜 틈이 없지만, <b>상점이 닫는 18시 이후엔 조명만 남아</b> 완전히 다른 곳이 됩니다.<br><br>
+      <b>추천 동선</b> — <b>야사카 신사</b>(24시간, 조명) → <b>이시베코지</b>(돌길 골목, 가장 예쁨) → <b>니넨자카·산넨자카</b> → <b>야사카노토(호칸지 오층탑)</b> ← <b>여기가 그 유명한 야경 사진의 그 자리</b> → <b>기온 하나미코지</b>.<br>
+      전부 도보로 이어지고 <b>1시간 30분</b>이면 한 바퀴입니다.</div>
+      <div class="desc" style="margin-top:6px">🅿️ 히가시야마는 주차가 어렵습니다. <b>기요미즈데라 근처 코인파킹</b>이나 <b>야사카 신사 주변</b>에 대세요(1시간 ¥400~600). 호텔에 차를 두고 <b>택시 20분</b>도 방법입니다.</div>
+      <div class="drive">🚗 8km · 25분</div></li>
+    <li><span class="t">19:00</span><span class="ttl">🪷 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=青蓮院門跡+ライトアップ">쇼렌인 몬제키 · 여름 야간 라이트업</a> <span class="k">8/23까지 · 예약하면 ¥300 싸요</span></span>
+      <div class="desc"><b>「청련화의 여름 등불(青蓮華の夏灯り)」</b> — 쇼렌인 몬제키 <b>사상 첫 여름 라이트업</b>이고 <b>2026/7/17~8/23</b>에만 합니다. 8/9은 딱 기간 안이에요.<br>
+      절의 상징인 <b>연꽃</b>을 테마로 한 빛의 공간이고, 평소엔 열지 않는 <b>칙사문(勅使門)을 푸른 등롱으로 장식한 특별 포토스팟</b>이 생깁니다. <b>금·토·일·공휴일 한정으로 교토 음식점들의 특별 출점</b>도 있는데 — <b>8/9은 일요일이라 여기 해당됩니다.</b></div>
+      <div class="desc" style="margin-top:6px">⚠️ <b>19:00~21:30 (최종 접수 21:00)</b> · <b>8/13~16은 제외</b><br>
+      💰 <b>사전예약 ¥1,200 / 당일 현장 ¥1,500</b> — <b>1인당 ¥300 차이니 미리 잡으세요.</b> 히가시야마 야간 산책 동선에 그대로 걸립니다(야사카 신사에서 도보 10분).</div></li>
+  </ul>
+  <div class="note"><b>오늘의 설계</b> — <b>아침은 서쪽 끝(오쿠사가), 오후는 북동쪽 끝(야세), 밤은 동쪽(히가시야마)</b>입니다. 교토를 가로지르는 동선이라 운전이 짧은데도 이동감이 큽니다. 대신 <b>가는 곳마다 그 시간대에 가장 한적</b>해요.<br><br>
+  <b>제외한 곳</b> — 후시미이나리(여우신사)와 니넨자카·산넨자카 <b>낮 방문</b>은 요청대로 뺐습니다. 니넨자카는 <b>밤에만</b> 넣었어요.</div>
+  <div class="stay"><b>숙소 B</b> · 京都 梅小路 花伝抄 — 8/9 1박 · 무료 대절탕 5종</div>
+</div>
+
+<div class="day">
+  <div class="dayhead"><span class="dnum">DAY 4</span><span class="ddate">8/10 (월) · 교토 아침 → 오사카 · 요리</span><span class="dtag">운전 약 1시간 30분</span></div>
+  <div class="note" style="margin-top:0;margin-bottom:16px"><b>⚠️ 오늘 일정을 지배하는 제약이 하나 있습니다 — 에어비앤비 차량 진출입이 14:00~21:00 불가.</b><br>
+  즉 <b>13:30까지 차를 넣거나, 21시 이후에 넣어야</b> 합니다. 그래서 <b>오전에 교토를 보고 점심 전에 모리구치로 내려가 차를 넣은 뒤, 오사카 시내는 전철로</b> 도는 구성으로 짰습니다. 모리구치역 도보 2분이라 전철 접근이 아주 좋아요.</div>
+  <ul class="tl">
+    <li><span class="t">08:00</span><span class="ttl">🍡 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/加茂みたらし茶屋">가모미타라시차야</a> <span class="k">미타라시당고의 발상지</span></span>
+      <div class="desc"><b>미타라시당고가 태어난 자리</b>입니다. 시모가모 신사 미타라시 연못의 거품을 본떠 만들었다는 유래가 있고, <b>첫 알 하나만 떨어뜨려 꽂는</b> 독특한 모양이에요(사람의 머리와 사지를 뜻한다는 설). 직화로 구워 겉이 바삭합니다.<br>
+      바로 옆 <b>시모가모 신사 · 다다스노모리(糺の森)</b>는 <b>원시림이 남은 세계유산</b>이라 아침 산책으로 좋습니다.</div>
+      <div class="drive">🚗 8km · 25분</div></li>
+    <li><span class="t">09:30</span><span class="ttl">🫘 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/出町ふたば+京都">데마치 후타바</a> <span class="k">1899년 창업 · 줄 섭니다</span></span>
+      <div class="desc">가모미타라시차야에서 <b>도보 5분.</b> <b>마메모치(豆餅)</b> 하나로 120년 넘게 버틴 집이고, <b>포장 전문</b>이라 사서 나옵니다. 검은콩이 통째로 박힌 떡인데 <b>당일 소비가 원칙</b>이에요.<br>⚠️ <b>줄이 깁니다.</b> 아침 일찍이 그나마 짧아요.</div></li>
+    <li><span class="t">10:15</span><span class="ttl">🐟 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/錦市場">니시키 시장</a> <span class="k">교토의 부엌</span></span>
+      <div class="desc">400m 아케이드에 130여 점포. <b>서서 먹는 간식들이 본편</b>입니다 — 두유 도넛, 다코타마고(문어 안에 메추리알), 유바, 쓰케모노, 하모.<br>여기서 <b>오늘 저녁 요리 재료 중 「교토스러운 것」</b>을 사도 좋습니다 — 유바나 쓰케모노는 저녁 밥상에 그대로 올라가요.</div>
+      <div class="desc" style="margin-top:6px">🅿️ 시장 자체엔 주차가 없습니다. <b>가와라마치 주변 코인파킹</b> 또는 <b>돈키호테 시조카와라마치점</b> 주차장.</div>
+      <div class="drive">🚗 5km · 20분</div></li>
+    <li><span class="t">11:45</span><span class="ttl">→ 오사카 모리구치</span>
+      <div class="desc">제2게이한 → 모리구치. <b>13:30 전 도착이 오늘의 절대 조건</b>입니다.</div>
+      <div class="drive">🚗 45km · 1시간</div></li>
+    <li><span class="t">13:00</span><span class="ttl">🏠 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=1-chōme-5-7+Takii+Nishimachi+Moriguchi+Osaka">에어비앤비 체크인 · <b>차 넣기</b></a> <span class="k">❗14시 전에</span></span>
+      <div class="desc"><b>오사카부 모리구치시 다키니시마치 1-5-7</b> · 「もみの木の家」 — 사우나 딸린 디자이너스 고민가, 역 도보 2분, <b>무료 주차(경차 전용·주차 조건 있음)</b>.</div>
+      <div class="desc" style="margin-top:6px">⚠️ <b>주차 조건을 반드시 사전 확인하세요.</b> 「경차 전용」이라고 명시돼 있는데, <b>렌트카가 경차가 아니면 못 댈 수 있습니다.</b> 호스트에게 <b>차종을 알려주고 가능 여부를 지금 물어보세요.</b> 안 되면 주변 코인파킹을 미리 잡아야 하고, 그러면 <b>14~21시 제약도 무의미</b>해집니다.</div>
+      <div class="desc" style="margin-top:6px">🧺 짐 풀고 <b>세탁기를 한 번 돌려두면</b> 좋습니다. 4박째라 이쯤이 적기예요.</div></li>
+    <li><span class="t">14:00</span><span class="ttl">🚇 전철로 오사카 시내 <span class="k">차는 두고 갑니다</span></span>
+      <div class="desc">모리구치시역(게이한) / 모리구치역(오사카메트로 다니마치선). <b>난바까지 20분, 우메다까지 15분.</b> 차를 두고 가니 술도 마실 수 있습니다.</div></li>
+    <li><span class="t">14:40</span><span class="ttl">🎮 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/日本橋+でんでんタウン">니혼바시 덴덴타운</a> <span class="k">인형뽑기 · 게임센터 본진</span></span>
+      <div class="desc"><b>오사카의 아키하바라</b>입니다. 인형뽑기·게임센터를 원하셨으니 <b>여기가 정답</b>이에요.<br>
+      <b>타이토 스테이션 오사카니혼바시점(★4.0)</b> — 신경품이 바로 들어오고 <b>잘 뽑히기로 유명</b>합니다. <b>namco 오사카니혼바시점(★3.9)</b>도 바로 근처.<br>
+      가챠 전문점, 중고 피규어, 애니메이트, 조후쿠도 같은 가게가 골목마다 있습니다.</div></li>
+    <li><span class="t">16:30</span><span class="ttl">🐙 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/道頓堀">도톤보리</a> + <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/黒門市場">구로몬 시장</a></span>
+      <div class="desc">덴덴타운에서 <b>걸어서 10분.</b> 글리코 간판·가니도라쿠 게 간판, 그리고 <b>사프라 오사카 도톤보리 아소비타운</b>(난바역 도보 2분) — <b>인형뽑기가 잘 뽑히기로 소문난 곳</b>이 하나 더 있습니다.<br>
+      <b>구로몬 시장</b>은 17시면 대부분 닫으니 <b>먼저 들르세요.</b> 여기서 <b>오늘 저녁 요리 재료(회·해산물)</b>를 사면 좋습니다 — 다만 모리구치까지 20분이니 <b>아이스팩을 챙기세요.</b></div></li>
+    <li><span class="t">18:30</span><span class="ttl">🛒 모리구치 복귀 · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/イオンフードスタイル守口店">이온 푸드스타일 모리구치점</a> <span class="k">역 도보 0분</span></span>
+      <div class="desc"><b>모리구치역 3번 출구 바로 앞</b>입니다. 저녁 요리 재료를 여기서 마저 사세요 — 밥·고기·채소·조미료.<br>
+      바로 옆 <b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/京阪百貨店+守口店">케이한백화점 모리구치점</a></b>(모리구치시역 도보 2분)은 <b>데파치카가 강하고 레스토랑가가 21시까지</b>라, 요리가 귀찮아지면 여기서 반찬을 사도 됩니다.</div>
+      <div class="desc" style="margin-top:6px">💡 <b>조미료는 사지 마세요.</b> 고민가 에어비앤비는 대개 기본 조미료가 있습니다. 리스팅에서 확인하고 <b>없는 것만</b> 사세요 — 남으면 버리고 가야 합니다.</div></li>
+    <li><span class="t">19:30</span><span class="ttl">🍳 숙소에서 요리 + 사우나</span>
+      <div class="desc">이 집은 <b>사우나가 딸려 있습니다.</b> 요리해 먹고 사우나 하고 세탁 돌리는, <b>여행 중 유일하게 「사는」 하루</b>예요. 4박 중에 이런 날이 하나 있는 게 체력에 큽니다.</div></li>
+  </ul>
+  <div class="note"><b>왜 오전에 교토를 더 안 넣었나</b> — 차를 13:30까지 넣어야 해서 오전이 통째로 이동 시간에 잡아먹힙니다. 그래서 <b>당고 두 집 + 니시키 시장</b>으로 <b>먹는 것 위주</b>로만 짰어요. 어차피 오늘 저녁이 요리라 <b>재료 사는 날</b>이기도 하고요.</div>
+  <div class="stay"><b>숙소 C</b> · 모리구치 에어비앤비 (もみの木の家) — 8/10 1박 · 사우나 · 주방</div>
+</div>
+
+<div class="day">
+  <div class="dayhead"><span class="dnum">DAY 5</span><span class="ddate">8/11 (화) · 마지막 날 · 16:00 반납</span><span class="dtag">운전 약 1시간 30분</span></div>
+  <ul class="tl">
+    <li><span class="t">09:00</span><span class="ttl">체크아웃 · <b>차 빼기</b></span>
+      <div class="desc">진출입 제한이 14~21시니 <b>오전엔 자유롭습니다.</b> 9시에 빼면 여유롭게 출발.</div></li>
+    <li><span class="t">09:40</span><span class="ttl">🏯 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/大阪城公園">오사카성 공원</a> <span class="k">A안 · 마지막 관광</span></span>
+      <div class="desc">모리구치에서 <b>차로 25분.</b> 천수각에 올라가지 않아도 <b>해자와 거대한 석벽만으로 볼 만합니다</b> — 가장 큰 돌은 <b>130톤</b>이에요. 공원이 넓어 아침엔 한산합니다.<br>🅿️ 오사카성 공원 주차장 유료(1시간 ¥350 안팎).</div>
+      <div class="drive">🚗 12km · 25분</div></li>
+    <li><span class="t">09:40</span><span class="ttl">⛩ <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/住吉大社">스미요시타이샤</a> <span class="k">B안 · 공항 방향</span></span>
+      <div class="desc"><b>공항 쪽으로 가는 길에 있다</b>는 게 장점입니다. 전국 스미요시 신사 2,300곳의 총본사이고, <b>급경사의 반원형 다리 「소리하시」</b>가 상징이에요. 주차 무료·넓음.<br>동선상 A안(오사카성)보다 <b>효율이 좋습니다.</b></div></li>
+    <li><span class="t">12:00</span><span class="ttl">→ 린쿠타운 (공항 앞)</span>
+      <div class="drive">🚗 45km · 55분</div></li>
+    <li><span class="t">13:00</span><span class="ttl">🛍 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/りんくうプレミアム・アウトレット">린쿠 프리미엄 아울렛</a> <span class="k">★4.1 (15,605)</span></span>
+      <div class="desc"><b>공항 다리 건너기 직전</b>, KIX에서 차로 10분. 200여 브랜드, 10:00 오픈, <b>주차 무료.</b> 점심도 여기서 해결하면 시간이 절약됩니다.<br>❗ <b>반드시 렌트카 반납 전에</b> — 반납 후엔 다시 나오기 번거롭습니다.</div></li>
+    <li><span class="t">14:15</span><span class="ttl">🛒 <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/イオンモールりんくう泉南">이온몰 린쿠센난</a> <span class="k">★3.9 (6,773) · 마트</span></span>
+      <div class="desc">아울렛에서 <b>차로 5분.</b> 과자·조미료·레토르트·주류를 여기서 몰아 사세요. <b>렌트카 트렁크에 바로 싣는 게</b> 마지막 날의 특권입니다.<br>⚠️ <b>사케·간장 같은 액체는 무조건 위탁수하물</b>로. 기내 반입 100ml 제한.</div>
+      <div class="drive">🚗 3km · 5분</div></li>
+    <li><span class="t">15:20</span><span class="ttl">⛽ 주유 → 🚗 <b>16:00 반납</b></span>
+      <div class="desc">이온 근처 주유소에서 <b>만땅</b>. 반납 시 만유 상태가 아니면 비싼 정산 요금이 붙습니다.<br>반납 후 터미널 셔틀 10분.</div>
+      <div class="drive">🚗 12km · 20분</div></li>
+  </ul>
+  <div class="note"><b>A안(오사카성)과 B안(스미요시타이샤) 중 하나만 고르세요.</b> 동선만 보면 <b>B안이 낫습니다</b> — 공항 방향이라 되돌아오지 않고, 주차도 무료에 넓어요. 오사카성은 <b>천수각에 올라갈 거면</b> 시간이 더 필요해서 마지막 날엔 부담스럽습니다.<br><br>
+  <b>쇼핑을 줄이고 싶으면</b> 그만큼 오전을 늘리면 됩니다. 반대로 <b>쇼핑이 목적이면</b> 오전을 통째로 버리고 12시에 린쿠에 도착해도 돼요 — 그러면 <b>아울렛에 3시간</b>이 생깁니다.</div>
+</div>
+
+<h2>구간 요약</h2>
+<table>
+  <thead><tr><th>구간</th><th class="num">거리</th><th class="num">운전</th><th>비고</th></tr></thead>
+  <tbody>
+    <tr><td>8/7 KIX → 오사카 → KIX → 나라</td><td class="num">175km</td><td class="num">3:00</td><td>클리닉 왕복 포함</td></tr>
+    <tr><td>8/8 나라 ↔ 가시하라 ↔ 호류지 ↔ 이코마</td><td class="num">120km</td><td class="num">3:00</td><td>스카이라인 통행료 별도</td></tr>
+    <tr><td>8/9 나라 → 오쿠사가 → 야세 → 교토역</td><td class="num">110km</td><td class="num">2:30</td><td>교토 시내 가로지름</td></tr>
+    <tr><td>8/10 교토 → 모리구치</td><td class="num">60km</td><td class="num">1:30</td><td>오후는 전철</td></tr>
+    <tr><td>8/11 모리구치 → 린쿠 → KIX</td><td class="num">70km</td><td class="num">1:30</td><td></td></tr>
+    <tr><td><b>합계</b></td><td class="num"><b>약 535km</b></td><td class="num"><b>약 11:30</b></td><td></td></tr>
+  </tbody>
+</table>
+<div class="note"><b>거리가 짧고 고속 비중이 높아 편한 루트입니다.</b> 산길이 거의 없어요. 대신 <b>교토·오사카 시내 구간에서 정체와 주차</b>가 변수입니다. 8/9 오후(일요일 교토 시내)와 8/10 오전(모리구치 진입)에 여유를 두세요.</div>
+</section>
+
+<section class="panel" id="p-book">
+<h2>⚠️ 지금 해야 하는 것 <span class="k">순서대로</span></h2>
+<div class="note" style="margin-bottom:16px"><b>이 탭만 처리하면 나머지는 현장에서 다 됩니다.</b> 위에서부터 급한 순서예요.</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname">1. 고토클리닉에 전화 <span class="k">8/7 16:00 예약</span></span><span class="ubadge chk">가장 급함</span></div>
+  <div class="udesc"><b>15:00 렌트카 수령 → 16:00 오사카 도착이 계산상 안 맞습니다.</b> 수속 30분 + 이동 60분 = <b>16:30 도착</b>이 현실적이에요.<br><br>
+  <b>둘 중 하나를 지금 하세요</b> — <b>①</b> 「비행기가 13시 도착이라 조금 늦을 수 있다」고 미리 양해 구하기 <b>②</b> 예약을 <b>16:30~17:00</b>으로 옮길 수 있는지 문의.<br><br>
+  <b>그리고 저에게 클리닉 주소를 알려주세요.</b> 정확한 위치를 알면 <b>주변 코인파킹을 구체적으로 찾아</b> 일정에 넣겠습니다. 지금은 특정을 못 했습니다.</div>
+</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname">2. <a class="ph" target="_blank" rel="noopener" href="https://souda-kyoto.jp/">쇼렌인 야간 라이트업</a> 사전예약 <span class="k">8/9 밤</span></span><span class="ubadge chk">1인 ¥300 절약</span></div>
+  <div class="udesc"><b>「청련화의 여름 등불」 · 2026/7/17~8/23 한정</b>입니다. 8/9은 기간 안이에요.<br><br>
+  <b>사전예약(EX旅先予約) ¥1,200 / 당일 현장 ¥1,500</b> — <b>2인이면 ¥600 차이</b>고, 무엇보다 <b>현장에서 줄 서는 시간을 아낍니다.</b><br>
+  19:00~21:30 (최종 접수 21:00) · <b>8/13~16 제외</b>(우리 날짜는 무관).</div>
+</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname">3. <b>이코마산조 유원지</b>에 전화 <span class="k">☎ 0743-74-2173</span></span><span class="ubadge chk">일정이 걸림</span></div>
+  <div class="udesc"><b>8/8이 토요일이라 야간영업 여부가 불확실합니다.</b> 공식 공지로 확인된 건 <b>「8월 평일은 12:00~21:00 서머타임」</b>뿐이고, 주말 시간표는 이미지 캘린더로만 제공돼 읽지 못했습니다.<br><br>
+  <b>야간이 안 되면</b> 해질녘(약 18:50)까지만 보고 <b>석양으로 만족</b>하거나, 8/8 일정을 앞당겨야 합니다. <b>지금 확인하면 그날 계획이 확정</b>됩니다.<br>
+  참고: <b>매주 목요일 휴원</b>(8/13 제외) — 8/8은 무관.</div>
+</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname">4. 에어비앤비 호스트에게 <b>주차 가능 차종</b> 문의 <span class="k">8/10</span></span><span class="ubadge chk">중요</span></div>
+  <div class="udesc">리스팅에 <b>「무료 주차(경차 전용·주차 조건 있음)」</b>이라고 돼 있습니다. <b>렌트카가 경차가 아니면 못 댈 수 있어요.</b><br><br>
+  <b>ATB에서 받는 차종을 호스트에게 알려주고</b> 가능 여부를 확인하세요. 안 되면 <b>주변 코인파킹을 미리 잡아야</b> 하고, 그 경우 <b>14~21시 진출입 제한도 무의미</b>해져서 오히려 일정이 자유로워집니다.<br><br>
+  ⚠️ 주차가 되는 경우엔 <b>13:30까지 차를 넣어야</b> 합니다 — 8/10 오전 일정이 여기 맞춰져 있어요.</div>
+</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname">5. 렌트카 <b>ETC 카드 옵션</b> 확인 <span class="k">ATB Rental Car</span></span><span class="ubadge">확인</span></div>
+  <div class="udesc">8/7 15:00 수령 ~ 8/11 16:00 반납. 이 루트는 <b>한신고속 · 니시메이한 · 게이나와도 · 제2게이한 · 시기이코마 스카이라인</b>을 반복해서 탑니다.<br>
+  <b>ETC 없이 현금 요금소를 매번 통과하는 건 상당히 번거롭습니다.</b> 예약에 포함돼 있는지 확인하고, 없으면 추가하세요.<br><br>
+  같이 확인할 것: <b>차종(경차 여부)</b> · <b>내비 한국어 지원</b> · <b>면책보험(NOC 포함 여부)</b>.</div>
+</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname">6. 숙소 3곳 예약 상태 점검</span><span class="ubadge">확인</span></div>
+  <div class="udesc">
+  <b>8/7·8/8 — 御宿 野乃奈良</b> · <b>주차 확보를 명시</b>했는지 확인(유료, 1박 ¥1,500 안팎). 20:15 체크인이니 늦은 체크인도 알려두세요.<br>
+  <b>8/9 — 京都 梅小路 花伝抄</b> · <b>무료 대절탕 5종이 선착순인지 예약제인지</b> 확인. 체크인하자마자 시간대를 잡아야 합니다.<br>
+  <b>8/10 — 모리구치 에어비앤비</b> · 위 4번 참고. <b>주방 설비(냄비·프라이팬·식칼·밥솥)</b>와 <b>기본 조미료</b> 유무도 확인하세요 — 저녁을 요리할 거니까요.</div>
+</div>
+
+<h2>✅ 예약 없이 되는 것</h2>
+<div class="grid">
+  <div class="box">
+    <h3>그냥 가면 됩니다</h3>
+    <ul>
+      <li><b>루리코인</b> — 여름 공개는 <b>예약제 아님</b>. 현장 구매 ¥2,000<br><span style="color:var(--warn)">※ 가을은 예약제라 정보가 섞입니다</span></li>
+      <li><b>오타기 넨부쓰지</b> — ¥300, 8:00 개문</li>
+      <li>아다시노 넨부쓰지 · 기오지</li>
+      <li>나라공원 · 가스가타이샤</li>
+      <li>호류지 ¥1,500 (입장 16:30 마감)</li>
+      <li>히가시야마 야간 산책 (거리 자체는 무료)</li>
+      <li>덴덴타운 · 도톤보리 · 니시키 시장</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>줄 서는 곳</h3>
+    <ul>
+      <li><b>だんご庄</b> — 매진되면 종료, ~17:00</li>
+      <li><b>데마치 후타바</b> — 아침이 그나마 짧음</li>
+      <li><b>우동 一期一会</b> — ~17:00</li>
+      <li>루리코인 — 여름은 가을만큼 붐비지 않음</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>⏰ 시간 못 지키면 못 하는 것</h3>
+    <ul>
+      <li><b>나라 사슴</b> — 6시대. 9시면 끝</li>
+      <li><b>오타기 넨부쓰지</b> — 8시. 10시면 인파</li>
+      <li><b>호류지</b> — 입장 <b>16:30 마감</b></li>
+      <li><b>루리코인</b> — 접수 <b>16:30 종료</b></li>
+      <li><b>쇼렌인</b> — 접수 <b>21:00 종료</b></li>
+      <li><b>구로몬 시장</b> — 17시면 대부분 닫음</li>
+      <li><b>에어비앤비 차</b> — <b>13:30까지</b></li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<section class="panel" id="p-food">
+<h2>🍡 당고 <span class="k">나라 · 교토</span></h2>
+
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/だんご庄+坊城本店">だんご庄 坊城본점 (당고쇼)</a></span><span class="ubadge chk">8/8 · 일정에 반영</span></div>
+  <div class="udesc"><b>1878년(메이지 11년) 창업.</b> 야마토 지역을 대표하는 당고 노포이고, 메뉴가 사실상 <b>기나코 당고 하나뿐</b>입니다 — 갓 볶아 향이 살아 있는 콩가루에 초대가 만든 특제 꿀. 소박한데 계속 들어갑니다. 매장에서 앉아 먹을 수도 있어요.</div>
+  <div class="umeta"><b>위치</b><span>나라현 가시하라시 히가시보조초 860 · <b>전용 주차 무료</b></span><b>영업</b><span>~17:00 · <b>매진되면 그날 종료</b></span><b>전화</b><span>0744-27-4340</span></div>
+</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/加茂みたらし茶屋">가모미타라시차야 (加茂みたらし茶屋)</a></span><span class="ubadge chk">8/10 · 일정에 반영</span></div>
+  <div class="udesc"><b>미타라시당고가 태어난 자리</b>입니다. 시모가모 신사 「미타라시 연못」의 물거품을 본떠 만들었다는 유래가 있어요.<br>
+  모양이 독특한데 <b>맨 위 한 알만 떨어뜨려 꽂습니다</b> — 사람의 머리와 사지를 뜻한다는 설이 있어요. <b>직화로 구워</b> 겉이 바삭하고 흑설탕 간장 소스가 묽습니다. 바로 옆이 <b>시모가모 신사</b>라 아침 산책과 묶입니다.</div>
+</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/出町ふたば+京都">데마치 후타바 (出町ふたば)</a></span><span class="ubadge">당고는 아니지만</span></div>
+  <div class="udesc"><b>1899년 창업</b>, 교토에서 가장 유명한 화과자집입니다. 정확히는 당고가 아니라 <b>마메모치(豆餅)</b> — 검은콩이 통째로 박힌 떡이에요. <b>포장 전문</b>이고 <b>당일 소비가 원칙</b>입니다.<br>
+  가모미타라시차야에서 <b>도보 5분</b>이라 8/10 아침에 묶었습니다. <b>줄이 깁니다</b> — 아침 일찍이 그나마 짧아요.</div>
+</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/梅園+みたらし団子+京都">우메조노 (梅園)</a></span><span class="ubadge">시내에서 편하게</span></div>
+  <div class="udesc"><b>1927년 창업.</b> <b>네모난 모양의 미타라시당고</b>로 유명합니다 — 둥글지 않아서 처음 보면 놀라요. 교토 시내에 지점이 여럿이라 <b>동선 어디에나 걸립니다.</b> 니시키 시장 근처에도 있어요.</div>
+</div>
+
+<h2>🍜 우동</h2>
+<table>
+  <thead><tr><th>가게</th><th class="num">평점</th><th class="num">리뷰</th><th>영업</th><th>메모</th></tr></thead>
+  <tbody>
+    <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/うどん一期一会+奈良">나라 · 우동 一期一会</a></b></td><td class="num">4.9</td><td class="num">255</td><td>~17:00</td><td><b>나라 1위 · 8/8에 반영</b> · 히가시무키기타마치</td></tr>
+    <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/衣掛茶屋+奈良">나라 · 衣掛茶屋</a></b></td><td class="num">4.7</td><td class="num">359</td><td>~14:00</td><td>노보리오지초 · <b>¥1,000 이하</b></td></tr>
+    <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/udon+cafe+麺喰+奈良">나라 · udon &amp; cafe 麺喰</a></b></td><td class="num">4.6</td><td class="num">473</td><td>~14:00</td><td><b>리뷰 473개에 4.6 — 표본이 탄탄</b></td></tr>
+    <tr><td><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/まるみ手打ちうどん+奈良">나라 · まるみ 手打ちうどん</a></td><td class="num">4.6</td><td class="num">162</td><td>~15:00 / 17:00~</td><td><b>손반죽</b> · ¥1,000 이하</td></tr>
+    <tr><td><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/うどん屋+つなぐ+奈良">나라 · うどん つなぐ</a></td><td class="num">4.6</td><td class="num">219</td><td>~18:00</td><td><b>저녁까지 여는 몇 안 되는 집</b></td></tr>
+    <tr><td><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/釜粋+奈良">나라 · 카마이키 (釜粋)</a></td><td class="num">4.4</td><td class="num">1,270</td><td>~15:00 / 17:00~</td><td><b>리뷰 최다</b> · 히가시무키 상점가 한복판</td></tr>
+    <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/たわらや+京都">교토 · たわらや (다와라야)</a></b></td><td class="num">—</td><td class="num">—</td><td>—</td><td><b>굵기가 젓가락 같은 「1가닥 우동」</b>으로 유명. 기타노텐만구 앞</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>나라 우동은 의외로 강합니다</b> — 4.9가 하나, 4.6~4.7이 넷이에요. 대부분 <b>긴테쓰나라역~JR나라역 사이 도보권</b>에 몰려 있어서 한 곳이 밀리면 옆집으로 옮기면 됩니다.<br><br>
+⚠️ <b>공통 함정은 영업시간</b>입니다. <b>14~15시에 닫는 집이 많고</b> 저녁 영업이 없는 곳도 흔해요. <b>11~13시</b>가 안전한 창입니다.<br><br>
+<b>교토 우동은 결이 다릅니다</b> — 「교우동」은 면이 부드럽고 <b>다시(국물)가 주인공</b>이에요. 사누키식 코시를 기대하면 실망하니, <b>국물을 마시러 간다</b>고 생각하세요.</div>
+
+<h2>🥞 그 외 맛집</h2>
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/広島お好み焼き+やきとら+奈良">나라 · やきとら</a></span><span class="gr"><span class="st">★</span>4.6<span class="cnt">(54)</span></span><span class="ubadge chk">8/7 밤 · 일정에 반영</span></div>
+  <div class="udesc">히로시마풍 오코노미야끼. <b>나라 시내에서 23:00까지 여는 거의 유일한 집</b>이라 8/7 늦은 도착에 딱입니다. 쓰노후리초, 긴테쓰나라역 도보권.</div>
+</div>
+<div class="card">
+  <div class="uhead"><span class="uname">나라 · 오코노미야끼 상위권</span><span class="ubadge">낮 영업</span></div>
+  <div class="udesc">나라는 오코노미야끼 평점이 상당히 높습니다.<br>
+  <b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/お好み焼き染+奈良">染</a> ★4.9(122)</b> · <b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/Takomi+お好み焼き+奈良">Takomi</a> ★4.9(200)</b> · <b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/Omitsu+お好み焼き+奈良">Omitsu</a> ★4.8(419)</b> · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/スルガ町お好み焼き+奈良">수루가마치</a> ★4.7(553).<br>
+  <b>표본까지 보면 Omitsu(419)가 가장 안전</b>합니다. 8/8 점심을 우동 대신 여기로 바꿔도 좋아요.</div>
+</div>
+<div class="card">
+  <div class="uhead"><span class="uname">나라 향토 · 사두면 좋은 것</span><span class="ubadge">기념품</span></div>
+  <div class="udesc"><b>가키노하즈시(감잎 초밥)</b> — 고등어·연어 초밥을 감잎에 싸서 눌러 숙성. <b>상온 보관</b>이라 차에 두고 다니기 좋습니다.<br>
+  <b>미와 소멘</b> — <b>일본 소멘의 발상지</b>가 나라현 사쿠라이시입니다. 건면은 가볍고 안 깨져서 기념품으로 최적.<br>
+  <b>나라즈케</b> — 술지게미 장아찌. <b>술 향이 강해 호불호가 확실</b>하니 시식 먼저.</div>
+</div>
+<div class="card">
+  <div class="uhead"><span class="uname">교토 · 니시키 시장에서 먹을 것</span><span class="ubadge chk">8/10 · 일정에 반영</span></div>
+  <div class="udesc">400m 아케이드에 130여 점포. <b>서서 먹는 간식이 본편</b>입니다 — <b>두유 도넛</b>, <b>다코타마고</b>(작은 문어 안에 메추리알), <b>유바</b>(두부 껍질), <b>하모</b>(갯장어), 쓰케모노.<br>
+  <b>저녁 요리 재료</b>로 유바나 쓰케모노를 사면 그대로 밥상에 올라갑니다.</div>
+</div>
+<div class="card">
+  <div class="uhead"><span class="uname">오사카 · <a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/黒門市場">구로몬 시장</a></span><span class="ubadge chk">8/10 · 17시 마감 주의</span></div>
+  <div class="udesc">「오사카의 부엌」. 회·성게·참치·와규 꼬치를 그 자리에서 구워 팝니다.<br>
+  <b>❗17시면 대부분 닫습니다</b> — 덴덴타운보다 <b>먼저</b> 들르거나, 16:30 전에 도착하세요. <b>저녁 요리용 회</b>를 여기서 사면 좋은데 모리구치까지 20분이니 <b>아이스팩을 꼭 챙기세요.</b></div>
+</div>
+</section>
+
+<section class="panel" id="p-play">
+<h2>🎮 게임센터 · 인형뽑기</h2>
+<div class="note" style="margin-bottom:16px"><b>먼저 알아둘 것</b> — 일본 게임센터는 구글 평점이 <b>2~3점대가 정상</b>입니다. "안 뽑힌다"는 리뷰가 구조적으로 쌓이는 업종이라 <b>3.0 넘으면 준수, 3.5면 좋은 편</b>으로 보세요. 대부분 <b>10:00 오픈</b>이고 동전 교환기는 <b>지폐만</b> 받습니다.<br><br>
+<b>이번 루트의 정답은 8/10 오후 「덴덴타운」입니다.</b> 나라·교토는 게임센터가 약하고, 오사카가 압도적이에요.</div>
+
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/タイトーステーション+大阪日本橋店">타이토 스테이션 오사카니혼바시점</a></span><span class="gr"><span class="st">★</span>4.0</span><span class="ubadge chk">1순위 · 8/10에 반영</span></div>
+  <div class="udesc"><b>신경품이 바로 들어오고 잘 뽑히기로 유명</b>합니다 — 잘 뽑히니 경품 회전도 빨라요. 최신 게임부터 옛날 아케이드까지 폭이 넓습니다. <b>덴덴타운 한복판</b>이라 다른 가게들과 묶여요.</div>
+</div>
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/namco+大阪日本橋店">namco 오사카니혼바시점</a></span><span class="gr"><span class="st">★</span>3.9</span><span class="ubadge">바로 근처</span></div>
+  <div class="udesc">타이토와 <b>도보 몇 분</b> 거리라 둘 다 도는 게 정석입니다. 반다이남코 계열이라 <b>경품 라인업이 다릅니다</b> — 한 곳에서 못 본 걸 다른 곳에서 봅니다.</div>
+</div>
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/サープラ大阪道頓堀あそびタウン">사프라 오사카 도톤보리 아소비타운</a></span><span class="ubadge">난바역 도보 2분</span></div>
+  <div class="udesc"><b>「뽑히는 난이도」로 소문난 초우량점</b>입니다. 덴덴타운에서 도톤보리로 넘어가는 길에 있어서 <b>8/10 동선에 그대로 걸려요.</b> 인형뽑기가 목적이라면 여기를 우선순위로.</div>
+</div>
+<div class="card">
+  <div class="uhead"><span class="uname"><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/ラウンドワン京都河原町店">라운드원 교토 가와라마치점</a></span><span class="ubadge">교토에서는 여기</span></div>
+  <div class="udesc">교토카와라마치역 도보 5분(가와라마치도리 산조사가루 야마자키초 250). <b>1층이 UFO캐처·메달게임</b>, <b>2층이 아케이드·가라오케·볼링</b>입니다.<br>
+  <b>교토에서 제대로 된 게임센터는 사실상 여기뿐</b>이에요. 8/9 밤 히가시야마 산책 후나 8/10 오전 니시키 시장 근처에 넣을 수 있습니다.</div>
+</div>
+<div class="card">
+  <div class="uhead"><span class="uname">나라 게임센터 <span class="k">기대치를 낮추세요</span></span><span class="ubadge">약함</span></div>
+  <div class="udesc">나라는 도시 규모에 비해 게임센터가 적습니다. <b>대형 쇼핑몰 안의 게임 코너</b>가 사실상 전부예요 — 이온몰 다카노하라, 이토요카도 나라점 정도.<br>
+  <b>GiGO 마리에… 는 도야마 쪽 얘기고</b>, 나라에서는 <b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/ゲームセンター+奈良市">시내 검색</a></b>으로 그때그때 찾는 게 낫습니다. 8/8 이코마 가는 길에 <b>히가시오사카·이코마시</b> 쪽이 훨씬 나아요.</div>
+</div>
+<div class="card">
+  <div class="uhead"><span class="uname">🎰 가챠가챠 (캡슐토이) 전용 매장</span><span class="ubadge">요즘 트렌드</span></div>
+  <div class="udesc">요즘 일본은 <b>가챠 전용 매장</b>이 따로 있습니다 — 벽 전체가 캡슐 자판기예요. <b>「가챠가챠노모리」</b>, <b>「가샤폰 백화점」</b> 같은 체인이 쇼핑몰 안에 입점해 있습니다.<br>
+  <b>덴덴타운</b>에도 가챠 전문점이 여럿이고, <b>고속도로 SA·PA와 KIX 공항</b>에도 큰 코너가 있어요 — <b>8/11 출국 전에 남은 동전을 털기</b> 좋습니다.</div>
+</div>
+
+<h2>🛒 돈키호테 · 대형 마트</h2>
+<table>
+  <thead><tr><th>가게</th><th>위치</th><th>영업</th><th>언제 쓰나</th></tr></thead>
+  <tbody>
+    <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/ドン・キホーテ奈良店">돈키호테 나라점</a></b> ★3.5(1,530)</td><td>나라시 가시와기초 480-1 · 주차 있음</td><td><b>~오전 3:00</b></td><td><b>8/7 밤</b> — 새벽 사슴용 물·간식·모기약</td></tr>
+    <tr><td><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/MEGAドン・キホーテUNY西大和店">메가 돈키호테 UNY 니시야마토점</a> ★3.7(2,242)</td><td>나라 서부 (사사유리다이)</td><td>~자정</td><td><b>8/8 밤</b> — 이코마에서 나라 오는 길목</td></tr>
+    <tr><td><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/ドン・キホーテ天理店">돈키호테 텐리점</a> ★3.5(924)</td><td>덴리시</td><td>~오전 1:00</td><td>나라 남쪽으로 나갈 때</td></tr>
+    <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/ドン・キホーテ京都四条河原町店">돈키호테 교토 시조카와라마치점</a></b></td><td>나카교구 시오야초 321</td><td><b>10:00~01:00</b> 무휴</td><td><b>8/9 밤 · 8/10 오전</b> — 니시키 시장·라운드원과 도보권</td></tr>
+    <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/イオンフードスタイル守口店">이온 푸드스타일 모리구치점</a></b></td><td><b>모리구치역 3번 출구 도보 0분</b></td><td>—</td><td><b>8/10 저녁 — 요리 재료 본진</b></td></tr>
+    <tr><td><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/京阪百貨店+守口店">케이한백화점 모리구치점</a></td><td>모리구치시역 도보 2분</td><td>레스토랑가 ~21:00</td><td>8/10 — <b>데파치카 반찬</b>. 요리 귀찮을 때</td></tr>
+    <tr><td><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/イオンタウン守口">이온타운 모리구치</a></td><td>모리구치시 게이한혼도리</td><td>—</td><td>8/10 · 8/11 아침</td></tr>
+    <tr><td><b><a class="ph" target="_blank" rel="noopener" href="https://www.google.com/maps/search/イオンモールりんくう泉南">이온몰 린쿠센난</a></b> ★3.9(6,773)</td><td>KIX 다리 건너기 전</td><td>—</td><td><b>8/11 — 기념품 몰아 사기</b></td></tr>
+  </tbody>
+</table>
+<div class="note"><b>쇼핑 타이밍은 딱 두 번입니다.</b><br>
+<b>① 8/7 밤 돈키호테 나라점</b> — 새벽 3시까지라 늦은 도착에도 됩니다. 여행 초반 소모품(물·간식·모기약·세면도구)을 여기서.<br>
+<b>② 8/11 린쿠</b> — <b>아울렛 + 이온몰</b>. 짐이 늘어나도 <b>차로 공항까지 그대로 싣고 가면</b> 되니, <b>기념품은 여기로 몰아두세요.</b> 여행 중간에 사면 나흘 내내 들고 다녀야 합니다.<br><br>
+<b>8/10 저녁 장보기</b>는 <b>이온 푸드스타일 모리구치(역 도보 0분)</b>가 정답입니다. 구로몬 시장에서 회를 사왔다면 나머지(밥·채소·조미료)만 여기서 채우면 돼요.</div>
+
+<h2>🌙 밤에 할 것 <span class="k">날짜별</span></h2>
+<table>
+  <thead><tr><th>날짜</th><th>추천</th></tr></thead>
+  <tbody>
+    <tr><td><b>8/7 (금)</b><br>나라</td><td><b>사루사와이케 + 고후쿠지 오층탑 야간</b>(호텔 도보 12분, 연못에 탑이 비침) → <b>산조도리·히가시무키 아케이드</b> → <b>돈키호테 나라점</b>(3시까지). 호텔 <b>천연온천 대욕장</b>으로 마무리.</td></tr>
+    <tr><td><b>8/8 (토)</b><br>이코마</td><td><b>이코마산조 유원지 야경</b>이 그 자체로 밤 일정입니다. 오사카 평야가 발밑에 깔려요. 돌아오는 길에 <b>메가 돈키호테 니시야마토</b>(자정까지).</td></tr>
+    <tr><td><b>8/9 (일)</b><br>교토</td><td><b>쇼렌인 라이트업</b>(19:00~21:30) + <b>히가시야마 야간 산책</b>(야사카 신사 → 이시베코지 → 니넨자카·산넨자카 → 야사카노토 → 기온 하나미코지). 호텔 복귀 후 <b>무료 대절탕</b>.</td></tr>
+    <tr><td><b>8/10 (월)</b><br>모리구치</td><td><b>숙소에서 요리 + 사우나 + 세탁.</b> 여행 중 유일하게 「사는」 하루예요. 나가고 싶으면 <b>케이한백화점 레스토랑가</b>가 21시까지.</td></tr>
+  </tbody>
+</table>
+</section>
+
+<section class="panel" id="p-prep">
+<h2>✅ 준비</h2>
+<div class="grid">
+  <div class="box">
+    <h3>🚗 운전</h3>
+    <ul>
+      <li>국제운전면허증(제네바) + 한국 면허증 + 여권</li>
+      <li>좌측통행 · 우회전 시 대향차 우선</li>
+      <li><b>ETC 카드 필수</b> — 유료도로를 계속 탑니다</li>
+      <li>시기이코마 스카이라인은 <b>별도 유료도로</b></li>
+      <li>교토·오사카 시내는 <b>노상 주차 불가</b> — 코인파킹</li>
+      <li>주차 앱(<b>akippa</b>, <b>타임즈</b>)으로 미리 예약 가능</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>🅿️ 주차 요약</h3>
+    <ul>
+      <li>나라공원 새벽 — <b>One Park 히토부노</b> 24시간 ¥500</li>
+      <li>호류지 — 주변 민영 ¥500</li>
+      <li>だんご庄 — <b>무료</b></li>
+      <li>이코마 — ¥1,500(주말 ¥2,000) + 스카이라인</li>
+      <li>오타기 넨부쓰지 — <b>12대뿐</b>, 8시 도착 필수</li>
+      <li>루리코인 — 전용 없음, 야세역 코인파킹</li>
+      <li>히가시야마 야간 — 1시간 ¥400~600</li>
+      <li>린쿠 아울렛·이온몰 — <b>무료</b></li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>👕 복장 · 짐</h3>
+    <ul>
+      <li><b>운동화 필수</b> — 오쿠사가·히가시야마 모두 언덕과 돌길</li>
+      <li>8월 교토·나라는 <b>매우 덥고 습합니다</b> — 갈아입을 옷</li>
+      <li><b>모기 기피제</b> — 새벽 나라공원, 오쿠사가 이끼 정원</li>
+      <li>온천 3곳(노노·카덴쇼·에어비앤비 사우나) — 수건은 다 제공</li>
+      <li>사찰 배관료용 <b>동전</b>을 항상 챙기세요</li>
+      <li>보냉백 — 8/10 구로몬 시장에서 회를 산다면</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>🦌 사슴 주의</h3>
+    <ul>
+      <li>센베를 들고 <b>망설이면 옷을 뭅니다</b> — 빠르게 주세요</li>
+      <li><b>봉지·지도·티켓</b>도 먹으려 듭니다. 가방에</li>
+      <li>새끼 사슴 근처엔 어미가 예민합니다</li>
+      <li>야생동물이자 <b>천연기념물</b> — 다치게 하면 처벌 대상</li>
+      <li>센베는 <b>현장 구매</b> (외부 먹이 반입 금지)</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>⏰ 이날은 일찍 일어나야 합니다</h3>
+    <ul>
+      <li><b>8/8</b> — 05:30 기상, 05:50 나라공원</li>
+      <li><b>8/9</b> — 06:00 기상, 06:30 체크아웃</li>
+      <li>대신 <b>8/8 09:30~11:00 호텔 휴식</b>을 넣어놨습니다</li>
+      <li><b>8/10</b>은 늦잠 자도 됩니다 (08:00 시작)</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>💴 현금</h3>
+    <ul>
+      <li>사찰 배관료는 <b>대부분 현금만</b></li>
+      <li>だんご庄 · 작은 찻집도 현금</li>
+      <li>코인파킹은 <b>동전 또는 지폐</b> (카드 안 되는 곳 많음)</li>
+      <li>게임센터 동전 교환기는 <b>지폐만</b></li>
+      <li>편의점 ATM에서 수시로 인출 가능</li>
+    </ul>
+  </div>
+</div>
+
+<h2>이 일정에서 뺀 것</h2>
+<div class="note"><b>후시미이나리(여우신사)</b> — 요청대로 뺐습니다.<br><br>
+<b>니넨자카·산넨자카 낮 방문</b> — 낮에는 빼고 <b>8/9 밤에만</b> 넣었습니다. 상점이 닫는 18시 이후엔 조명만 남아 완전히 다른 곳이 됩니다.<br><br>
+<b>기요미즈데라 라이트업</b> — 2026년 여름 라이트업이 <b>8/14~16</b>이라 우리 날짜(8/9)와 안 맞습니다.<br><br>
+<b>「일념자카·이년자카 저녁 등불의 길」</b> — 이것도 <b>8/14~16</b> 개최라 놓칩니다. 대신 <b>쇼렌인(7/17~8/23)</b>이 열려 있어 그쪽으로 넣었어요.<br><br>
+<b>USJ · 오사카 시내 종일</b> — 8/10 오후에 <b>덴덴타운 + 도톤보리</b>만 넣었습니다. 저녁 요리 일정이 있어서요.</div>
+
+<h2>🔗 참고 링크</h2>
+<div class="note">
+<a class="ph" target="_blank" rel="noopener" href="https://www.ikomasanjou.com/calendar/calendar.html">이코마산조 유원지 영업 캘린더</a> ·
+<a class="ph" target="_blank" rel="noopener" href="https://ja.kyoto.travel/">교토시 공식 관광 Navi</a> ·
+<a class="ph" target="_blank" rel="noopener" href="https://souda-kyoto.jp/">그래, 교토 가자</a> ·
+<a class="ph" target="_blank" rel="noopener" href="https://www.kintetsu.co.jp/leisure/skyline/">시기이코마 스카이라인</a> ·
+<a class="ph" target="_blank" rel="noopener" href="https://www.akippa.com/">akippa 주차 예약</a>
+</div>
+</section>
+
+<footer>
+  영업시간·요금은 2026년 8월 기준 공식 자료와 구글 지도를 참고했습니다.
+  <b>루리코인 여름 특별공개(7/1~8/17)</b>와 <b>쇼렌인 여름 라이트업(7/17~8/23)</b>은 기간 한정이라
+  출발 전 공식 사이트에서 재확인하세요. 구글 평점은 조회 시점 값이라 변동됩니다.
+</footer>
+
+</div>
+<div id="hovercard"></div>
+
+<script>
+(function(){
+  var COLORS={1:'#7c5cff',2:'#12876c',3:'#2f7fd4',4:'#cc6b3a',5:'#c9962a'};
+  var ROUTES={
+    1:[[34.4342,135.2440],[34.4600,135.3200],[34.5200,135.4300],[34.5900,135.5400],[34.6300,135.6600],[34.6600,135.7500],[34.6808,135.8190]],
+    2:[[34.6808,135.8190],[34.6889,135.8398],[34.6813,135.8482],[34.6790,135.8290],[34.5900,135.8000],[34.4930,135.7790],[34.5090,135.7960],[34.5600,135.7500],[34.6148,135.7345],[34.6600,135.7000],[34.6790,135.6780],[34.6620,135.8060],[34.6808,135.8190]],
+    3:[[34.6808,135.8190],[34.6852,135.8455],[34.6910,135.7950],[34.6800,135.8240],[34.6480,135.7830],[34.5200,135.7000],[34.3500,135.6800],[34.2500,135.7300],[34.1330,135.7830],[34.0500,135.7900],[33.9882,135.7939],[33.8900,135.8600],[33.7300,135.9900],[33.6280,135.9430]],
+    4:[[33.6280,135.9430],[33.6706,135.8907],[33.6280,135.9430],[33.7300,135.9000],[33.8380,135.7790],[33.8400,135.7730],[33.7800,135.6000],[33.7000,135.4800],[33.6760,135.3400]],
+    5:[[33.6760,135.3400],[33.7400,135.3800],[33.8800,135.3700],[34.0500,135.3600],[34.2000,135.2400],[34.3400,135.2100],[34.4118,135.2965],[34.3862,135.2727],[34.4342,135.2440]]
+  };
+  var LIFTS=[];
+  var STOPS=[
+    {d:1,ll:[34.4342,135.2440],n:'✈️ 간사이공항 (KIX)',t:'8/7 13:00 입국 · 15:00 렌트카',x:'ATB Rental Car. ETC 카드 옵션 필수. 입국~수하물 60~90분.'},
+    {d:1,ll:[34.6937,135.5023],n:'🏥 고토클리닉 오사카',t:'8/7 16:00~16:30',x:'⚠️ 정확한 주소 미확인 — 알려주시면 주변 코인파킹을 넣겠습니다. 16시 도착은 빠듯합니다.'},
+    {d:1,ll:[34.4342,135.2440],n:'✈️ KIX 복귀 · 합류',t:'8/7 18:00~19:00',x:'퇴근 시간대 한신고속 정체 가능. 17:00 출발 권장.'},
+    {d:1,ll:[34.6820,135.8202],n:'🏨 御宿 野乃奈良 (숙소 A)',t:'8/7 20:15',x:'오미야초 1-1-6. JR나라역 도보 2분. 천연온천. 주차 유료. 8/7·8/8 2박.'},
+    {d:1,ll:[34.6620,135.8060],n:'🛒 돈키호테 나라점',t:'8/7 22:30',x:'★3.5(1,530). 오전 3시까지. 새벽 사슴용 물·간식·모기약.',s:1},
+    {d:2,ll:[34.6889,135.8398],n:'🦌 나라공원 · 새벽 사슴',t:'8/8 05:50',x:'One Park 히토부노 주차(24시간 ¥500)가 이 시각 유일. 9시면 관광객이 덮습니다.'},
+    {d:2,ll:[34.6813,135.8482],n:'⛩ 가스가타이샤',t:'8/8 08:00',x:'등롱 3,000개 주홍 회랑. 개문 직후엔 사람이 없습니다.'},
+    {d:2,ll:[34.6845,135.8285],n:'🍜 우동 一期一会',t:'8/8 11:00',x:'★4.9(255). 나라 우동 1위. ~17:00. 근처 나카타니도 요모기 모찌.'},
+    {d:2,ll:[34.4930,135.7790],n:'🍡 だんご庄 坊城본점',t:'8/8 13:30',x:'1878년 창업 기나코 당고. 매진되면 종료, ~17:00. 주차 무료.'},
+    {d:2,ll:[34.6148,135.7345],n:'🏯 호류지',t:'8/8 14:30',x:'현존 세계 最古 목조건축. 배관 ~17:00(입장 16:30 마감), ¥1,500.'},
+    {d:2,ll:[34.6790,135.6780],n:'🎡 이코마산조 유원지',t:'8/8 16:45',x:'642m 야경. 입원 무료. 8월 평일 12~21시 — 토요일 시간표 전화 확인 필요(0743-74-2173).',s:1},
+    {d:3,ll:[35.0090,135.6640],n:'🗿 오타기 넨부쓰지',t:'8/9 08:00',x:'1,200 라칸 석상. 8:00 개문 ¥300. 주차 12대뿐 — 8시 도착 필수.'},
+    {d:3,ll:[34.9880,135.6690],n:'🎋 아다시노 넨부쓰지 · 사가토리이모토',t:'8/9 09:00',x:'석불 8,000기 + 사람 없는 대나무 숲. 초가지붕 전통 거리.'},
+    {d:3,ll:[34.9760,135.6720],n:'🌿 기오지 (이끼 정원)',t:'8/9 10:00',x:'『헤이케 이야기』의 무대. 수십 종 이끼. 30분이면 충분.'},
+    {d:3,ll:[34.9860,135.7500],n:'🎍 아라시야마 · 점심',t:'8/9 11:00',x:'대나무길은 이미 오쿠사가에서 한적한 버전을 봤으니 가볍게 통과.'},
+    {d:3,ll:[35.1180,135.7920],n:'💚 루리코인 (야세)',t:'8/9 14:00',x:'여름 특별공개 7/1~8/17! ¥2,000, 10:00~17:00(접수 16:30). 예약 불필요. 유카미도리.'},
+    {d:3,ll:[34.9880,135.7370],n:'🏨 京都 梅小路 花伝抄 (숙소 B)',t:'8/9 16:00',x:'우메코지쿄토니시역 도보 1분. 무료 대절탕 5종 — 체크인 때 시간대 먼저 예약.'},
+    {d:3,ll:[34.9940,135.7810],n:'🏮 히가시야마 야간 + 쇼렌인',t:'8/9 18:30',x:'쇼렌인 라이트업 19:00~21:30(접수 21:00). 사전예약 ¥1,200 / 당일 ¥1,500. 야사카노토 야경.',s:1},
+    {d:4,ll:[35.0400,135.7720],n:'🍡 가모미타라시차야 · 시모가모 신사',t:'8/10 08:00',x:'미타라시당고 발상지. 옆 다다스노모리는 원시림 세계유산.'},
+    {d:4,ll:[35.0300,135.7690],n:'🫘 데마치 후타바',t:'8/10 09:30',x:'1899년 창업 마메모치. 포장 전문, 줄 깁니다. 당일 소비 원칙.'},
+    {d:4,ll:[35.0050,135.7650],n:'🐟 니시키 시장',t:'8/10 10:15',x:'400m 아케이드 130여 점포. 저녁 요리용 유바·쓰케모노도 여기서.'},
+    {d:4,ll:[34.7370,135.5640],n:'🏠 모리구치 에어비앤비 (숙소 C)',t:'8/10 13:00',x:'❗차량 진출입 14~21시 불가 — 13:30까지 넣어야. 경차 전용 주차 조건 확인 필수!'},
+    {d:4,ll:[34.6620,135.5030],n:'🎮 덴덴타운 · 도톤보리',t:'8/10 14:40',x:'타이토 스테이션(★4.0)·namco(★3.9)·사프라 아소비타운. 구로몬 시장은 17시 마감.',s:1},
+    {d:5,ll:[34.6127,135.4930],n:'⛩ 스미요시타이샤 (B안)',t:'8/11 09:40',x:'공항 방향이라 동선 효율 최고. 소리하시. 주차 무료·넓음.'},
+    {d:5,ll:[34.4118,135.2965],n:'🛍 린쿠 프리미엄 아울렛',t:'8/11 13:00',x:'★4.1(15,605). 200여 브랜드, 주차 무료. 반납 전에 들르세요.'},
+    {d:5,ll:[34.3862,135.2727],n:'🛒 이온몰 린쿠센난',t:'8/11 14:15',x:'★3.9(6,773). 기념품 몰아 사기. 액체는 위탁수하물로.'},
+    {d:5,ll:[34.4342,135.2440],n:'🚗 KIX 반납',t:'8/11 16:00',x:'15:20 주유 만땅 → 16:00 반납. 셔틀 10분.',s:1}
+  ];
+
+  function init(){
+    var el=document.getElementById('livemap');
+    if(!el || typeof L==='undefined') return;
+    var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var map=L.map(el,{scrollWheelZoom:false});
+    var base=L.tileLayer('https://{s}.basemaps.cartocdn.com/'+(dark?'dark_all':'rastertiles/voyager')+'/{z}/{x}/{y}{r}.png',{
+      maxZoom:18, subdomains:'abcd', attribution:'&copy; OpenStreetMap &copy; CARTO'
+    }).addTo(map);
+    var swapped=false;
+    base.on('tileerror', function(){
+      if(swapped) return; swapped=true; map.removeLayer(base);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,
+        attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+    });
+
+    var groups={}, all=[];
+    Object.keys(ROUTES).forEach(function(d){
+      var g=L.layerGroup().addTo(map);
+      L.polyline(ROUTES[d],{color:COLORS[d],weight:5,opacity:.85}).addTo(g);
+      groups[d]=g; all=all.concat(ROUTES[d]);
+    });
+    LIFTS.forEach(function(f){
+      L.polyline(f.pts,{color:COLORS[f.d],weight:4,opacity:.95,dashArray:'7 8'}).addTo(groups[f.d]);
+      all=all.concat(f.pts);
+    });
+    STOPS.forEach(function(p){
+      var m=L.circleMarker(p.ll,{radius:p.s?5:8,color:'#fff',weight:2,
+        fillColor:COLORS[p.d],fillOpacity:1});
+      m.bindPopup('<span class="pw" style="background:'+COLORS[p.d]+'">'+p.t+'</span><br><b>'+p.n+'</b><span class="pn">'+p.x+'</span>');
+      m.addTo(groups[p.d]);
+    });
+    map.fitBounds(L.latLngBounds(all).pad(0.06));
+    setTimeout(function(){ map.invalidateSize(); },200);
+
+    document.querySelectorAll('.ms').forEach(function(b){
+      b.addEventListener('click',function(){
+        var d=b.dataset.day, on=b.classList.toggle('on');
+        b.style.background = on ? COLORS[d] : '';
+        b.style.color = on ? '#fff' : '';
+        if(on) map.addLayer(groups[d]); else map.removeLayer(groups[d]);
+      });
+    });
+    document.querySelectorAll('.tab-btn').forEach(function(b){
+      b.addEventListener('click',function(){ setTimeout(function(){ map.invalidateSize(); },220); });
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+
+(function(){
+  var btns=document.querySelectorAll('.tab-btn'), panels=document.querySelectorAll('.panel');
+  function go(name){
+    btns.forEach(function(b){ b.classList.toggle('active', b.dataset.tab===name); });
+    panels.forEach(function(p){ p.classList.toggle('active', p.id==='p-'+name); });
+    if(location.hash.slice(1)!==name) history.replaceState(null,'','#'+name);
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  btns.forEach(function(b){ b.addEventListener('click',function(){ go(b.dataset.tab); }); });
+  var valid=['itin','book','food','play','prep'], h=location.hash.slice(1);
+  if(valid.indexOf(h)!==-1) go(h);
+})();
+</script>
+
+<script>
+/* 마우스오버 이미지 미리보기 — 위키백과 썸네일을 그때그때 가져옵니다 */
+(function(){
+  var card=document.getElementById('hovercard');
+  if(!card) return;
+  var cache={}, timer=null, current=null;
+
+  function candidates(el){
+    var out=[];
+    var w=el.getAttribute('data-wiki');
+    if(w) out.push(w);
+    var href=el.getAttribute('href')||'';
+    var m=href.match(/[?&]q=([^&]+)/);
+    if(m){
+      var q=decodeURIComponent(m[1].replace(/\+/g,' ')).trim();
+      var toks=q.split(/\s+/);
+      out.push(toks[0]);
+      if(toks[1]) out.push(toks[1]);
+      if(toks.length>1) out.push(toks.join(''));
+    }
+    return out.filter(function(v,i,a){ return v && a.indexOf(v)===i; }).slice(0,3);
+  }
+
+  function fetchOne(title){
+    return fetch('https://ja.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(title))
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){
+        if(!j) return null;
+        var img=(j.thumbnail&&j.thumbnail.source)||(j.originalimage&&j.originalimage.source);
+        if(!img) return null;
+        return {img:img, title:j.title, extract:j.extract||''};
+      })
+      .catch(function(){ return null; });
+  }
+
+  function resolve(el){
+    var list=candidates(el), key=list.join('|');
+    if(cache[key]!==undefined) return Promise.resolve(cache[key]);
+    var chain=Promise.resolve(null);
+    list.forEach(function(t){
+      chain=chain.then(function(prev){ return prev || fetchOne(t); });
+    });
+    return chain.then(function(res){ cache[key]=res; return res; });
+  }
+
+  function place(e){
+    var w=280, hgt=card.offsetHeight||250;
+    var x=e.clientX+18, y=e.clientY+18;
+    if(x+w>window.innerWidth-12) x=e.clientX-w-18;
+    if(y+hgt>window.innerHeight-12) y=Math.max(12, e.clientY-hgt-18);
+    card.style.left=x+'px'; card.style.top=y+'px';
+  }
+
+  function show(el,e){
+    current=el;
+    resolve(el).then(function(d){
+      if(current!==el || !d) return;
+      var im=new Image();
+      im.onload=function(){
+        if(current!==el) return;
+        card.innerHTML='';
+        card.appendChild(im);
+        var t=document.createElement('div'); t.className='hc-t'; t.textContent=d.title;
+        card.appendChild(t);
+        if(d.extract){ var x=document.createElement('div'); x.className='hc-d'; x.textContent=d.extract; card.appendChild(x); }
+        var s=document.createElement('div'); s.className='hc-s'; s.textContent='위키백과';
+        card.appendChild(s);
+        place(e); card.classList.add('on');
+      };
+      im.onerror=function(){ cache[candidates(el).join('|')]=null; };
+      im.alt=''; im.src=d.img;
+    });
+  }
+  function hide(){ current=null; card.classList.remove('on'); }
+
+  document.addEventListener('mouseover',function(e){
+    var el=e.target.closest('a.ph, a.gc, .uname a');
+    if(!el){ return; }
+    clearTimeout(timer);
+    timer=setTimeout(function(){ show(el,e); },180);
+  });
+  document.addEventListener('mouseout',function(e){
+    var el=e.target.closest('a.ph, a.gc, .uname a');
+    if(el){ clearTimeout(timer); hide(); }
+  });
+  document.addEventListener('mousemove',function(e){
+    if(card.classList.contains('on')) place(e);
+  });
+  window.addEventListener('scroll',hide,{passive:true});
+})();
+</script>
+</body>
+</html>
