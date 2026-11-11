@@ -4,6 +4,7 @@
 
 | 파일 | 루트 | 링크 |
 |---|---|---|
+| `winter-2027/index.html` | **호쿠리쿠 겨울 (2027.1.22–1.27)** 고마쓰·도야마·가가 온천 | https://rladntls94-tech.github.io/toyama-roadtrip/winter-2027/ |
 | `nara-kyoto.html` | **나라 · 교토** (현재 계획) | https://rladntls94-tech.github.io/toyama-roadtrip/nara-kyoto.html |
 | `index.html` | 나라 · 기이반도 (이전 안) | https://rladntls94-tech.github.io/toyama-roadtrip/ |
 
